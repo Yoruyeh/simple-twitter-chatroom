@@ -10,7 +10,7 @@ const StyedContainer = styled.div`
 `;
 
 const StyledAuthInputContainer = styled.div`
-  width: 50%;
+  width: 356px;
   margin-top: 30px;
 `;
 
