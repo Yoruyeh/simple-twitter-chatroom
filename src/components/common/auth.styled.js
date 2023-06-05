@@ -18,6 +18,7 @@ const StyledLinkText = styled.div`
   color: #0062ff;
   font-size: 16px;
   font-weight: 400;
+  margin-top: 16px;
   &:hover {
     cursor: pointer;
   }
