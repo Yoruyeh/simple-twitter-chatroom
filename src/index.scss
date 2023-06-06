@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans TC', 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana,
+    sans-serif;
+}
+
+// 標題字
+h1 {
+  font-size: 68px;
+}
+
+h2 {
+  font-size: 42px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+// 內文字
+.fontPrimary {
+  font-size: 16px;
+}
+
+.fontSecondary {
+  font-size: 14px;
+}
+
+.fontMinimal {
+  font-size: 12px;
+}
+
+// 共用顏色
+:root {
+  // 品牌色
+  --logoColor: #ff6600; // Logo顏色
+
+  // 主要顏色
+  --primary: #0062ff; // Primary
+  --secondary: #6c757d; // Secondary
+  --success: #3dd598; // Success
+  --warning: #ffc542; // Warning
+  --error: #fc5a5a; // Error
+
+  // 輔助色
+  --orangeColor: #ff974a; // 橘色
+  --blueColor: #50b5ff; // 藍色
+  --greenColor: #82c43c; // 綠色
+  --purpleColor: #a461d8; // 紫色
+  --pinkColor: #ff9ad5; // 粉色
+
+  // 灰階色
+  --black: #000000; // 黑色
+  --gray1: #1a1a1a; // 深灰色1
+  --gray2: #333333; // 深灰色2
+  --gray3: #4d4d4d; // 深灰色3
+  --gray4: #666666; // 中灰色1
+  --gray5: #808080; // 中灰色2
+  --gray6: #999999; // 中灰色3
+  --gray7: #b3b3b3; // 浅灰色1
+  --gray8: #cccccc; // 浅灰色2
+  --gray9: #e6e6e6; // 浅灰色3
+  --white: #ffffff; // 白色
+}
