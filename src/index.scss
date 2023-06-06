@@ -80,3 +80,8 @@ h5 {
   // input下面 border 的線
   --default: #657786; // Default color
 }
+
+// 取消樣式
+button {
+  all: unset;
+}
