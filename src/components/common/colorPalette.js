@@ -20,7 +20,7 @@ const supColor = {
 }
 
 // 灰階色
-const GrayscaleColor = {
+const grayscaleColor = {
   black: '#000000', // 黑色
   gray1: '#1A1A1A', // 深灰色1
   gray2: '#333333', // 深灰色2
@@ -33,3 +33,6 @@ const GrayscaleColor = {
   gray9: '#E6E6E6', // 浅灰色3
   white: '#FFFFFF', // 白色
 }
+
+// 導出顏色樣式
+export { logoColor, keyColor, supColor, grayscaleColor }
