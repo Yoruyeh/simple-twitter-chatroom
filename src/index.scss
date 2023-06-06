@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans TC', 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana,
+    sans-serif;
+}
+
+// 標題字
+h1 {
+  font-size: 68px;
+}
+
+h2 {
+  font-size: 42px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+// 內文字
+.fontPrimary {
+  font-size: 16px;
+}
+
+.fontSecondary {
+  font-size: 14px;
+}
+
+.fontMinimal {
+  font-size: 12px;
+}
