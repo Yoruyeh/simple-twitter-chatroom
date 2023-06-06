@@ -1,0 +1,28 @@
+import { ReactComponent as FilledCog } from "./filled-cog.svg"
+import { ReactComponent as FilledHome } from "./filled-home.svg"
+import { ReactComponent as FilledLike } from "./filled-like.svg"
+import { ReactComponent as FilledMessage} from "./filled-message.svg"
+import { ReactComponent as FilledNoti } from "./filled-noti.svg"
+import { ReactComponent as FilledPost } from "./filled-post.svg"
+import { ReactComponent as FilledUser } from "./filled-user.svg"
+import { ReactComponent as Logo } from "./logo.svg"
+import { ReactComponent as NotiIconDanger } from "./noti-icon-danger.svg"
+import { ReactComponent as NotiIconInfo } from "./noti-icon-info.svg"
+import { ReactComponent as NotiIconSuccess } from "./noti-icon-success.svg"
+import { ReactComponent as NotiIconWarning } from "./noti-icon-warning.svg"
+import { ReactComponent as OutlinedAddPhoto } from "./outlined-addphoto.svg"
+import { ReactComponent as OutlinedChat } from "./outlined-Chat.svg"
+import { ReactComponent as OutlinedBack } from "./outlined-back.svg"
+import { ReactComponent as OutlinedClose } from "./outlined-close.svg"
+import { ReactComponent as OutlinedCog } from "./outlined-cog.svg"
+import { ReactComponent as OutlinedHome } from "./outlined-home.svg"
+import { ReactComponent as OutlinedLike } from "./outlined-like.svg"
+import { ReactComponent as OutlinedLogout } from "./outlined-logout.svg"
+import { ReactComponent as OutlinedMessage } from "./outlined-message.svg"
+import { ReactComponent as OutlinedNoti } from "./outlined-noti.svg"
+import { ReactComponent as OutlinedReply } from "./outlined-reply.svg"
+import { ReactComponent as OutlinedUser } from "./outlined-user.svg"
+
+
+
+export { FilledCog, FilledHome, FilledLike, FilledMessage, FilledNoti, FilledPost, FilledUser, Logo, NotiIconDanger, NotiIconInfo, NotiIconSuccess, NotiIconWarning, OutlinedAddPhoto, OutlinedChat, OutlinedBack, OutlinedClose, OutlinedCog, OutlinedHome, OutlinedLike, OutlinedLogout, OutlinedMessage, OutlinedNoti, OutlinedReply, OutlinedUser }
