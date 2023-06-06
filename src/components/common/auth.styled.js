@@ -6,19 +6,16 @@ const StyedContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
 `;
 
 const StyledAuthInputContainer = styled.div`
   width: 356px;
-  margin-top: 30px;
 `;
 
 const StyledLinkText = styled.div`
   color: #0062ff;
   font-size: 16px;
   font-weight: 400;
-  margin-top: 16px;
   &:hover {
     cursor: pointer;
   }

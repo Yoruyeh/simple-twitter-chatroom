@@ -8,8 +8,6 @@ const StyledContainer = styled.div`
   width: 100%;
   height: 54px;
   border-radius: 2px;
-  border-bottom: 2px solid #657786;
-  margin-bottom: 32px;
 `;
 const StyledLabel = styled.label`
   font-size: 14px;
@@ -20,18 +18,32 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input`
   outline: none;
   border: none;
+  border-bottom: 2px solid #657786;
+  height: 100%;
   background-color: #f5f8fa;
+  &[disabled] {
+    color: #696974;
+    border-bottom: 2px solid #d5d5dc;
+  }
+  &:hover {
+     border-bottom: 2px solid #50b5ff;
+  }
+  &:focus {
+     border-bottom: 2px solid #50b5ff;
+  }
   &::placeholder {
-    color: #B5B5BE;
+    color: #b5b5be;
     font-size: 16px;
   }
 `;
 
-const AuthInput = () => {
+const AuthInput = ({ type }) => {
   return (
     <StyledContainer>
       <StyledLabel>123</StyledLabel>
-      <StyledInput placeholder={'123'} />
+      <StyledInput 
+      text={type || "text"}
+      placeholder={'123'} />
     </StyledContainer>
   );
 };
