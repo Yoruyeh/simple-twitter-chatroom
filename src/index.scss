@@ -44,14 +44,14 @@ h5 {
 // 共用顏色
 :root {
   // 品牌色
-  --logoColor: #ff6600; // Logo顏色
+  --main: #ff6600; // Logo顏色
 
   // 主要顏色
   --primary: #0062ff; // Primary
   --secondary: #6c757d; // Secondary
   --success: #3dd598; // Success
   --warning: #ffc542; // Warning
-  --error: #fc5a5a; // Error
+  --danger: #fc5a5a; // Error
 
   // 輔助色
   --orangeColor: #ff974a; // 橘色
@@ -61,14 +61,17 @@ h5 {
   --pinkColor: #ff9ad5; // 粉色
 
   // 灰階色
-  --black: #171725; // 黑色
-  --gray1: #44444f; // 深灰色1
-  --gray2: #696974; // 深灰色2
-  --gray3: #92929d; // 深灰色3
-  --gray4: #b5b5be; // 中灰色1
-  --gray5: #d5d5dc; // 中灰色2
-  --gray6: #e2e2ea; // 中灰色3
-  --gray7: #f1f1f5; // 浅灰色1
-  --gray8: #fafafb; // 浅灰色2
-  --white: #ffffff; // 白色
+  --dark-100: #171725;
+  --dark-90: #44444f;
+  --dark-80: #696974;
+  --dark-70: #92929d;
+  --dark-60: #b5b5be;
+  --dark-50: #d5d5dc;
+  --dark-40: #e2e2ea;
+  --dark-30: #f1f1f5;
+  --dark-20: #fafafb;
+  --dark-0: #ffffff;
+
+  // input下面 border 的線
+  --default: #657786; // Default color
 }
