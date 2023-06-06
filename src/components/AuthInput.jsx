@@ -8,8 +8,6 @@ const StyledContainer = styled.div`
   width: 100%;
   height: 54px;
   border-radius: 2px;
-  border-bottom: 2px solid #657786;
-  margin-bottom: 32px;
 `;
 const StyledLabel = styled.label`
   font-size: 14px;
@@ -20,7 +18,15 @@ const StyledLabel = styled.label`
 const StyledInput = styled.input`
   outline: none;
   border: none;
+  border-bottom: 2px solid #657786;
+  height: 100%;
   background-color: #f5f8fa;
+  &:hover {
+     border-bottom: 2px solid #50b5ff;
+  }
+  &:focus {
+     border-bottom: 2px solid #50b5ff;
+  }
   &::placeholder {
     color: #B5B5BE;
     font-size: 16px;
