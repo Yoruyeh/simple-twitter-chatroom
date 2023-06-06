@@ -11,7 +11,6 @@ const StyledAuthButton = styled.button`
   font-size: 20px;
   font-weight: regular;
   padding: 8px 0;
-  margin: 8px 0;
   text-align: center;
   white-space: nowrap;
   &:hover {
