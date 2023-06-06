@@ -1,7 +1,7 @@
-export default function TwoColumnLayout({ children }) {
+export default function Layout({ children, className }) {
   return (
-    <div className="container">
-      <div className="row">{children}</div>
+    <div className='container'>
+      <div className={`row ${className}`}>{children}</div>
     </div>
-  );
+  )
 }
