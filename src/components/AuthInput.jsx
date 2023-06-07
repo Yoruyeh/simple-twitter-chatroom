@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -8,12 +8,12 @@ const StyledContainer = styled.div`
   width: 100%;
   height: 54px;
   border-radius: 2px;
-`;
+`
 const StyledLabel = styled.label`
   font-size: 14px;
   color: #696974;
   text-align: start;
-`;
+`
 
 const StyledInput = styled.input`
   outline: none;
@@ -26,26 +26,24 @@ const StyledInput = styled.input`
     border-bottom: 2px solid #d5d5dc;
   }
   &:hover {
-     border-bottom: 2px solid #50b5ff;
+    border-bottom: 2px solid #50b5ff;
   }
   &:focus {
-     border-bottom: 2px solid #50b5ff;
+    border-bottom: 2px solid #50b5ff;
   }
   &::placeholder {
     color: #b5b5be;
     font-size: 16px;
   }
-`;
+`
 
-const AuthInput = ({ type }) => {
+const AuthInput = ({ type, placeholder, label }) => {
   return (
     <StyledContainer>
-      <StyledLabel>123</StyledLabel>
-      <StyledInput 
-      text={type || "text"}
-      placeholder={'123'} />
+      <StyledLabel>{label}</StyledLabel>
+      <StyledInput type={type || 'text'} placeholder={placeholder} />
     </StyledContainer>
-  );
-};
+  )
+}
 
-export default AuthInput;
+export default AuthInput
