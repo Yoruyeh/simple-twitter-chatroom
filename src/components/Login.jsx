@@ -66,12 +66,7 @@ export default function Login() {
       <AuthButton>登入</AuthButton>
       <StyledLink className='d-flex justify-content-end'>
         <li>
-          <NavLink
-            className={(isActive) => console.log(isActive)}
-            to='/register'
-          >
-            註冊
-          </NavLink>
+          <NavLink to='/register'>註冊</NavLink>
         </li>
         <span>・</span>
         <li>
