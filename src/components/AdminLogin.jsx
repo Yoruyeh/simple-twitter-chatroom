@@ -74,12 +74,7 @@ export default function AdminLogin() {
         <AuthButton>註冊</AuthButton>
         <StyledLink className='d-flex justify-content-end'>
           <li>
-            <NavLink
-              className={(isActive) => console.log(isActive)}
-              to='/login'
-            >
-              前台登入
-            </NavLink>
+            <NavLink to='/login'>前台登入</NavLink>
           </li>
         </StyledLink>
       </StyledFooter>
