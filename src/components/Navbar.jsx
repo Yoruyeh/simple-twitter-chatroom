@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import {
-  LogoIcon,
-  HomeIcon,
-  UserIcon,
-  SettingIcon,
-  LogoutIcon,
+  Logo,
+  OutlinedHome,
+  OutlinedUser,
+  OutlinedCog,
+  OutlinedLogout,
 } from '../assets/icons';
 import { NavbarButton } from "./common/button.styled"
 
@@ -51,24 +51,24 @@ const Navbar = () => {
   return (
     <StyledNavbar>
       <StyledLogo>
-        <LogoIcon/>
+        <Logo/>
       </StyledLogo>
       <StyledNavList>
         <StyledNavItem>
           <StyledLogo>
-            <HomeIcon/>
+            <OutlinedHome/>
           </StyledLogo>
           <StyledText>首頁</StyledText>
           </StyledNavItem>
         <StyledNavItem>
           <StyledLogo>
-            <UserIcon />
+            <OutlinedUser />
             </StyledLogo>
           <StyledText>個人資料</StyledText>
           </StyledNavItem>
         <StyledNavItem>
           <StyledLogo>
-            <SettingIcon />
+            <OutlinedCog />
             </StyledLogo>
             <StyledText>設定</StyledText>
           </StyledNavItem>
@@ -79,7 +79,7 @@ const Navbar = () => {
           </StyledNavItem>
       <StyledNavItem>
         <StyledLogo>
-          <LogoutIcon />
+          <OutlinedLogout />
           </StyledLogo>
           <StyledText>登出</StyledText>
         </StyledNavItem>

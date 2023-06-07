@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 // logo
-import { LogoIcon } from '../assets/icons'
+import { Logo } from '../assets/icons'
 // button
 import { AuthButton } from './common/button.styled'
 // container、LinkText
@@ -57,7 +57,7 @@ function LinkGroup() {
 export default function Login() {
   return (
     <Container>
-      <LogoIcon />
+      <Logo />
       <Title>登入 Alphitter</Title>
       <InputContainer as='form'>
         <AuthInput label='帳號' placeholder='請輸入帳號' />

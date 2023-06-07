@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LikeIcon, ReplyeIcon } from '../assets/icons';
+import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 
 const StyledTweetItem = styled.div`
@@ -82,11 +82,11 @@ const TweetItem = () => {
       </div>
       <div className="tweet-icon">
         <div className="tweet-reply-icon">
-        <ReplyeIcon />
+        <OutlinedReply />
         <span className="tweet-reply-count"> 36</span>
         </div>
         <div className="tweet-like-icon">
-        <LikeIcon />
+        <OutlinedLike />
         <span className="tweet-like-count">25</span>
         </div>
       </div>
