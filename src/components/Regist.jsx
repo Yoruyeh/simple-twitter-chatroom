@@ -81,12 +81,7 @@ export default function Regist() {
         <AuthButton>註冊</AuthButton>
         <StyledLink className='d-flex justify-content-center'>
           <li>
-            <NavLink
-              className={(isActive) => console.log(isActive)}
-              to='/login'
-            >
-              取消
-            </NavLink>
+            <NavLink to='/login'>取消</NavLink>
           </li>
         </StyledLink>
       </StyledFooter>
