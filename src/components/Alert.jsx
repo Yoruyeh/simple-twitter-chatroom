@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NotiBgSuccess, NotiBgDanger, NotiBgWarning, NotiBgInfo, NotiIconSuccess, NotiIconDanger, NotiIconWarning, NotiIconInfo } from '../assets/icons';
 
@@ -98,6 +98,10 @@ const Alert = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    setAlertType('success')
+  }, [])
 
   return (
     <StyledAlertContainer>
