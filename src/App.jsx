@@ -1,7 +1,8 @@
-import React from 'react'
 import '../node_modules/bootstrap/dist/css/bootstrap-grid.min.css'
-import LoginPage from './pages/LoginPage'
+import { useRoutes } from 'react-router-dom'
+import routes from './routes'
 
 export default function App() {
-  return <LoginPage />
+  const element = useRoutes(routes)
+  return <>{element}</>
 }
