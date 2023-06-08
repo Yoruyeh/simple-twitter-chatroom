@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { OutlinedBack } from '../assets/icons';
+// import { OutlinedBack } from '../assets/icons';
 
 const StyledMainHeader = styled.header`
   font-family: 'Noto Sans TC';
@@ -17,30 +17,30 @@ const StyledMainHeader = styled.header`
   }
 `;
 
-const StyledTweetHeader = styled(StyledMainHeader)`
-  & h4 {
-    margin-left: 64px;
-  }
-  .header-icon-back {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 24px;
-  }
-`
+// const StyledTweetHeader = styled(StyledMainHeader)`
+//   & h4 {
+//     margin-left: 64px;
+//   }
+//   .header-icon-back {
+//     position: absolute;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     left: 24px;
+//   }
+// `
 
-const StyledUserHeader = styled(StyledTweetHeader)`
-  & h5 {
-    margin-left: 64px;
-    margin-bottom: 2px;
-  }
-`
+// const StyledUserHeader = styled(StyledTweetHeader)`
+//   & h5 {
+//     margin-left: 64px;
+//     margin-bottom: 2px;
+//   }
+// `
 
-const StyledText = styled.div`
-  font-size: 13px;
-  color: var(--secondary);
-  margin-left: 64px;
-`;
+// const StyledText = styled.div`
+//   font-size: 13px;
+//   color: var(--secondary);
+//   margin-left: 64px;
+// `;
 
 const Header = () => {
   return (
