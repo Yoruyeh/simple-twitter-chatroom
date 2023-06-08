@@ -1,6 +1,8 @@
+import { useState } from 'react'
+import { useImmer } from 'use-immer'
 import { NavLink } from 'react-router-dom'
-
 import styled from 'styled-components'
+
 // logo
 import { Logo } from '../assets/icons'
 // button
@@ -9,6 +11,8 @@ import { AuthButton } from './common/button.styled'
 import { AuthContainer, AuthInputContainer } from './common/auth.styled'
 // input 元件
 import AuthInput from './AuthInput'
+// api
+import { login } from '../api/users'
 
 // auth container
 const StyledContainer = styled(AuthContainer)`
@@ -23,7 +27,6 @@ const StyledContainer = styled(AuthContainer)`
     margin-bottom: 22px;
   }
 `
-
 // input container
 const StyledInputContainer = styled(AuthInputContainer)`
   margin: 40px 0;
@@ -37,7 +40,6 @@ const StyledInputContainer = styled(AuthInputContainer)`
     padding-top: 6px;
   }
 `
-
 // Link
 const StyledLink = styled.ul`
   width: 100%;
@@ -54,16 +56,100 @@ const StyledLink = styled.ul`
   }
 `
 
+const inputs = [
+  {
+    label: '帳號',
+    placeholder: '請輸入帳號',
+    type: 'text',
+    status: '',
+    errorText: '',
+  },
+  {
+    label: '密碼',
+    placeholder: '請輸入密碼',
+    type: 'password',
+    status: '',
+    errorText: '',
+  },
+]
+
+// Login元件
 export default function Login() {
+  const [account, setAccount] = useState('') // 帳號 value
+  const [password, setPassword] = useState('') // 密碼 value
+  const [inputList, UpdateInputList] = useImmer(inputs)
+
+  // 設置 input狀態 函數
+  function setInput(num, status, errorText) {
+    UpdateInputList((draft) => {
+      draft[num].status = status
+      draft[num].errorText = errorText
+    })
+  }
+
+  // input事件
+  function handleChange(event) {
+    const target = event.target
+    if (target.type === 'text') {
+      setInput(0)
+      setAccount(target.value)
+    } else if (target.type === 'password') {
+      setInput(1)
+      setPassword(target.value)
+    }
+  }
+
+  // Button事件
+  async function handleClick() {
+    // 判斷 account、password 是否符合格式
+    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/
+    // account 不符合
+    if (!regexAccount.test(account)) {
+      setInput(0, 'danger', '您輸入的帳號不正確 !')
+    }
+    // password不符合
+    if (!regexPassword.test(password)) {
+      setInput(1, 'danger', '您輸入的密碼不正確 !')
+      // 比對完成跳出程序
+      return
+    }
+
+    try {
+      // setInputList('disabled')
+      // 保存返回的 success、authToken 資料
+      const { success, token } = await login({ account, password })
+      // 取得成功，將 authToken 存進用戶的 localStorage
+      if (success) {
+        localStorage.setItem('token', token)
+      }
+    } catch (error) {
+      console.log('錯誤拉')
+    }
+  }
+
   return (
     <StyledContainer>
       <Logo />
       <h3>登入 Alphitter</h3>
       <StyledInputContainer as='form' className='d-flex flex-column'>
-        <AuthInput label='帳號' placeholder='請輸入帳號' />
-        <AuthInput label='密碼' placeholder='請輸入密碼' />
+        {inputList.map((input) => {
+          return (
+            <AuthInput
+              key={input.label}
+              type={input.type}
+              placeholder={input.placeholder}
+              label={input.label}
+              status={input.status}
+              errorText={input.errorText}
+              onChange={(event) => {
+                handleChange(event)
+              }}
+            />
+          )
+        })}
       </StyledInputContainer>
-      <AuthButton>登入</AuthButton>
+      <AuthButton onClick={handleClick}>登入</AuthButton>
       <StyledLink className='d-flex justify-content-end'>
         <li>
           <NavLink to='/register'>註冊</NavLink>
