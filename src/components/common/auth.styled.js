@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyedContainer = styled.div`
+const StyedAuthContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -22,7 +22,7 @@ const StyledLinkText = styled.div`
 `;
 
 export {
-  StyedContainer as AuthContainer,
+  StyedAuthContainer as AuthContainer,
   StyledAuthInputContainer as AuthInputContainer,
   StyledLinkText as AuthLinkText,
 };
