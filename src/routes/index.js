@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom'
 import LoginPage from '../pages/LoginPage'
 import RegistPage from '../pages/RegistPage'
 import AdminLoginPage from '../pages/AdminLoginPage'
+import HomePage from '../pages/HomePage'
 
 // 路由表
 const routes = [
@@ -24,6 +25,10 @@ const routes = [
   {
     path: `/`,
     element: <Navigate to={`/login`} />,
+  },
+  {
+    path: '/home',
+    element: <HomePage />,
   },
 ]
 

@@ -12,7 +12,6 @@ const StyledTweetItemContainer = styled.div`
   flex-direction: column;
   position: relative;
 
-
   .tweet-info {
     margin: 20px 30px 6px 82px;
   }

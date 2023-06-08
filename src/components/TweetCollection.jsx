@@ -1,12 +1,33 @@
-import TweetItem from "./TweetItem";
+import { TweetItem, TweetItemIcon } from "./TweetItem";
 
 const TweetCollection = () => {
   return (
-    <div>
-      <TweetItem />
-      <TweetItem />
-      <TweetItem />
+  <>
+  <div className="tweet-item-wrapper">
+    <TweetItem />
+    <TweetItemIcon />
+  </div>
+  <div className="tweet-item-wrapper">
+    <TweetItem />
+    <TweetItemIcon />
     </div>
+    <div className="tweet-item-wrapper">
+    <TweetItem />
+    <TweetItemIcon />
+    </div>
+    <div className="tweet-item-wrapper">
+    <TweetItem />
+    <TweetItemIcon />
+    </div>
+    <div className="tweet-item-wrapper">
+    <TweetItem />
+    <TweetItemIcon />
+    </div>
+    <div className="tweet-item-wrapper">
+    <TweetItem />
+    <TweetItemIcon />
+    </div>
+  </>
   );
 };
 
