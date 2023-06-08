@@ -8,6 +8,7 @@ const StyledFollowerContainer = styled.div`
   border-radius: 16px;
   font-family: 'Noto Sans TC';
   margin-top: 16px;
+  position: fixed;
 
   .popular-follower-title {
     width: 100%;

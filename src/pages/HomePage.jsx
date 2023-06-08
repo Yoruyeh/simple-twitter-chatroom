@@ -10,20 +10,31 @@ import { PopularFollower, PopularFollowerItem }from '../components/PopularFollow
 const StyledHomePageContainer = styled.div`
   .row {
     margin: 0 130px;
+    height: 100vh;
   }
   .navbar-container {
     border-right: 1px solid var(--gray1);
   }
   .main-container {
     padding: 0;
-  }
-  .tweet-collection {
     overflow-y: scroll;
-    height: calc(100vh - 220px);
-    &::-webkit-scrollbar { 
-    width: 0px; 
-    background-color: transparent;
-  }
+    height: 100vh;
+
+    &::-webkit-scrollbar {
+    width: 8px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      box-shadow: 
+      -1px 0px 0px 0px rgba(240, 240, 240, 1) inset,
+      1px 0px 0px 0px rgba(232, 232, 232, 1) inset;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: #C1C1C1;
+      border: 1px solid (--gray1);
+      border-radius: 8px;
+    }
   }
   .popular-follower-container {
     border-left: 1px solid var(--gray1);
