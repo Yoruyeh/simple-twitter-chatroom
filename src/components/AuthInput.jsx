@@ -8,6 +8,15 @@ const StyledContainer = styled.div`
   width: 100%;
   height: 54px;
   border-radius: 2px;
+  &.edit-modal-name {
+    margin: 80px auto 32px;
+    width: 602px;
+  }
+  &.edit-modal-introduction {
+    margin: 0 auto 16px;
+    width: 602px;
+    height: 147px;
+  }
 `
 const StyledLabel = styled.label`
   font-size: 14px;
@@ -21,6 +30,7 @@ const StyledInput = styled.input`
   border-bottom: 2px solid #657786;
   height: 100%;
   background-color: #f5f8fa;
+  
   &[disabled] {
     color: #696974;
     border-bottom: 2px solid #d5d5dc;
@@ -37,9 +47,9 @@ const StyledInput = styled.input`
   }
 `
 
-const AuthInput = ({ type, placeholder, label }) => {
+const AuthInput = ({ className, type, placeholder, label }) => {
   return (
-    <StyledContainer>
+    <StyledContainer className={className}>
       <StyledLabel>{label}</StyledLabel>
       <StyledInput type={type || 'text'} placeholder={placeholder} />
     </StyledContainer>
