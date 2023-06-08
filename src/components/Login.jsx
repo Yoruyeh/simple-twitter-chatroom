@@ -1,70 +1,78 @@
+import { NavLink } from 'react-router-dom'
+
 import styled from 'styled-components'
 // logo
 import { Logo } from '../assets/icons'
 // button
 import { AuthButton } from './common/button.styled'
-// container、LinkText
-import {
-  AuthContainer,
-  AuthInputContainer,
-  AuthLinkText,
-} from './common/auth.styled'
+// container
+import { AuthContainer, AuthInputContainer } from './common/auth.styled'
 // input 元件
 import AuthInput from './AuthInput'
 
-// 標題
-const Title = styled.h3`
-  font-size: 28px;
-  font-weight: bold;
-  margin-top: 24px;
-`
-
 // auth container
-const Container = styled(AuthContainer)`
+const StyledContainer = styled(AuthContainer)`
   max-width: 356px;
   padding: 0;
+
+  svg {
+    margin-bottom: 24px;
+  }
+
+  button {
+    margin-bottom: 22px;
+  }
 `
 
 // input container
-const InputContainer = styled(AuthInputContainer)`
-  margin-top: 40px;
+const StyledInputContainer = styled(AuthInputContainer)`
+  margin: 40px 0;
+  gap: 32px;
+
+  label,
+  input {
+    padding: 0 10.55px;
+  }
+  label {
+    padding-top: 6px;
+  }
 `
 
-// LinkTextContainer
-const LinkTextContainer = styled.div`
-  margin-top: 8px;
+// Link
+const StyledLink = styled.ul`
   width: 100%;
   gap: 12px;
-`
 
-// AuthLinkText
-const LinkText = styled(AuthLinkText)`
-  margin: 0;
-`
+  span a {
+    line-height: 24px;
+  }
 
-function LinkGroup() {
-  return (
-    <LinkTextContainer
-      className={'d-flex align-items-center justify-content-end'}
-    >
-      <LinkText>註冊</LinkText>
-      <span>•</span>
-      <LinkText>後台登入</LinkText>
-    </LinkTextContainer>
-  )
-}
+  a {
+    text-decoration: none;
+    color: var(--primary);
+    border-bottom: 1px solid var(--primary);
+  }
+`
 
 export default function Login() {
   return (
-    <Container>
+    <StyledContainer>
       <Logo />
-      <Title>登入 Alphitter</Title>
-      <InputContainer as='form'>
+      <h3>登入 Alphitter</h3>
+      <StyledInputContainer as='form' className='d-flex flex-column'>
         <AuthInput label='帳號' placeholder='請輸入帳號' />
         <AuthInput label='密碼' placeholder='請輸入密碼' />
-      </InputContainer>
+      </StyledInputContainer>
       <AuthButton>登入</AuthButton>
-      <LinkGroup />
-    </Container>
+      <StyledLink className='d-flex justify-content-end'>
+        <li>
+          <NavLink to='/register'>註冊</NavLink>
+        </li>
+        <span>・</span>
+        <li>
+          <NavLink to='/admin'>後台登入</NavLink>
+        </li>
+      </StyledLink>
+    </StyledContainer>
   )
 }
