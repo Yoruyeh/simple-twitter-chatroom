@@ -11,7 +11,7 @@ import { NavbarButton } from "./common/button.styled"
 const StyledNavbar = styled.nav`
   width: 100%;
   height: 100vh;
-  position: relative;
+  position: fixed;
 `;
 
 const StyledNavList = styled.ul`

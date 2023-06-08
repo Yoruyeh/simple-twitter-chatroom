@@ -14,6 +14,14 @@ const StyledContainer = styled.div`
     position: absolute;
     bottom: -18px;
     color: var(--danger);
+  &.edit-modal-name {
+    margin: 80px auto 32px;
+    width: 602px;
+  }
+  &.edit-modal-introduction {
+    margin: 0 auto 16px;
+    width: 602px;
+    height: 147px;
   }
 `
 const StyledLabel = styled.label`
@@ -28,6 +36,7 @@ const StyledInput = styled.input`
   border-bottom: 2px solid #657786;
   height: 100%;
   background-color: #f5f8fa;
+  
   &[disabled] {
     color: #696974;
     border-bottom: 2px solid #d5d5dc;
