@@ -7,13 +7,14 @@ const StyledFollowerContainer = styled.div`
   background-color: var(--dark-20);
   border-radius: 16px;
   font-family: 'Noto Sans TC';
+  margin-top: 16px;
 
   .popular-follower-title {
     width: 100%;
     height: 74px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--gray);
+    border-bottom: 1px solid var(--gray1);
     & h4 {
       margin-left: 24px;
     }

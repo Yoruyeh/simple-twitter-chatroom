@@ -3,7 +3,7 @@ import { OutlinedBack } from '../assets/icons';
 
 const StyledMainHeader = styled.header`
   font-family: 'Noto Sans TC';
-  width: 640px;
+  width: 100%;
   height: 75px;
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@ const Header = () => {
     <StyledMainHeader>
       <h4>首頁</h4>
     </StyledMainHeader>
-    <StyledTweetHeader>
+    {/* <StyledTweetHeader>
       <OutlinedBack className='header-icon-back'/>
       <h4>推文</h4>
     </StyledTweetHeader>
@@ -56,7 +56,7 @@ const Header = () => {
       <OutlinedBack className='header-icon-back'/>
       <h5>John Doe</h5>
       <StyledText>25 推文</StyledText>
-    </StyledUserHeader>
+    </StyledUserHeader> */}
   </>
   );
 };
