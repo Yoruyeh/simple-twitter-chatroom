@@ -1,18 +1,29 @@
 import { Navigate } from 'react-router-dom'
 import LoginPage from '../pages/LoginPage'
-
-const baseURL = '/simple-twitter'
+import RegistPage from '../pages/RegistPage'
+import AdminLoginPage from '../pages/AdminLoginPage'
 
 // 路由表
 const routes = [
   {
-    path: `${baseURL}/login`,
+    path: `/login`,
     element: <LoginPage />,
   },
   {
-    // if 路徑為 / ，跳轉到 /login
-    path: `${baseURL}`,
-    element: <Navigate to={`${baseURL}/login`} />,
+    path: '/register',
+    element: <RegistPage />,
+  },
+  {
+    path: '/admin',
+    element: <AdminLoginPage />,
+  },
+  {
+    path: `/simple-twitter`,
+    element: <Navigate to={`/login`} />,
+  },
+  {
+    path: `/`,
+    element: <Navigate to={`/login`} />,
   },
 ]
 
