@@ -101,17 +101,17 @@ export default function AdminLogin() {
     }
   }
   // 禁用所有input
-  function disabledAllInput(boolean) {
-    if (boolean) {
-      for (let i = 0; i < inputs.length; i++) {
-        setInput(i, 'disabled')
-      }
-    } else {
-      for (let i = 0; i < inputs.length; i++) {
-        setInput(i, '')
-      }
-    }
-  }
+  // function disabledAllInput(boolean) {
+  //   if (boolean) {
+  //     for (let i = 0; i < inputs.length; i++) {
+  //       setInput(i, 'disabled')
+  //     }
+  //   } else {
+  //     for (let i = 0; i < inputs.length; i++) {
+  //       setInput(i, '')
+  //     }
+  //   }
+  // }
   // Button事件
   async function handleClick() {
     // 判斷 account、password 是否符合格式
