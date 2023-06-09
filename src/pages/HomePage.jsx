@@ -61,6 +61,19 @@ const StyledModalContainer = styled.div`
   top: 56px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -56px;
+    left: -50%;
+    transform: translateX(-120px);
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 0;
+  }
 `;
 
 const HomePage = () => {
@@ -113,7 +126,9 @@ const HomePage = () => {
       </div>
       { openTweetModal && (
       <StyledModalContainer>
-        <TweetModal placeholder={"有什麼新鮮事？"} handleOpenTweetModal={handleOpenTweetModal}/>
+        <TweetModal 
+        placeholder={"有什麼新鮮事？"} 
+        handleOpenTweetModal={handleOpenTweetModal}/>
       </StyledModalContainer>
       )}
     </StyledHomePageContainer>
