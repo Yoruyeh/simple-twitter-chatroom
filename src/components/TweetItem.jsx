@@ -77,17 +77,17 @@ const TweetItemIcon = () => {
   )
 }
 
-const TweetItem = () => {
+const TweetItem = ({ tweet }) => {
   return (
     <StyledTweetItemContainer>
-        <StyledAvatar image={"https://images.unsplash.com/photo-1685491107139-7d7f4f17b3eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80"}/>
+        <StyledAvatar image={tweet.User.avatar}/>
       <div className="tweet-info">
-        <span className="tweet-info-username"> Apple</span>
-        <span className="tweet-info-account"> @apple・</span>
+        <span className="tweet-info-username">{tweet.User.name}</span>
+        <span className="tweet-info-account"> @{tweet.User.account}・</span>
         <span className="tweet-info-time"> 3小時</span>
       </div>
       <div className="tweet-content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        {tweet.description}
       </div>
     </StyledTweetItemContainer>
   );
