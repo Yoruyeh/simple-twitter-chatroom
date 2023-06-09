@@ -99,10 +99,23 @@ export default function Login() {
     }
   }
 
+  // 禁用所有input
+  function disabledAllInput(boolean) {
+    if (boolean) {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, 'disabled')
+      }
+    } else {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, '')
+      }
+    }
+  }
+
   // Button事件
   async function handleClick() {
     // 判斷 account、password 是否符合格式
-    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/
+    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{1,20}$/
     const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/
     // account 不符合
     if (!regexAccount.test(account)) {
@@ -116,7 +129,8 @@ export default function Login() {
     }
 
     try {
-      // setInputList('disabled')
+      // 請求時禁用input
+      disabledAllInput(true)
       // 保存返回的 success、authToken 資料
       const { success, token } = await login({ account, password })
       // 取得成功，將 authToken 存進用戶的 localStorage
@@ -126,6 +140,8 @@ export default function Login() {
     } catch (error) {
       console.log('錯誤拉')
     }
+    // 請求結束啟用input
+    disabledAllInput()
   }
 
   return (
