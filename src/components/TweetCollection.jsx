@@ -1,33 +1,17 @@
 import { TweetItem, TweetItemIcon } from "./TweetItem";
 
-const TweetCollection = () => {
+const TweetCollection = ({ tweets }) => {
   return (
-  <>
-  <div className="tweet-item-wrapper">
-    <TweetItem />
-    <TweetItemIcon />
+  <div>
+    {tweets.map((tweet) => {
+      return (
+        <div className="tweet-item-wrapper">
+        <TweetItem key={tweet.User.id} tweet={tweet} />
+        <TweetItemIcon />
+        </div>
+      )
+    })}
   </div>
-  <div className="tweet-item-wrapper">
-    <TweetItem />
-    <TweetItemIcon />
-    </div>
-    <div className="tweet-item-wrapper">
-    <TweetItem />
-    <TweetItemIcon />
-    </div>
-    <div className="tweet-item-wrapper">
-    <TweetItem />
-    <TweetItemIcon />
-    </div>
-    <div className="tweet-item-wrapper">
-    <TweetItem />
-    <TweetItemIcon />
-    </div>
-    <div className="tweet-item-wrapper">
-    <TweetItem />
-    <TweetItemIcon />
-    </div>
-  </>
   );
 };
 
