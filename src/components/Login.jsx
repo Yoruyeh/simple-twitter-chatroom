@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useImmer } from 'use-immer'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // logo
@@ -78,6 +78,7 @@ export default function Login() {
   const [account, setAccount] = useState('') // 帳號 value
   const [password, setPassword] = useState('') // 密碼 value
   const [inputList, UpdateInputList] = useImmer(inputs)
+  const navigate = useNavigate()
 
   // 設置 input狀態 函數
   function setInput(num, status, errorText) {
@@ -125,7 +126,7 @@ export default function Login() {
     if (!regexPassword.test(password)) {
       setInput(1, 'danger', '您輸入的密碼不正確 !')
       // 比對完成跳出程序
-      return
+      // return
     }
 
     try {
@@ -133,9 +134,11 @@ export default function Login() {
       disabledAllInput(true)
       // 保存返回的 success、authToken 資料
       const { success, token } = await login({ account, password })
-      // 取得成功，將 authToken 存進用戶的 localStorage
+      // 取得成功，將 authToken 存進用戶的 localStorage，
+      // 跳轉到 homePage
       if (success) {
         localStorage.setItem('token', token)
+        navigate('/home')
       }
     } catch (error) {
       console.log('錯誤拉')
