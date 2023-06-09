@@ -17,6 +17,8 @@ const StyledHomePageContainer = styled.div`
     height: 100vh;
   }
   .navbar-container {
+    padding: 0 24px 0 80px;
+    position: relative;
     border-right: 1px solid var(--gray1);
   }
   .main-container {
@@ -55,7 +57,6 @@ const StyledHomePageContainer = styled.div`
 
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
-  console.log(tweets);
 
   useEffect(() => {
     const getTweetsAsync = async () => {

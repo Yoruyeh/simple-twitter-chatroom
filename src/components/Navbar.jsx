@@ -1,20 +1,28 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import {
   Logo,
-  OutlinedHome,
-  OutlinedUser,
-  OutlinedCog,
-  OutlinedLogout,
+  OutlinedHome, FilledHome,
+  OutlinedUser, FilledUser,
+  OutlinedCog, FilledCog,
+  OutlinedLogout
 } from '../assets/icons';
 import { NavbarButton } from "./common/button.styled"
+import { NavLink } from 'react-router-dom'
 
 const StyledNavbar = styled.nav`
   width: 100%;
   height: 100vh;
-  position: fixed;
+  position: static;
+  .nav-tweet-button {
+    position: absolute;
+    top: 264px;
+    right: 24px;
+  }
 `;
 
 const StyledNavList = styled.ul`
+  display: inline-block;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -23,13 +31,37 @@ const StyledNavList = styled.ul`
 `;
 
 const StyledNavItem = styled.li`
-  color: #44444f;
+  color: var(--dark-90);
   font-size: 18px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
   margin: 10px 6px;
   min-width: 178px;
+
+  & a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--main);
+      & svg > path {
+        fill: var(--main);
+      }
+    &:visited {
+      color: var(--dark-90);
+    }
+  }
+
+    &.clicked {
+      color: var(--main);
+      & svg > path {
+        fill: var(--main);
+      }
+      &:visited {
+        color: var(--main);
+      }
+    }
+  }
 
   &:last-child {
     position: absolute;
@@ -47,45 +79,145 @@ const StyledText = styled.p`
   margin-left: 2px;
 `;
 
+const DefaultNavItems = [
+  {
+    id: "1",
+    text: "首頁",
+    link: "/home", 
+    isVisited: true,
+    icons: {
+      outlined: <OutlinedHome />,
+      filled: <FilledHome />
+    }
+  },
+  {
+    id: "2",
+    text: "個人資料",
+    link: "/home", 
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedUser />,
+      filled: <FilledUser />
+    }
+  },
+  {
+    id: "3",
+    text: "設定",
+    link: "/home", 
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedCog />,
+      filled: <FilledCog />
+    }
+  },
+  {
+    id: "4",
+    text: "登出",
+    link: "/home", 
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedLogout />,
+      filled: <OutlinedLogout />,
+    }
+  }
+]
+
 const Navbar = () => {
+  const [navItems, setNavItems] = useState(DefaultNavItems)
+
+  const handleClick = (id) => {
+    setNavItems((prevItems) => {
+      return prevItems.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            isVisited: true,
+          }
+        } else {
+          return {
+            ...item,
+            isVisited: false,
+          }
+        }
+      })
+    })
+  }
+
   return (
     <StyledNavbar>
       <StyledLogo>
-        <Logo/>
+        <Logo />
       </StyledLogo>
       <StyledNavList>
-        <StyledNavItem>
-          <StyledLogo>
-            <OutlinedHome/>
-          </StyledLogo>
-          <StyledText>首頁</StyledText>
-          </StyledNavItem>
-        <StyledNavItem>
-          <StyledLogo>
-            <OutlinedUser />
-            </StyledLogo>
-          <StyledText>個人資料</StyledText>
-          </StyledNavItem>
-        <StyledNavItem>
-          <StyledLogo>
-            <OutlinedCog />
-            </StyledLogo>
-            <StyledText>設定</StyledText>
-          </StyledNavItem>
-          <StyledNavItem>
-          <NavbarButton>
-            推文
-          </NavbarButton>
-          </StyledNavItem>
-      <StyledNavItem>
-        <StyledLogo>
-          <OutlinedLogout />
-          </StyledLogo>
-          <StyledText>登出</StyledText>
-        </StyledNavItem>
+        {navItems.map(item => {
+          return (
+            <StyledNavItem key={item.id} onClick={() => handleClick(item.id)} className={item.isVisited ? 'clicked' : ''}>
+              <NavLink to={item.link}>
+                <StyledLogo>
+                  {item.isVisited ? (
+                    item.icons.filled
+                  ) : (
+                    item.icons.outlined
+                  )}
+                </StyledLogo>
+                <StyledText>{item.text}</StyledText>
+              </NavLink>
+            </StyledNavItem>
+          )
+        })}
         </StyledNavList>
+        <NavbarButton className='nav-tweet-button'>推文</NavbarButton>
     </StyledNavbar>
   );
+
+  // return (
+  //   <StyledNavbar>
+  //     <StyledLogo>
+  //       <Logo />
+  //     </StyledLogo>
+  //     <StyledNavList>
+  //         <StyledNavItem onClick={(e) => handleClick(e)}>
+  //           <NavLink to='/home'>
+  //             <StyledLogo>
+  //                 <FilledHome />
+  //             </StyledLogo>
+  //             <StyledText>首頁</StyledText>
+  //           </NavLink>
+  //         </StyledNavItem>
+  //       <StyledNavItem>
+  //         <NavLink to='/user/:id'>
+  //         <StyledLogo>
+  //           <OutlinedUser />
+  //           </StyledLogo>
+  //         <StyledText>個人資料</StyledText>
+  //         </NavLink>
+  //         </StyledNavItem>
+  //       <StyledNavItem>
+  //         <NavLink to='/setting'>
+  //         <StyledLogo>
+  //           <OutlinedCog />
+  //           </StyledLogo>
+  //           <StyledText>設定</StyledText>
+  //           </NavLink>
+  //         </StyledNavItem>
+  //         <StyledNavItem>
+  //           <NavLink to='/compose_tweet'>
+  //         <NavbarButton>
+  //           推文
+  //         </NavbarButton>
+  //         </NavLink>
+  //         </StyledNavItem>
+  //     <StyledNavItem>
+  //       <NavLink to='/login'>
+  //       <StyledLogo>
+  //         <OutlinedLogout />
+  //         </StyledLogo>
+  //         <StyledText>登出</StyledText>
+  //         </NavLink>
+  //       </StyledNavItem>
+  //       </StyledNavList>
+  //   </StyledNavbar>
+  // );
 };
 
 export default Navbar;
