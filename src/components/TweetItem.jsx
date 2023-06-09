@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
-
 const StyledTweetItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
   width: 100%;
@@ -20,7 +19,8 @@ const StyledTweetItemContainer = styled.div`
     font-weight: bold;
   }
 
-  .tweet-info-account, .tweet-info-time {
+  .tweet-info-account,
+  .tweet-info-time {
     font-weight: regular;
     font-size: 14px;
     color: var(--secondary);
@@ -33,7 +33,7 @@ const StyledTweetItemContainer = styled.div`
 `;
 
 const StyledAvatar = styled.div`
-  background-image: url(${(props) => props.image ? props.image : ""});
+  background-image: url(${(props) => (props.image ? props.image : '')});
   background-size: cover;
   width: 50px;
   height: 50px;
@@ -41,56 +41,70 @@ const StyledAvatar = styled.div`
   position: absolute;
   top: 16px;
   left: 24px;
-`
+`;
 
 const StyledTweetIconContainer = styled.div`
-    margin: 6px 30px 6px 82px;
-    font-size: 14px;
-    font-weight: semi-bold;
-    color: var(--secondary);
+  margin: 6px 30px 6px 82px;
+  font-size: 14px;
+  font-weight: semi-bold;
+  color: var(--secondary);
 
-  .tweet-reply-icon, .tweet-like-icon {
+  .tweet-reply-icon,
+  .tweet-like-icon {
     display: inline-flex;
     align-items: center;
     margin-right: 40px;
   }
 
   svg {
-      width: 14px;
-      height: 14px;
-      margin-right: 9px;
-    }
-`
+    width: 14px;
+    height: 14px;
+    margin-right: 9px;
+  }
+`;
 
 const TweetItemIcon = () => {
   return (
     <StyledTweetIconContainer>
-        <div className="tweet-reply-icon">
+      <div className="tweet-reply-icon">
         <OutlinedReply />
         <span className="tweet-reply-count"> 36</span>
-        </div>
-        <div className="tweet-like-icon">
+      </div>
+      <div className="tweet-like-icon">
         <OutlinedLike />
         <span className="tweet-like-count">25</span>
-        </div>
-      </StyledTweetIconContainer>
-  )
-}
+      </div>
+    </StyledTweetIconContainer>
+  );
+};
 
 const TweetItem = ({ tweet }) => {
+  const timeCalculate = (time) => {
+    const currentDate = new Date();
+    const createdDate = new Date(time);
+    const timeDiff = Math.abs(currentDate - createdDate);
+    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+    const daysDiff = Math.floor(hoursDiff / 24);
+    if (daysDiff >= 1) {
+      return `${daysDiff}天`;
+    } else {
+      return `${hoursDiff}小時`;
+    }
+  };
+
   return (
     <StyledTweetItemContainer>
-        <StyledAvatar image={tweet.User.avatar}/>
+      <StyledAvatar image={tweet.User.avatar} />
       <div className="tweet-info">
         <span className="tweet-info-username">{tweet.User.name}</span>
         <span className="tweet-info-account"> @{tweet.User.account}・</span>
-        <span className="tweet-info-time"> 3小時</span>
+        <span className="tweet-info-time">
+          {timeCalculate(tweet.createdAt)}
+        </span>
       </div>
-      <div className="tweet-content">
-        {tweet.description}
-      </div>
+      <div className="tweet-content">{tweet.description}</div>
     </StyledTweetItemContainer>
   );
 };
 
-export {TweetItemIcon, TweetItem};
+export { TweetItemIcon, TweetItem };
