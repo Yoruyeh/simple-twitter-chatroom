@@ -1,20 +1,28 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import {
   Logo,
-  OutlinedHome,
-  OutlinedUser,
-  OutlinedCog,
-  OutlinedLogout,
+  OutlinedHome, FilledHome,
+  OutlinedUser, FilledUser,
+  OutlinedCog, FilledCog,
+  OutlinedLogout
 } from '../assets/icons';
 import { NavbarButton } from "./common/button.styled"
+import { NavLink } from 'react-router-dom'
 
 const StyledNavbar = styled.nav`
   width: 100%;
   height: 100vh;
-  position: fixed;
+  position: static;
+  .nav-tweet-button {
+    position: absolute;
+    top: 264px;
+    right: 24px;
+  }
 `;
 
 const StyledNavList = styled.ul`
+  display: inline-block;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -23,17 +31,42 @@ const StyledNavList = styled.ul`
 `;
 
 const StyledNavItem = styled.li`
-  color: #44444f;
+  color: var(--dark-90);
   font-size: 18px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
   margin: 10px 6px;
   min-width: 178px;
 
   &:last-child {
     position: absolute;
     bottom: 0;
+  }
+
+  & a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+    &:link {
+      color: var(--dark-90);
+    }
+
+    &:visited {
+      color: var(--dark-90);
+    }
+
+    &.clicked:visited {
+      color: var(--main);
+      & svg > path {
+        fill: var(--main);
+        stroke: var(--main);
+    }
+
+    &:hover {
+      color: var(--main);
+      & svg > path {
+        fill: var(--main);
+    }
   }
 `;
 
@@ -47,43 +80,94 @@ const StyledText = styled.p`
   margin-left: 2px;
 `;
 
-const Navbar = () => {
+const DefaultNavItems = [
+  {
+    id: "1",
+    text: "首頁",
+    link: "/home", 
+    isVisited: true,
+    icons: {
+      outlined: <OutlinedHome />,
+      filled: <FilledHome />
+    }
+  },
+  {
+    id: "2",
+    text: "個人資料",
+    link: "/home", 
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedUser />,
+      filled: <FilledUser />
+    }
+  },
+  {
+    id: "3",
+    text: "設定",
+    link: "/home", 
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedCog />,
+      filled: <FilledCog />
+    }
+  },
+  {
+    id: "4",
+    text: "登出",
+    link: "/home", 
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedLogout />,
+      filled: <OutlinedLogout />,
+    }
+  }
+]
+
+const Navbar = ({ handleOpenTweetModal }) => {
+  const [navItems, setNavItems] = useState(DefaultNavItems)
+
+  const handleClick = (id) => {
+    setNavItems((prevItems) => {
+      return prevItems.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            isVisited: true,
+          }
+        } else {
+          return {
+            ...item,
+            isVisited: false,
+          }
+        }
+      })
+    })
+  }
+
   return (
     <StyledNavbar>
       <StyledLogo>
-        <Logo/>
+        <Logo />
       </StyledLogo>
       <StyledNavList>
-        <StyledNavItem>
-          <StyledLogo>
-            <OutlinedHome/>
-          </StyledLogo>
-          <StyledText>首頁</StyledText>
-          </StyledNavItem>
-        <StyledNavItem>
-          <StyledLogo>
-            <OutlinedUser />
-            </StyledLogo>
-          <StyledText>個人資料</StyledText>
-          </StyledNavItem>
-        <StyledNavItem>
-          <StyledLogo>
-            <OutlinedCog />
-            </StyledLogo>
-            <StyledText>設定</StyledText>
-          </StyledNavItem>
-          <StyledNavItem>
-          <NavbarButton>
-            推文
-          </NavbarButton>
-          </StyledNavItem>
-      <StyledNavItem>
-        <StyledLogo>
-          <OutlinedLogout />
-          </StyledLogo>
-          <StyledText>登出</StyledText>
-        </StyledNavItem>
+        {navItems.map(item => {
+          return (
+            <StyledNavItem key={item.id} onClick={() => handleClick(item.id)} >
+              <NavLink to={item.link} className={item.isVisited ? 'clicked' : ''}>
+                <StyledLogo>
+                  {item.isVisited ? (
+                    item.icons.filled
+                  ) : (
+                    item.icons.outlined
+                  )}
+                </StyledLogo>
+                <StyledText>{item.text}</StyledText>
+              </NavLink>
+            </StyledNavItem>
+          )
+        })}
         </StyledNavList>
+        <NavbarButton className='nav-tweet-button' onClick={handleOpenTweetModal}>推文</NavbarButton>
     </StyledNavbar>
   );
 };

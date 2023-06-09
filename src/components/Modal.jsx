@@ -17,6 +17,10 @@ const StyledModalHeader = styled.header`
 
     & > path {
     fill: var(--main);
+
+    &:hover {
+      cursor: pointer;
+    }
   }
   }
 
@@ -78,12 +82,15 @@ const StyledModalFooter = styled.footer`
 `;
 
 const StyledTweetModalContainer = styled.div`
+  background-color: var(--dark-0);
   width: 600px;
   height: 300px;
   border-radius: 14px;
   border: 1px solid var(--gray1);
   display: grid;
   grid-template-rows: 56px 1fr 56px;
+  position: relative;
+  z-index: 2;
 `;
 
 const StyledReplyModalContainer = styled.div`
@@ -94,6 +101,7 @@ const StyledReplyModalContainer = styled.div`
   display: grid;
   grid-template-rows: 56px 1fr min-content 2fr 56px;
   position: relative;
+  z-index: 2;
 
   &::after {
     content: '';
@@ -115,6 +123,7 @@ const StyledEditModalContainer = styled.div`
   display: grid;
   grid-template-rows: 56px 200px 1fr;
   position: relative;
+  z-index: 2;
 `
 const StyledEditCover = styled.div`
   width: 100%;
@@ -163,15 +172,15 @@ const StyledEditAvatar = styled.div`
   }
 `
 
-const TweetModal = () => {
+const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
   return (
     <>
       <StyledTweetModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button"/>
+          <OutlinedClose className="close-button" onClick={handleOpenTweetModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetInput />
+          <TweetInput placeholder={placeholder}/>
         </StyledModalBody>
         <StyledModalFooter>
           <p>字數不可超過140字</p>
