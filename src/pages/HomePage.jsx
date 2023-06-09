@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import TweetInput from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
-import { TweetModal } from '../components/Modal'
+import { TweetModal } from '../components/Modal';
 import {
   PopularFollower,
   PopularFollowerItem,
@@ -62,7 +62,7 @@ const StyledModalContainer = styled.div`
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -71,7 +71,7 @@ const StyledModalContainer = styled.div`
     transform: translateX(-120px);
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 0;
   }
 `;
@@ -124,16 +124,18 @@ const HomePage = () => {
           </PopularFollower>
         </div>
       </div>
-      { openTweetModal && (
-      <StyledModalContainer>
-        <TweetModal 
-        placeholder={"有什麼新鮮事？"} 
-        handleOpenTweetModal={handleOpenTweetModal}/>
-      </StyledModalContainer>
+      {openTweetModal && (
+        <StyledModalContainer>
+          <TweetModal
+            placeholder={'有什麼新鮮事？'}
+            handleOpenTweetModal={handleOpenTweetModal}
+          />
+        </StyledModalContainer>
       )}
     </StyledHomePageContainer>
   );
 };
 
 export default HomePage;
+
 
