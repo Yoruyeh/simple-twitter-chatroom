@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import TweetInput from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
+import { TweetModal } from '../components/Modal'
 import {
   PopularFollower,
   PopularFollowerItem,
@@ -55,8 +56,20 @@ const StyledHomePageContainer = styled.div`
   }
 `;
 
+const StyledModalContainer = styled.div`
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
+  const [openTweetModal, setOpenTweetModal] = useState(false)
+
+  const handleOpenTweetModal = () => {
+    setOpenTweetModal(!openTweetModal)
+  }
 
   useEffect(() => {
     const getTweetsAsync = async () => {
@@ -74,7 +87,7 @@ const HomePage = () => {
     <StyledHomePageContainer>
       <div className="row">
         <div className="col-3 navbar-container">
-          <Navbar />
+          <Navbar handleOpenTweetModal={handleOpenTweetModal}/>
         </div>
         <div className="col-6 main-container">
           <div className="header">
@@ -98,6 +111,11 @@ const HomePage = () => {
           </PopularFollower>
         </div>
       </div>
+      { openTweetModal && (
+      <StyledModalContainer>
+        <TweetModal placeholder={"有什麼新鮮事？"} handleOpenTweetModal={handleOpenTweetModal}/>
+      </StyledModalContainer>
+      )}
     </StyledHomePageContainer>
   );
 };

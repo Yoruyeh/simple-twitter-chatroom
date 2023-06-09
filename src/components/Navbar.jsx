@@ -122,7 +122,7 @@ const DefaultNavItems = [
   }
 ]
 
-const Navbar = () => {
+const Navbar = ({ handleOpenTweetModal }) => {
   const [navItems, setNavItems] = useState(DefaultNavItems)
 
   const handleClick = (id) => {
@@ -166,58 +166,9 @@ const Navbar = () => {
           )
         })}
         </StyledNavList>
-        <NavbarButton className='nav-tweet-button'>推文</NavbarButton>
+        <NavbarButton className='nav-tweet-button' onClick={handleOpenTweetModal}>推文</NavbarButton>
     </StyledNavbar>
   );
-
-  // return (
-  //   <StyledNavbar>
-  //     <StyledLogo>
-  //       <Logo />
-  //     </StyledLogo>
-  //     <StyledNavList>
-  //         <StyledNavItem onClick={(e) => handleClick(e)}>
-  //           <NavLink to='/home'>
-  //             <StyledLogo>
-  //                 <FilledHome />
-  //             </StyledLogo>
-  //             <StyledText>首頁</StyledText>
-  //           </NavLink>
-  //         </StyledNavItem>
-  //       <StyledNavItem>
-  //         <NavLink to='/user/:id'>
-  //         <StyledLogo>
-  //           <OutlinedUser />
-  //           </StyledLogo>
-  //         <StyledText>個人資料</StyledText>
-  //         </NavLink>
-  //         </StyledNavItem>
-  //       <StyledNavItem>
-  //         <NavLink to='/setting'>
-  //         <StyledLogo>
-  //           <OutlinedCog />
-  //           </StyledLogo>
-  //           <StyledText>設定</StyledText>
-  //           </NavLink>
-  //         </StyledNavItem>
-  //         <StyledNavItem>
-  //           <NavLink to='/compose_tweet'>
-  //         <NavbarButton>
-  //           推文
-  //         </NavbarButton>
-  //         </NavLink>
-  //         </StyledNavItem>
-  //     <StyledNavItem>
-  //       <NavLink to='/login'>
-  //       <StyledLogo>
-  //         <OutlinedLogout />
-  //         </StyledLogo>
-  //         <StyledText>登出</StyledText>
-  //         </NavLink>
-  //       </StyledNavItem>
-  //       </StyledNavList>
-  //   </StyledNavbar>
-  // );
 };
 
 export default Navbar;

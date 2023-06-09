@@ -17,6 +17,10 @@ const StyledModalHeader = styled.header`
 
     & > path {
     fill: var(--main);
+
+    &:hover {
+      cursor: pointer;
+    }
   }
   }
 
@@ -78,6 +82,7 @@ const StyledModalFooter = styled.footer`
 `;
 
 const StyledTweetModalContainer = styled.div`
+  background-color: var(--dark-0);
   width: 600px;
   height: 300px;
   border-radius: 14px;
@@ -163,15 +168,15 @@ const StyledEditAvatar = styled.div`
   }
 `
 
-const TweetModal = () => {
+const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
   return (
     <>
       <StyledTweetModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button"/>
+          <OutlinedClose className="close-button" onClick={handleOpenTweetModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetInput />
+          <TweetInput placeholder={placeholder}/>
         </StyledModalBody>
         <StyledModalFooter>
           <p>字數不可超過140字</p>
