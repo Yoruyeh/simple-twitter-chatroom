@@ -37,35 +37,36 @@ const StyledNavItem = styled.li`
   margin: 10px 6px;
   min-width: 178px;
 
+  &:last-child {
+    position: absolute;
+    bottom: 0;
+  }
+
   & a {
     text-decoration: none;
     display: flex;
     align-items: center;
 
+    &:link {
+      color: var(--dark-90);
+    }
+
+    &:visited {
+      color: var(--dark-90);
+    }
+
+    &.clicked:visited {
+      color: var(--main);
+      & svg > path {
+        fill: var(--main);
+        stroke: var(--main);
+    }
+
     &:hover {
       color: var(--main);
       & svg > path {
         fill: var(--main);
-      }
-    &:visited {
-      color: var(--dark-90);
     }
-  }
-
-    &.clicked {
-      color: var(--main);
-      & svg > path {
-        fill: var(--main);
-      }
-      &:visited {
-        color: var(--main);
-      }
-    }
-  }
-
-  &:last-child {
-    position: absolute;
-    bottom: 0;
   }
 `;
 
@@ -151,8 +152,8 @@ const Navbar = ({ handleOpenTweetModal }) => {
       <StyledNavList>
         {navItems.map(item => {
           return (
-            <StyledNavItem key={item.id} onClick={() => handleClick(item.id)} className={item.isVisited ? 'clicked' : ''}>
-              <NavLink to={item.link}>
+            <StyledNavItem key={item.id} onClick={() => handleClick(item.id)} >
+              <NavLink to={item.link} className={item.isVisited ? 'clicked' : ''}>
                 <StyledLogo>
                   {item.isVisited ? (
                     item.icons.filled
