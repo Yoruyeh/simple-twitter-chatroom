@@ -2,12 +2,18 @@ import styled from 'styled-components'
 
 const StyledContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-around;
   background-color: #f5f8fa;
   width: 100%;
   height: 54px;
   border-radius: 2px;
+
+  span {
+    position: absolute;
+    bottom: -18px;
+    color: var(--danger);
   &.edit-modal-name {
     margin: 80px auto 32px;
     width: 602px;
@@ -45,14 +51,36 @@ const StyledInput = styled.input`
     color: #b5b5be;
     font-size: 16px;
   }
+  // danger狀態
+  ${({ status }) =>
+    status === 'danger'
+      ? `border-bottom: 2px solid var(--danger)`
+      : `border-bottom: 2px solid var(--default)`};
 `
 
-const AuthInput = ({ className, type, placeholder, label }) => {
+const AuthInput = ({
+  type,
+  placeholder,
+  label,
+  onChange,
+  status,
+  errorText,
+}) => {
   return (
-    <StyledContainer className={className}>
-      <StyledLabel>{label}</StyledLabel>
-      <StyledInput type={type || 'text'} placeholder={placeholder} />
-    </StyledContainer>
+    <>
+      <StyledContainer>
+        <StyledLabel>{label}</StyledLabel>
+        <StyledInput
+          // 捕捉 input值
+          onChange={(event) => onChange(event)}
+          type={type || 'text'}
+          placeholder={placeholder}
+          status={status}
+          disabled={status === 'disabled'}
+        />
+        <span className='fontMinimal'>{errorText}</span>
+      </StyledContainer>
+    </>
   )
 }
 
