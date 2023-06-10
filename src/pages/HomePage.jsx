@@ -1,50 +1,16 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
+import MainLayout from '../layout/MainLayout'
 import Header from '../components/Header';
 import TweetInput from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
-import { TweetModal } from '../components/Modal';
-import {
-  PopularFollower,
-  PopularFollowerItem,
-} from '../components/PopularFollower';
 import { getTweets } from '../api/tweets';
 
 const StyledHomePageContainer = styled.div`
-  .row {
-    margin: 0 130px;
-    height: 100vh;
-  }
-  .navbar-container {
-    padding: 0 24px 0 80px;
-    position: relative;
-    border-right: 1px solid var(--gray1);
-  }
-  .main-container {
-    padding: 0;
-    overflow-y: scroll;
-    height: 100vh;
+  width: 100%;
+  height: 100%;
 
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      box-shadow: -1px 0px 0px 0px rgba(240, 240, 240, 1) inset,
-        1px 0px 0px 0px rgba(232, 232, 232, 1) inset;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #c1c1c1;
-      border: 1px solid (--gray1);
-      border-radius: 8px;
-    }
-  }
-  .popular-follower-container {
-    border-left: 1px solid var(--gray1);
-  }
   .header {
     border-bottom: 1px solid var(--gray1);
     height: 75px;
@@ -73,33 +39,8 @@ const StyledHomePageContainer = styled.div`
   }
 `;
 
-const StyledModalContainer = styled.div`
-  position: fixed;
-  top: 56px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -56px;
-    left: -50%;
-    transform: translateX(-120px);
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 0;
-  }
-`;
-
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
-  const [openTweetModal, setOpenTweetModal] = useState(false)
-
-  const handleOpenTweetModal = () => {
-    setOpenTweetModal(!openTweetModal)
-  }
 
   useEffect(() => {
     const getTweetsAsync = async () => {
@@ -114,44 +55,24 @@ const HomePage = () => {
   }, []);
 
   return (
-    <StyledHomePageContainer>
-      <div className="row">
-        <div className="col-3 navbar-container">
-          <Navbar handleOpenTweetModal={handleOpenTweetModal}/>
+    <MainLayout>
+      <StyledHomePageContainer>
+      <div className="header">
+        <Header />
+      </div>
+      <div className="tweet-input-container">
+        <div className="tweet-input-area">
+          <TweetInput placeholder={'發生什麼新鮮事？'} />
         </div>
-        <div className="col-6 main-container">
-          <div className="header">
-            <Header />
-          </div>
-          <div className="tweet-input-container">
-          <div className="tweet-input-area">
-            <TweetInput placeholder={'發生什麼新鮮事？'} />
-          </div>
-          <div className="tweet-button">
-            <InputButton>推文</InputButton>
-          </div>
-          </div>
-          <div className="tweet-collection">
-            <TweetCollection tweets={tweets} />
-          </div>
-        </div>
-        <div className="col-3 popular-follower-container">
-          <PopularFollower>
-            <PopularFollowerItem />
-            <PopularFollowerItem />
-            <PopularFollowerItem />
-          </PopularFollower>
+        <div className="tweet-button">
+          <InputButton >推文</InputButton>
         </div>
       </div>
-      {openTweetModal && (
-        <StyledModalContainer>
-          <TweetModal
-            placeholder={'有什麼新鮮事？'}
-            handleOpenTweetModal={handleOpenTweetModal}
-          />
-        </StyledModalContainer>
-      )}
-    </StyledHomePageContainer>
+      <div className="tweet-collection">
+        <TweetCollection tweets={tweets} />
+      </div>
+      </StyledHomePageContainer>
+    </MainLayout>
   );
 };
 
