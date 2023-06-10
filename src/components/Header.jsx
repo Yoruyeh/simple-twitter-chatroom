@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledMainHeader = styled.header`
   font-family: 'Noto Sans TC';
   width: 100%;
-  height: 75px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

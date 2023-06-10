@@ -45,13 +45,30 @@ const StyledHomePageContainer = styled.div`
   .popular-follower-container {
     border-left: 1px solid var(--gray1);
   }
-  .tweet-button {
-    text-align: end;
-    border-bottom: 10px solid var(--gray1);
-    padding: 16px;
-  }
-  .tweet-item-wrapper,
   .header {
+    border-bottom: 1px solid var(--gray1);
+    height: 75px;
+  }
+  .tweet-input-area {
+    display: flex;
+  }
+  .tweet-input {
+    width: 462px;
+    height: 136px;
+    border-bottom: 10px solid var(--gray1);
+  }
+  .tweet-button {
+    width: 178px;
+    height: 136px;
+    border-bottom: 10px solid var(--gray1);
+    position: relative;
+    & button {
+      position: absolute; 
+      bottom: 16px;
+      right: 24px;
+    }
+  }
+  .tweet-item-wrapper {
     border-bottom: 1px solid var(--gray1);
   }
 `;
@@ -106,11 +123,13 @@ const HomePage = () => {
           <div className="header">
             <Header />
           </div>
+          <div className="tweet-input-area">
           <div className="tweet-input">
             <TweetInput placeholder={'發生什麼新鮮事？'} />
           </div>
           <div className="tweet-button">
             <InputButton>推文</InputButton>
+          </div>
           </div>
           <div className="tweet-collection">
             <TweetCollection tweets={tweets} />
