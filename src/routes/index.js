@@ -4,7 +4,7 @@ import RegistPage from '../pages/RegistPage'
 import AdminLoginPage from '../pages/AdminLoginPage'
 import HomePage from '../pages/HomePage'
 import UserPage from '../pages/UserPage'
-
+import SettingPage from '../pages/SettingPage'
 
 // 路由表
 const routes = [
@@ -35,6 +35,10 @@ const routes = [
   {
     path: '/:userID',
     element: <UserPage />,
+  },
+  {
+    path: '/setting',
+    element: <SettingPage />,
   },
 ]
 
