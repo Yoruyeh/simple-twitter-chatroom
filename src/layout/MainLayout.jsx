@@ -75,10 +75,10 @@ const MainLayout = ({ children }) => {
 return (
     <StyledMainLayoutContainer>
       <div className="row">
-        <div className="col-3 navbar-container">
+        <div className="col-2 navbar-container">
           <Navbar handleOpenTweetModal={handleOpenTweetModal}/>
         </div>
-        <div className="col-6 main-container">{children}</div>
+        <div className="col-7 main-container">{children}</div>
         <div className="col-3 popular-follower-container">
           <PopularFollower>
             <PopularFollowerItem />
