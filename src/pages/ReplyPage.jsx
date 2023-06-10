@@ -1,7 +1,7 @@
 // import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
-import Header from '../components/Header';
+import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
 import ReplyCollection from '../components/ReplyCollection'
 
@@ -20,7 +20,7 @@ const ReplyPage = () => {
     <MainLayout>
       <StyledReplyPageContainer>
       <div className="header">
-        <Header />
+        <ReplyHeader />
       </div>
       <div className="tweet-content-container">
         <TweetContent />

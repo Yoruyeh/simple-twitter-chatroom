@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
-import Header from '../components/Header';
+import { MainHeader } from '../components/Header';
 import TweetInput from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
@@ -54,7 +54,7 @@ const HomePage = () => {
     <MainLayout>
       <StyledHomePageContainer>
       <div className="header">
-        <Header />
+        <MainHeader />
       </div>
       <div className="tweet-input-container">
         <div className="tweet-input-area">
