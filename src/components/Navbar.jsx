@@ -94,7 +94,7 @@ const DefaultNavItems = [
   {
     id: "2",
     text: "個人資料",
-    link: "/home", 
+    link: "/:userID", 
     isVisited: false,
     icons: {
       outlined: <OutlinedUser />,
@@ -114,7 +114,7 @@ const DefaultNavItems = [
   {
     id: "4",
     text: "登出",
-    link: "/home", 
+    link: "/login", 
     isVisited: false,
     icons: {
       outlined: <OutlinedLogout />,
