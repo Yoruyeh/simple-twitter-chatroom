@@ -5,6 +5,8 @@ import AdminLoginPage from '../pages/AdminLoginPage'
 import HomePage from '../pages/HomePage'
 import UserPage from '../pages/UserPage'
 import SettingPage from '../pages/SettingPage'
+import ReplyPage from '../pages/ReplyPage'
+import UserFollowerPage from '../pages/UserFollowerPage'
 
 // 路由表
 const routes = [
@@ -39,6 +41,13 @@ const routes = [
   {
     path: '/setting',
     element: <SettingPage />,
+  },
+    path: '/tweets/:id',
+    element: <ReplyPage />,
+  },
+  {
+    path: '/:userID/follower',
+    element: <UserFollowerPage />,
   },
 ]
 

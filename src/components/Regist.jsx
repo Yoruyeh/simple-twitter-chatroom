@@ -151,7 +151,7 @@ export default function Regist() {
     const regexAccount = /^[a-zA-Z0-9]{1,20}$/
     const regexUsername = /^.{1,50}$/
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const regexPassword = /^[a-zA-Z0-9]{1,20}$/
+    const regexPassword = /^[a-zA-Z0-9]{8,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
       setInput(0, 'danger', '您輸入的帳號不正確 !')
@@ -170,7 +170,7 @@ export default function Regist() {
     }
     // password 不符合
     if (!regexPassword.test(password)) {
-      setInput(3, 'danger', '您輸入的密碼不正確 !')
+      setInput(3, 'danger', '密碼需要8-20位數字或字母')
       return
     }
 
