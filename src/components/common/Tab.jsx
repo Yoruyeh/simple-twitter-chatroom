@@ -21,9 +21,12 @@ const Item = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
+  border: none;
+  background-color: #fff;
+  font-size: 15px;
   width: 130px;
   height: 52px;
+  z-index: 999;
 
   &:hover {
     border-bottom: 2px solid var(--main);
