@@ -116,14 +116,14 @@ export default function AdminLogin() {
   async function handleClick() {
     // 判斷 account、password 是否符合格式
     const regexAccount = /^[a-zA-Z0-9]{1,20}$/
-    const regexPassword = /^[a-zA-Z0-9]{1,20}$/
+    const regexPassword = /^[a-zA-Z0-9]{8,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
       setInput(0, 'danger', '您輸入的帳號不正確 !')
     }
     // password不符合
     if (!regexPassword.test(password)) {
-      setInput(1, 'danger', '您輸入的密碼不正確 !')
+      setInput(1, 'danger', '密碼要8-20位數字或字母才能登入')
       // 比對完成跳出程序
       return
     }
