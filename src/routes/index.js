@@ -42,6 +42,7 @@ const routes = [
     path: '/setting',
     element: <SettingPage />,
   },
+  {
     path: '/tweets/:id',
     element: <ReplyPage />,
   },
