@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 const StyledAuthButton = styled.button`
   border-radius: 50px;
@@ -16,7 +16,7 @@ const StyledAuthButton = styled.button`
   &:hover {
     cursor: pointer;
   }
-`;
+`
 
 const StyledNavbarButton = styled(StyledAuthButton)`
   width: 178px;
@@ -47,6 +47,69 @@ const StyledInputButton = styled(StyledAuthButton)`
   heigth: 40px;
   font-size: 16px;
 `
+// square button
+const StyledSquareButton = styled.button`
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 16px;
+  color: var(--main);
+  border: 1px solid var(--main);
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--main);
+    color: var(--dark-0);
+  }
+
+  // Filled
+  ${({ filled }) =>
+    filled &&
+    css`
+      background-color: var(--main);
+      color: var(--dark-0);
+    `}
+  // Large
+  ${({ large }) =>
+    large &&
+    css`
+      font-size: 20px;
+      padding: 8px 24px;
+    `}
+`
+// pill button
+const StyledPillButton = styled.button`
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 16px;
+  color: var(--main);
+  border: 1px solid var(--main);
+  border-radius: 50px;
+
+  // Filled
+  ${({ filled }) =>
+    filled &&
+    css`
+      background-color: var(--main);
+      color: var(--dark-0);
+    `}
+  // Large
+  ${({ large }) =>
+    large &&
+    css`
+      font-size: 20px;
+      padding: 8px 24px;
+    `}
+  // small
+  ${({ small }) =>
+    small &&
+    css`
+      padding: 4px 8px;
+    `}
+`
 
 export {
   StyledAuthButton as AuthButton,
@@ -54,4 +117,6 @@ export {
   StyledSaveButton as SaveButton,
   StyledFollowButton as FollowButton,
   StyledInputButton as InputButton,
-};
+  StyledSquareButton as SquareButton,
+  StyledPillButton as PillButton,
+}
