@@ -148,10 +148,10 @@ export default function Regist() {
   // Button事件
   async function handleClick() {
     // 判斷 input value 是否符合格式
-    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{1,20}$/
-    const regexUsername = /^.{1,20}$/
+    const regexAccount = /^[a-zA-Z0-9]{1,20}$/
+    const regexUsername = /^.{1,50}$/
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/
+    const regexPassword = /^[a-zA-Z0-9]{1,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
       setInput(0, 'danger', '您輸入的帳號不正確 !')

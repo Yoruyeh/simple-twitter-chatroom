@@ -115,8 +115,8 @@ export default function AdminLogin() {
   // Button事件
   async function handleClick() {
     // 判斷 account、password 是否符合格式
-    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{1,20}$/
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/
+    const regexAccount = /^[a-zA-Z0-9]{1,20}$/
+    const regexPassword = /^[a-zA-Z0-9]{1,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
       setInput(0, 'danger', '您輸入的帳號不正確 !')
