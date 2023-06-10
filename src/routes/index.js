@@ -5,6 +5,7 @@ import AdminLoginPage from '../pages/AdminLoginPage'
 import HomePage from '../pages/HomePage'
 import UserPage from '../pages/UserPage'
 import ReplyPage from '../pages/ReplyPage'
+import UserFollowerPage from '../pages/UserFollowerPage'
 
 
 // 路由表
@@ -40,6 +41,10 @@ const routes = [
   {
     path: '/tweets/:id',
     element: <ReplyPage />,
+  },
+  {
+    path: '/:userID/follower',
+    element: <UserFollowerPage />,
   },
 ]
 

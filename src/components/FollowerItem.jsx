@@ -40,7 +40,7 @@ const StyledAvatar = styled.div`
 `;
 
 
-const FollowerItem = () => {
+const FollowerItem = ({ isUnfollow, handleClickFollow }) => {
   return (
     <StyledFollowerItemContainer>
       <StyledAvatar image={'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80'} />
@@ -48,7 +48,9 @@ const FollowerItem = () => {
         <div className="user-follower-info">
           Magni facilis cum quo accusantium quam incidunt facere hic. Architecto tempore et iure cumque odit possimus enim hic pariatur.
         </div>
-        <FollowButton className="user-follower-button">正在跟隨</FollowButton>
+        <FollowButton className="user-follower-button" isUnfollow={isUnfollow} onClick={handleClickFollow}> 
+        { isUnfollow ?'跟隨':'正在跟隨' }
+        </FollowButton>
     </StyledFollowerItemContainer>
   );
 };
