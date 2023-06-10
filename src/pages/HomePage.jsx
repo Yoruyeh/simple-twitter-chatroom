@@ -49,10 +49,10 @@ const StyledHomePageContainer = styled.div`
     border-bottom: 1px solid var(--gray1);
     height: 75px;
   }
-  .tweet-input-area {
+  .tweet-input-container {
     display: flex;
   }
-  .tweet-input {
+  .tweet-input-area {
     width: 462px;
     height: 136px;
     border-bottom: 10px solid var(--gray1);
@@ -123,8 +123,8 @@ const HomePage = () => {
           <div className="header">
             <Header />
           </div>
+          <div className="tweet-input-container">
           <div className="tweet-input-area">
-          <div className="tweet-input">
             <TweetInput placeholder={'發生什麼新鮮事？'} />
           </div>
           <div className="tweet-button">
