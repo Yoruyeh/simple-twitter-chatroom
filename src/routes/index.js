@@ -3,6 +3,7 @@ import LoginPage from '../pages/LoginPage'
 import RegistPage from '../pages/RegistPage'
 import AdminLoginPage from '../pages/AdminLoginPage'
 import HomePage from '../pages/HomePage'
+import ReplyPage from '../pages/ReplyPage'
 
 // 路由表
 const routes = [
@@ -29,6 +30,10 @@ const routes = [
   {
     path: '/home',
     element: <HomePage />,
+  },
+  {
+    path: '/tweet/:id',
+    element: <ReplyPage />,
   },
 ]
 

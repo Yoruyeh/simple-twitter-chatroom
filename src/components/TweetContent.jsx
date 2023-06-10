@@ -3,7 +3,7 @@ import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetContent = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
-  width: 640px;
+  width: 100%;
   height: 350px;
   padding: 0 16px;
   color: var(--dark-100);
@@ -96,7 +96,7 @@ const TweetContent = () => {
         <span className="tweet-content-account"> @apple</span>
       </div>
       <div className="tweet-content-content">
-        dfdsifhdsiohoihfbgdfb gfdgfgdfdfvhdsvj  dkfjsdkjfdsjf;l  dfs;fjsd
+       12312312132132132132123123123123123123123123123123123123123123123132123132132123132123132
         </div>
       <div className="tweet-content-time">上午10:05・2023年6月10日</div>
       <div className="tweet-content-count">

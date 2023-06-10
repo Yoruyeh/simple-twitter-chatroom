@@ -40,6 +40,10 @@ const StyledMainLayoutContainer = styled.div`
   .popular-follower-container {
     border-left: 1px solid var(--gray1);
   }
+  .header {
+    border-bottom: 1px solid var(--gray1);
+    height: 75px;
+  }
 `;
 
 const StyledModalContainer = styled.div`

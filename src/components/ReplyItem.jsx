@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 const StyledReplyItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
-  width: 640px;
-  height: 148px;
+  width: 100%;
+  height: 100%;
   color: var(--dark-100);
   font-size: 16px;
   display: flex;

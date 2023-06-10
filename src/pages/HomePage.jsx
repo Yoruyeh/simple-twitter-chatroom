@@ -11,10 +11,6 @@ const StyledHomePageContainer = styled.div`
   width: 100%;
   height: 100%;
 
-  .header {
-    border-bottom: 1px solid var(--gray1);
-    height: 75px;
-  }
   .tweet-input-container {
     display: flex;
   }
