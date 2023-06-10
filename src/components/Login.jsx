@@ -116,17 +116,17 @@ export default function Login() {
   // Button事件
   async function handleClick() {
     // 判斷 account、password 是否符合格式
-    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{1,20}$/
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}$/
+    const regexAccount = /^[a-zA-Z0-9]{1,20}$/
+    const regexPassword = /^[a-zA-Z0-9]{1,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
-      setInput(0, 'danger', '您輸入的帳號不正確 !')
+      setInput(0, 'danger', '帳號不存在')
     }
     // password不符合
     if (!regexPassword.test(password)) {
-      setInput(1, 'danger', '您輸入的密碼不正確 !')
+      setInput(1, 'danger', '字數超出上限 !')
       // 比對完成跳出程序
-      // return
+      return
     }
 
     try {
