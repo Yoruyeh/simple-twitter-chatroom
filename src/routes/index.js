@@ -6,7 +6,7 @@ import HomePage from '../pages/HomePage'
 import UserPage from '../pages/UserPage'
 import ReplyPage from '../pages/ReplyPage'
 import UserFollowerPage from '../pages/UserFollowerPage'
-
+import AdminCardPage from '../pages/AdminCardPage'
 
 // 路由表
 const routes = [
@@ -45,6 +45,10 @@ const routes = [
   {
     path: '/:userID/follower',
     element: <UserFollowerPage />,
+  },
+  {
+    path: '/admin/card',
+    element: <AdminCardPage />,
   },
 ]
 
