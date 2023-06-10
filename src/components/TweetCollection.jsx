@@ -5,9 +5,9 @@ const TweetCollection = ({ tweets }) => {
   <div>
     {tweets.map((tweet) => {
       return (
-        <div className="tweet-item-wrapper">
-        <TweetItem key={tweet.User.id} tweet={tweet} />
-        <TweetItemIcon />
+        <div className="tweet-item-wrapper" key={tweet.id}>
+        <TweetItem tweet={tweet}/>
+        <TweetItemIcon tweet={tweet}/>
         </div>
       )
     })}
