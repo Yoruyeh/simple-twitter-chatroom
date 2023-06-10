@@ -4,6 +4,7 @@ import RegistPage from '../pages/RegistPage'
 import AdminLoginPage from '../pages/AdminLoginPage'
 import HomePage from '../pages/HomePage'
 import UserPage from '../pages/UserPage'
+import ReplyPage from '../pages/ReplyPage'
 
 
 // 路由表
@@ -35,6 +36,10 @@ const routes = [
   {
     path: '/:userID',
     element: <UserPage />,
+  },
+  {
+    path: '/tweets/:id',
+    element: <ReplyPage />,
   },
 ]
 
