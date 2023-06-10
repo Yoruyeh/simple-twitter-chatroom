@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useGetTheTweet } from '../context/GetTheTweet'
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetItemContainer = styled.div`
@@ -79,6 +80,7 @@ const TweetItemIcon = ({ tweet }) => {
 };
 
 const TweetItem = ({ tweet }) => {
+  const { handleClick } = useGetTheTweet()
 
   return (
     <StyledTweetItemContainer>
@@ -90,7 +92,13 @@ const TweetItem = ({ tweet }) => {
           {tweet.diffCreatedAt}
         </span>
       </div>
-      <div className="tweet-content">{tweet.description}</div>
+      <div className="tweet-content" data-id={tweet.id} 
+      onClick={(e) => {
+        const clickedId = e.target.dataset.id
+        handleClick(clickedId)
+      }}>
+        {tweet.description}
+        </div>
     </StyledTweetItemContainer>
   );
 };
