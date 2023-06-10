@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import Navbar from '../components/Navbar';
+import { useState } from 'react'
+import styled from 'styled-components'
+import Navbar from '../components/Navbar'
 import {
   PopularFollower,
   PopularFollowerItem,
-} from '../components/PopularFollower';
-import { TweetModal } from '../components/Modal';
+} from '../components/PopularFollower'
+import { TweetModal } from '../components/Modal'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -44,7 +44,14 @@ const StyledMainLayoutContainer = styled.div`
     border-bottom: 1px solid var(--gray1);
     height: 75px;
   }
-`;
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    max-width: 1140px;
+  }
+`
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -64,7 +71,7 @@ const StyledModalContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 0;
   }
-`;
+`
 
 const MainLayout = ({ children }) => {
   const [openTweetModal, setOpenTweetModal] = useState(false)
@@ -72,14 +79,14 @@ const MainLayout = ({ children }) => {
   const handleOpenTweetModal = () => {
     setOpenTweetModal(!openTweetModal)
   }
-return (
-    <StyledMainLayoutContainer>
-      <div className="row">
-        <div className="col-2 navbar-container">
-          <Navbar handleOpenTweetModal={handleOpenTweetModal}/>
+  return (
+    <StyledMainLayoutContainer className='container-fluid px-0'>
+      <div className='row mx-0'>
+        <div className='col-2 navbar-container'>
+          <Navbar handleOpenTweetModal={handleOpenTweetModal} />
         </div>
-        <div className="col-7 main-container">{children}</div>
-        <div className="col-3 popular-follower-container">
+        <div className='col-7 main-container'>{children}</div>
+        <div className='col-3 popular-follower-container'>
           <PopularFollower>
             <PopularFollowerItem />
             <PopularFollowerItem />
@@ -88,15 +95,15 @@ return (
         </div>
       </div>
       {openTweetModal && (
-          <StyledModalContainer>
-            <TweetModal
-              placeholder={'有什麼新鮮事？'}
-              handleOpenTweetModal={handleOpenTweetModal}
-            />
-          </StyledModalContainer>
-        )}
+        <StyledModalContainer>
+          <TweetModal
+            placeholder={'有什麼新鮮事？'}
+            handleOpenTweetModal={handleOpenTweetModal}
+          />
+        </StyledModalContainer>
+      )}
     </StyledMainLayoutContainer>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default MainLayout

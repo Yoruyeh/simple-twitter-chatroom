@@ -6,12 +6,12 @@ import { PillButton } from './button.styled'
 
 // container
 const Container = styled.div`
-  max-width: 639px;
-  position: relative;
+  width: 100%;
 `
 
 //背景圖片
 const StyledImgWrapper = styled.div`
+  position: relative;
   .img {
     background-image: url(https://images.unsplash.com/photo-1564890769567-cae969d2f9ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
     aspect-ratio: 639 / 200;
@@ -38,6 +38,7 @@ const StyledAvatarWrapper = styled.div`
 
 // Actions 容器
 const StyledActionWrapper = styled.div`
+  width: 100%;
   margin-top: 16px;
   padding: 0 16px;
   gap: 16px;
@@ -82,7 +83,7 @@ const FollowButton = styled(PillButton)`
 // 使用者 Info 區域
 const StyledInfoWrapper = styled.div`
   margin-left: 16px;
-
+  margin-top: 8px;
   .username {
     line-height: 26px;
   }
@@ -190,30 +191,29 @@ export function UserInfoCard({
   followers = '5',
 }) {
   return (
-    <Container className='container-fluild'>
-      <div className='row w-100'>
-        <StyledImgWrapper className='col-12'>
-          <div className='img'></div>
-        </StyledImgWrapper>
-
+    <Container>
+      <StyledImgWrapper>
+        <div className='img'></div>
         <StyledAvatarWrapper>
           <div className='avatar'></div>
         </StyledAvatarWrapper>
-        <StyledActionWrapper className='col-12 d-flex justify-content-end'>
-          {ReturnActions(other)}
-        </StyledActionWrapper>
-        <StyledInfoWrapper className='col-12'>
-          <h5 className='username'>{username}</h5>
-          <span className='userid'>@{userid}</span>
-          <p className='userintro'>{intro}</p>
-          <NavLink>
-            {following} <span>個追隨中</span>
-          </NavLink>
-          <NavLink>
-            {followers} <span>位跟隨者</span>
-          </NavLink>
-        </StyledInfoWrapper>
-      </div>
+      </StyledImgWrapper>
+
+      <StyledActionWrapper className='col-12 d-flex justify-content-end'>
+        {ReturnActions(other)}
+      </StyledActionWrapper>
+
+      <StyledInfoWrapper>
+        <h5 className='username'>{username}</h5>
+        <span className='userid'>@{userid}</span>
+        <p className='userintro'>{intro}</p>
+        <NavLink>
+          {following} <span>個追隨中</span>
+        </NavLink>
+        <NavLink>
+          {followers} <span>位跟隨者</span>
+        </NavLink>
+      </StyledInfoWrapper>
     </Container>
   )
 }

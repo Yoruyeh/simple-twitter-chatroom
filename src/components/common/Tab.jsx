@@ -5,7 +5,7 @@ const dividerColor = '#E6ECF0'
 const fontDefaultColor = '#657786'
 
 // Container
-const Container = styled.div`
+const StyledContainer = styled.div`
   font-size: 15px;
   font-weight: bold;
   padding: 0;
@@ -13,8 +13,7 @@ const Container = styled.div`
   color: ${fontDefaultColor};
   border-bottom: solid 1px ${dividerColor};
 `
-// Wrapper
-const Wrapper = styled.div``
+
 // Item
 const Item = styled.button`
   display: flex;
@@ -60,10 +59,12 @@ function ReturnItems({ mode }) {
 // 如果 mode 為 follower，返回 追蹤者Tab
 export default function Tab({ mode }) {
   return (
-    <Container className='container-fluid'>
-      <Wrapper className='row'>
-        <ReturnItems mode={mode} />
-      </Wrapper>
-    </Container>
+    <>
+      <StyledContainer className='container-fluid'>
+        <div className='d-flex'>
+          <ReturnItems mode={mode} />
+        </div>
+      </StyledContainer>
+    </>
   )
 }
