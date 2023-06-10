@@ -31,10 +31,6 @@ const routes = [
     path: '/home',
     element: <HomePage />,
   },
-  {
-    path: '/tweet/:id',
-    element: <ReplyPage />,
-  },
 ]
 
 export default routes

@@ -13,7 +13,7 @@ const StyledMainLayoutContainer = styled.div`
     height: 100vh;
   }
   .navbar-container {
-    padding: 0 24px 0 80px;
+    padding: 0;
     position: relative;
     border-right: 1px solid var(--gray1);
   }
