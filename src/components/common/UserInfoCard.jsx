@@ -22,8 +22,8 @@ const StyledImgWrapper = styled.div`
 const StyledAvatarWrapper = styled.div`
   // 頭像
   position: absolute;
-  top: 124px;
-  left: 16px;
+  top: 60%;
+  left: 1.7%;
   padding: 0;
   width: 21.909233%;
   .avatar {
