@@ -1,34 +1,35 @@
 import FollowerItem from './FollowerItem'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getUserFollowerById } from '../api/user.follower'
+import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower'
 
 const FollowerCollection = () => {
-  const [userFollowers, setUserFollowers] = useState([])
-  const paramsId = useParams().id
+  const [userFollows, setUserFollows] = useState([])
+  const { id } = useParams();
 
   useEffect(() => {
-    const getUserFollowerByIdAsync = async () => {
+    const fetchData = async () => {
       try {
-        const result = await getUserFollowerById(paramsId);
-        setUserFollowers(result);
+        let result;
+        if (window.location.pathname.includes('followers')) {
+          result = await getUserFollowersById(id);
+        } else if (window.location.pathname.includes('followings')) {
+          result = await getUserFollowingsById(id);
+        }
+        setUserFollows(result);
       } catch (error) {
         console.error(error);
       }
     };
-    getUserFollowerByIdAsync();
-}, [paramsId]);
-
-  if (userFollowers === null) {
-    return <div>Loading...</div>;
-  }
+    fetchData();
+  }, [id]);
 
   return (
     <div>
-      {userFollowers.map((follower) => {
+      {userFollows.map((follow) => {
         return (
-          <div className="follow-item-wrapper" key={follower.followerId}>
-            <FollowerItem follower={follower}/>
+          <div className="follow-item-wrapper" key={follow.followerId || follow.followingId}>
+            <FollowerItem follow={follow}/>
           </div>
         )
       })}

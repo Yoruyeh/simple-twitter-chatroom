@@ -46,6 +46,10 @@ const routes = [
     path: '/:id/followers',
     element: <UserFollowerPage />,
   },
+  {
+    path: '/:id/followings',
+    element: <UserFollowerPage />,
+  },
 ]
 
 export default routes

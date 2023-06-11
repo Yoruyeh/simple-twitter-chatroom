@@ -64,7 +64,7 @@ const PopularFollowerItem = () => {
             @pizzahut
           </div>
         </StyledFollowerInfo>
-        <FollowButton isFollowed={true}>正在跟隨</FollowButton>
+        <FollowButton isfollowed='true'>正在跟隨</FollowButton>
       </StyledFollowerItem>
     </>
   );
