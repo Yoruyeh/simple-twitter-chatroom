@@ -10,7 +10,7 @@ const StyledFollowerPageContainer = styled.div`
   .tweet-content-container {
     border-bottom: 1px solid var(--gray1);
   }
-  .reply-item-wrapper {
+  .follow-item-wrapper {
     border-bottom: 1px solid var(--gray1);
   }
 `
