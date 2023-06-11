@@ -91,21 +91,21 @@ const StyledPillButton = styled.button`
 
   // Filled
   ${({ filled }) =>
-    filled &&
+    filled === 'true' &&
     css`
       background-color: var(--main);
       color: var(--dark-0);
     `}
   // Large
   ${({ large }) =>
-    large &&
+    large === 'true' &&
     css`
       font-size: 20px;
       padding: 8px 24px;
     `}
   // small
   ${({ small }) =>
-    small &&
+    small === 'true' &&
     css`
       padding: 4px 8px;
     `}
