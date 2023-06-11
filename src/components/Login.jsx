@@ -129,19 +129,15 @@ export default function Login() {
       return
     }
 
-    try {
-      // 請求時禁用input
-      disabledAllInput(true)
-      // 保存返回的 success、authToken 資料
-      const { success, token } = await login({ account, password })
-      // 取得成功，將 authToken 存進用戶的 localStorage，
-      // 跳轉到 homePage
-      if (success) {
-        localStorage.setItem('token', token)
-        navigate('/home')
-      }
-    } catch (error) {
-      console.log('錯誤拉')
+    // 請求時禁用input
+    disabledAllInput(true)
+    // 保存返回的 success、authToken 資料
+    const { success, token } = await login({ account, password })
+    // 取得成功，將 authToken 存進用戶的 localStorage，
+    // 跳轉到 homePage
+    if (success) {
+      localStorage.setItem('token', token)
+      navigate('/home')
     }
     // 請求結束啟用input
     disabledAllInput()
