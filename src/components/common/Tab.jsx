@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom' 
 
 // 顏色變量
 const dividerColor = '#E6ECF0'
@@ -34,18 +35,19 @@ const Item = styled.button`
 `
 
 // 根據條件返回相應的內容
-function ReturnItems({ mode }) {
-  if (mode === 'follower') {
-    // 如果 mode 為 follower，返回 追蹤者Tab
+function ReturnItems() {
+  const navigate = useNavigate()
+  
+  if (window.location.pathname.includes('followers') || window.location.pathname.includes('followings')) {
     return (
       <>
-        <Item className='col-4'>追蹤者</Item>
-        <Item className='col-4'>正在追蹤</Item>
+      {/* id還要改 */}
+        <Item className='col-4' onClick={() => navigate('/14/followers')}>追蹤者</Item>
+        <Item className='col-4' onClick={() => navigate('/14/followings')}>正在追蹤</Item>
         <Item className='col-4'></Item>
       </>
     )
   } else {
-    // 如果 mode 為 follower，返回 推文、回覆、內容Tab
     return (
       <>
         <Item className='col-4'>推文</Item>
@@ -56,13 +58,12 @@ function ReturnItems({ mode }) {
   }
 }
 
-// 如果 mode 為 follower，返回 追蹤者Tab
-export default function Tab({ mode }) {
+export default function Tab() {
   return (
     <>
       <StyledContainer className='container-fluid'>
         <div className='d-flex'>
-          <ReturnItems mode={mode} />
+          <ReturnItems />
         </div>
       </StyledContainer>
     </>

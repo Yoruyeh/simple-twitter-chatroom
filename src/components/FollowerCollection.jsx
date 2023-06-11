@@ -6,14 +6,15 @@ import { getUserFollowersById, getUserFollowingsById } from '../api/user.followe
 const FollowerCollection = () => {
   const [userFollows, setUserFollows] = useState([])
   const { id } = useParams();
+  const pathname = window.location.pathname
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         let result;
-        if (window.location.pathname.includes('followers')) {
+        if (pathname.includes('followers')) {
           result = await getUserFollowersById(id);
-        } else if (window.location.pathname.includes('followings')) {
+        } else if (pathname.includes('followings')) {
           result = await getUserFollowingsById(id);
         }
         setUserFollows(result);
@@ -22,7 +23,7 @@ const FollowerCollection = () => {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, pathname]);
 
   return (
     <div>
