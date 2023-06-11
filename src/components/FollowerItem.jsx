@@ -48,8 +48,8 @@ const FollowerItem = ({ follower }) => {
         <div className="user-follower-info">
           {follower.introduction}
         </div>
-        <FollowButton className="user-follower-button"> 
-            正在跟隨
+        <FollowButton className="user-follower-button" isFollowed={follower.isFollowed}> 
+            {!follower.isFollowed ? '跟隨' : '正在跟隨'}
         </FollowButton>
     </StyledFollowerItemContainer>
   );

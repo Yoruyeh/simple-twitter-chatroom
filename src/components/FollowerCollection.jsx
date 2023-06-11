@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom'
 import { getUserFollowerById } from '../api/user.follower'
 
 const FollowerCollection = () => {
-  // const [isUnfollow, setIsUnFollow] = useState(false)
-
   const [userFollowers, setUserFollowers] = useState([])
   const paramsId = useParams().id
 
@@ -25,10 +23,6 @@ const FollowerCollection = () => {
     return <div>Loading...</div>;
   }
 
-  // const handleClickFollow = () => {
-  //   setIsUnFollow(!isUnfollow)
-  // }
-
   return (
     <div>
       {userFollowers.map((follower) => {
@@ -40,30 +34,6 @@ const FollowerCollection = () => {
       })}
     </div>
   )
-
-
-  // return (
-  //   <>
-  // <div className="follow-item-wrapper">
-  //   <FollowerItem isUnfollow={isUnfollow} handleClickFollow={handleClickFollow}/>
-  // </div>
-  // <div className="follow-item-wrapper">
-  //   <FollowerItem isUnfollow={isUnfollow} handleClickFollow={handleClickFollow}/>
-  // </div>
-  // <div className="follow-item-wrapper">
-  //   <FollowerItem isUnfollow={isUnfollow} handleClickFollow={handleClickFollow}/>
-  // </div>
-  // <div className="follow-item-wrapper">
-  //   <FollowerItem isUnfollow={isUnfollow} handleClickFollow={handleClickFollow}/>
-  // </div>
-  // <div className="follow-item-wrapper">
-  //   <FollowerItem isUnfollow={isUnfollow} handleClickFollow={handleClickFollow}/>
-  // </div>
-  // <div className="follow-item-wrapper">
-  //   <FollowerItem isUnfollow={isUnfollow} handleClickFollow={handleClickFollow}/>
-  // </div>
-  //   </>
-  // );
 };
 
 export default FollowerCollection;

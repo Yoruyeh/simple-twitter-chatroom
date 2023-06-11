@@ -31,8 +31,8 @@ const StyledFollowButton = styled(StyledAuthButton)`
   width: 96px;
   height: 40px;
   font-size: 16px;
-  ${({ isUnfollow }) =>
-    isUnfollow &&
+  ${({ isFollowed }) =>
+    !isFollowed &&
     css`
       background-color: #ffffff;
       color: #ff6600;

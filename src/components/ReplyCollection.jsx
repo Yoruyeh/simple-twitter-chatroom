@@ -34,14 +34,6 @@ if (setReplies === null) {
       })}
     </div>
   );
-
-  // return (
-  //   <div>
-  //     <div className="reply-item-wrapper" >
-  //       <ReplyItem />
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default ReplyCollection;
