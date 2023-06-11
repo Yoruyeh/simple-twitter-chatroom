@@ -30,6 +30,9 @@ const StyledTweetItemContainer = styled.div`
   .tweet-content {
     margin: 6px 30px 6px 82px;
     line-height: 26px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
