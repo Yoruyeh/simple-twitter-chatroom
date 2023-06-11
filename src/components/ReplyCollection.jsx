@@ -11,7 +11,6 @@ const ReplyCollection = () => {
     const getTweetByIdAsync = async () => {
       try {
         const result = await getRepliesById(paramsId);
-        console.log(result)
         setReplies(result);
       } catch (error) {
         console.error(error);
@@ -35,14 +34,6 @@ if (setReplies === null) {
       })}
     </div>
   );
-
-  // return (
-  //   <div>
-  //     <div className="reply-item-wrapper" >
-  //       <ReplyItem />
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default ReplyCollection;
