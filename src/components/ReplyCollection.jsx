@@ -11,7 +11,6 @@ const ReplyCollection = () => {
     const getTweetByIdAsync = async () => {
       try {
         const result = await getRepliesById(paramsId);
-        console.log(result)
         setReplies(result);
       } catch (error) {
         console.error(error);

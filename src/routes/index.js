@@ -43,7 +43,7 @@ const routes = [
     element: <ReplyPage />,
   },
   {
-    path: '/:userID/follower',
+    path: '/:id/followers',
     element: <UserFollowerPage />,
   },
 ]
