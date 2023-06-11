@@ -4,6 +4,7 @@ import RegistPage from '../pages/RegistPage'
 import AdminLoginPage from '../pages/AdminLoginPage'
 import HomePage from '../pages/HomePage'
 import UserPage from '../pages/UserPage'
+import SettingPage from '../pages/SettingPage'
 import ReplyPage from '../pages/ReplyPage'
 import UserFollowerPage from '../pages/UserFollowerPage'
 import AdminCardPage from '../pages/AdminCardPage'
@@ -37,6 +38,10 @@ const routes = [
   {
     path: '/:userID',
     element: <UserPage />,
+  },
+  {
+    path: '/setting',
+    element: <SettingPage />,
   },
   {
     path: '/tweets/:id',
