@@ -51,21 +51,21 @@ const StyledAvatar = styled.div`
   left: 24px;
 `;
 
-const ReplyItem = () => {
+const ReplyItem = ({ reply }) => {
   return (
     <StyledReplyItemContainer>
-      <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"} />
+      <StyledAvatar image={reply.replyerData.avatar} />
       <div className="reply-info">
-        <span className="reply-info-username">Apple</span>
-        <span className="reply-info-account"> @apple・</span>
+        <span className="reply-info-username">{reply.replyerData.name}</span>
+        <span className="reply-info-account"> @{reply.replyerData.account}・</span>
         <span className="reply-info-time">1小時</span>
       </div>
       <div className="reply-to">
         回覆
-        <span className="reply-to-username"> @Apple</span>
+        <span className="reply-to-username"> @{reply.tweetData.tweetOwnerAccount}</span>
       </div>
       <div className="reply-content">
-        Magni facilis cum quo accusantium quam incidunt facere hic. Architecto tempore et iure cumque odit possimus enim hic pariatur. 
+        {reply.comment} 
         </div>
     </StyledReplyItemContainer>
   )
