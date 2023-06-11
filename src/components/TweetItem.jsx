@@ -65,6 +65,10 @@ const StyledTweetIconContainer = styled.div`
     height: 14px;
     margin-right: 9px;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TweetItemIcon = ({ tweet }) => {
@@ -83,7 +87,7 @@ const TweetItemIcon = ({ tweet }) => {
 };
 
 const TweetItem = ({ tweet }) => {
-  const { handleClick } = useGetTheTweet()
+  const { handleTweetContentClick } = useGetTheTweet()
 
   return (
     <StyledTweetItemContainer>
@@ -98,7 +102,7 @@ const TweetItem = ({ tweet }) => {
       <div className="tweet-content" data-id={tweet.id} 
       onClick={(e) => {
         const clickedId = e.target.dataset.id
-        handleClick(clickedId)
+        handleTweetContentClick(clickedId)
       }}>
         {tweet.description}
         </div>
