@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import { FollowButton } from './common/button.styled';
+import { getPopularFollowers } from '../api/popular.follower';
 
 const StyledFollowerContainer = styled.div`
   width: 273px;
@@ -50,22 +52,41 @@ const StyledFollowerInfo = styled.div`
 `;
 
 const PopularFollowerItem = () => {
+  const [popularFollowers, setPopularFollowers] = useState([]);
+
+  useEffect(() => {
+    const getPopularFollowersAsync = async () => {
+      try {
+        const popularObject = await getPopularFollowers();
+        console.log(popularObject)
+        const populars = popularObject.users
+        setPopularFollowers(populars);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getPopularFollowersAsync();
+  }, []);
+
   return (
     <>
-      <StyledFollowerItem>
+    {popularFollowers.map((popular) => {
+      return (
+      <StyledFollowerItem key={popular.id}>
         <StyledFollowerAvatar
-          image={
-            'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80'
-          }
-        />
+          image={popular.avatar}/>
         <StyledFollowerInfo>
-          <h6 className="popular-follower-name">Pizza Hut</h6>
+          <h6 className="popular-follower-name">{popular.name}</h6>
           <div className="popular-follower-account fontSecondary">
-            @pizzahut
+            @{popular.account}
           </div>
         </StyledFollowerInfo>
-        <FollowButton isfollowed='true'>正在跟隨</FollowButton>
+        <FollowButton isfollowed={String(popular.isFollowed)}>
+          {!popular.isFollowed ? '跟隨' : '正在跟隨'}
+          </FollowButton>
       </StyledFollowerItem>
+      )
+    })}
     </>
   );
 };

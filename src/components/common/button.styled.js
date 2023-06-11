@@ -32,7 +32,7 @@ const StyledFollowButton = styled(StyledAuthButton)`
   height: 40px;
   font-size: 16px;
   ${({ isfollowed }) =>
-    !isfollowed &&
+    !JSON.parse(isfollowed) &&
     css`
       background-color: #ffffff;
       color: #ff6600;

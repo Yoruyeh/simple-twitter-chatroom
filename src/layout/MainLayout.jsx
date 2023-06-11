@@ -91,8 +91,6 @@ const MainLayout = ({ children }) => {
           <div className='col-3 popular-follower-container'>
             <PopularFollower>
               <PopularFollowerItem />
-              <PopularFollowerItem />
-              <PopularFollowerItem />
             </PopularFollower>
           </div>
         </div>
