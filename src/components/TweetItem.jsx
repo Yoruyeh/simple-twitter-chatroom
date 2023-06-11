@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useGetTheTweet } from '../context/GetTheTweet'
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetItemContainer = styled.div`
@@ -29,6 +30,9 @@ const StyledTweetItemContainer = styled.div`
   .tweet-content {
     margin: 6px 30px 6px 82px;
     line-height: 26px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -63,34 +67,23 @@ const StyledTweetIconContainer = styled.div`
   }
 `;
 
-const TweetItemIcon = () => {
+const TweetItemIcon = ({ tweet }) => {
   return (
     <StyledTweetIconContainer>
-      <div className="tweet-reply-icon">
+      <div className="tweet-reply-icon" data-id={tweet.id}>
         <OutlinedReply />
-        <span className="tweet-reply-count"> 36</span>
+        <span className="tweet-reply-count">{tweet.replyCount}</span>
       </div>
-      <div className="tweet-like-icon">
+      <div className="tweet-like-icon" data-id={tweet.id}>
         <OutlinedLike />
-        <span className="tweet-like-count">25</span>
+        <span className="tweet-like-count">{tweet.likeCount}</span>
       </div>
     </StyledTweetIconContainer>
   );
 };
 
 const TweetItem = ({ tweet }) => {
-  const timeCalculate = (time) => {
-    const currentDate = new Date();
-    const createdDate = new Date(time);
-    const timeDiff = Math.abs(currentDate - createdDate);
-    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-    const daysDiff = Math.floor(hoursDiff / 24);
-    if (daysDiff >= 1) {
-      return `${daysDiff}天`;
-    } else {
-      return `${hoursDiff}小時`;
-    }
-  };
+  const { handleClick } = useGetTheTweet()
 
   return (
     <StyledTweetItemContainer>
@@ -99,10 +92,16 @@ const TweetItem = ({ tweet }) => {
         <span className="tweet-info-username">{tweet.User.name}</span>
         <span className="tweet-info-account"> @{tweet.User.account}・</span>
         <span className="tweet-info-time">
-          {timeCalculate(tweet.createdAt)}
+          {tweet.diffCreatedAt}
         </span>
       </div>
-      <div className="tweet-content">{tweet.description}</div>
+      <div className="tweet-content" data-id={tweet.id} 
+      onClick={(e) => {
+        const clickedId = e.target.dataset.id
+        handleClick(clickedId)
+      }}>
+        {tweet.description}
+        </div>
     </StyledTweetItemContainer>
   );
 };

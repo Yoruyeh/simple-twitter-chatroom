@@ -15,12 +15,12 @@ const StyledHomePageContainer = styled.div`
     display: flex;
   }
   .tweet-input-area {
-    width: 462px;
+    width: 85%;
     height: 136px;
     border-bottom: 10px solid var(--gray1);
   }
   .tweet-button {
-    width: 178px;
+    width: 15%;
     height: 136px;
     border-bottom: 10px solid var(--gray1);
     position: relative;

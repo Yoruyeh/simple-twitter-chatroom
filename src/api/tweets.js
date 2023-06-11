@@ -7,11 +7,25 @@ export const getTweets = async () => {
     const res = await axios.get(`${baseUrl}/tweets`, {
       headers: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE0LCJuYW1lIjoidXNlcjUiLCJlbWFpbCI6InVzZXI1QGV4YW1wbGUuY29tIiwiYWNjb3VudCI6InVzZXI1Iiwicm9sZSI6InVzZXIiLCJhdmF0YXIiOiJodHRwczovL2xvcmVtZmxpY2tyLmNvbS8zMjAvMjQwL21hbi8_cmFuZG9tPTE5LjA0MzczNzUxNzE3ODg0NyIsImNvdmVyIjoiaHR0cHM6Ly9sb3JlbWZsaWNrci5jb20vMTQ0MC80ODAvY2l0eS8_cmFuZG9tPTI1LjQ2MzgzODk0NzUxMTM4NCIsImludHJvZHVjdGlvbiI6IkNvbnNlcXV1bnR1ciB2b2x1cHRhdGlidXMgYWxpYXMgcmVpY2llbmRpcyBkb2xvcmUgZXN0IG1vbGVzdGlhZSBldCB2aXRhZS4gUXVpIGVzdCBtb2xlc3RpYXMgdm9sdXB0YXQiLCJjcmVhdGVkQXQiOiIyMDIzLTA2LTA4VDA2OjI4OjExLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA2LTA4VDA2OjI4OjExLjAwMFoiLCJpYXQiOjE2ODYyMTUxNjQsImV4cCI6MTY4ODgwNzE2NH0._KK4Ro0ofKOD6Vr8b1HIiIAGtjr4lVMSbaJVZzQ1Q9A',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsIm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJhY2NvdW50IjoidXNlcjEiLCJyb2xlIjoidXNlciIsImF2YXRhciI6Imh0dHBzOi8vbG9yZW1mbGlja3IuY29tLzMyMC8yNDAvbWFuLz9yYW5kb209NzguNTI2ODYwMTEwMDk4ODIiLCJjb3ZlciI6Imh0dHBzOi8vbG9yZW1mbGlja3IuY29tLzE0NDAvNDgwL2NpdHkvP3JhbmRvbT04Mi43MjA0ODY1MTMzODU5MSIsImludHJvZHVjdGlvbiI6IkVzdCBtYWduaSBldCBxdWlhIHZvbHVwdGF0aWJ1cyBtYWduaSBtYWlvcmVzLiBDdW1xdWUgYmxhbmRpdGlpcyBhcGVyaWFtIHJhdGlvbmUgc3VudCBhc3Blcm5hdHVyIHZlbCAiLCJjcmVhdGVkQXQiOiIyMDIzLTA2LTEwVDA5OjM5OjUyLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA2LTEwVDA5OjM5OjUyLjAwMFoiLCJpYXQiOjE2ODYzOTc4NTEsImV4cCI6MTY4ODk4OTg1MX0.LVqU2eqODThDxILlJ_0Bjwcs276VCRzx42OBHQYavso',
       },
     });
     return res.data;
   } catch (error) {
     console.error('[Get Tweets failed]: ', error);
+  }
+};
+
+export const getTweetById = async (id) => {
+  try {
+    const res = await axios.get(`${baseUrl}/tweets/${id}`, {
+      headers: {
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsIm5hbWUiOiJ1c2VyMSIsImVtYWlsIjoidXNlcjFAZXhhbXBsZS5jb20iLCJhY2NvdW50IjoidXNlcjEiLCJyb2xlIjoidXNlciIsImF2YXRhciI6Imh0dHBzOi8vbG9yZW1mbGlja3IuY29tLzMyMC8yNDAvbWFuLz9yYW5kb209NzguNTI2ODYwMTEwMDk4ODIiLCJjb3ZlciI6Imh0dHBzOi8vbG9yZW1mbGlja3IuY29tLzE0NDAvNDgwL2NpdHkvP3JhbmRvbT04Mi43MjA0ODY1MTMzODU5MSIsImludHJvZHVjdGlvbiI6IkVzdCBtYWduaSBldCBxdWlhIHZvbHVwdGF0aWJ1cyBtYWduaSBtYWlvcmVzLiBDdW1xdWUgYmxhbmRpdGlpcyBhcGVyaWFtIHJhdGlvbmUgc3VudCBhc3Blcm5hdHVyIHZlbCAiLCJjcmVhdGVkQXQiOiIyMDIzLTA2LTEwVDA5OjM5OjUyLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA2LTEwVDA5OjM5OjUyLjAwMFoiLCJpYXQiOjE2ODYzOTc4NTEsImV4cCI6MTY4ODk4OTg1MX0.LVqU2eqODThDxILlJ_0Bjwcs276VCRzx42OBHQYavso',
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Get The Tweet failed]: ', error);
   }
 };

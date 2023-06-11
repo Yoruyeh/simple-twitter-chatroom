@@ -1,10 +1,13 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'
+import { getTweetById } from '../api/tweets';
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetContent = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
   width: 100%;
-  height: 350px;
+  height: 100%;
   padding: 0 16px;
   color: var(--dark-100);
   font-size: 24px;
@@ -46,7 +49,7 @@ const StyledTweetContent = styled.div`
   }
   .tweet-content-count {
     width: 100%;
-    height: 60px;
+    height: 100%;
     font-size: 19px;
     color: var(--secondary);
     border-bottom: 1px solid var(--gray1);
@@ -88,25 +91,44 @@ const StyledAvatar = styled.div`
 `
 
 const TweetContent = () => {
+  const [selectedItem, setSelectedItem] = useState(null)
+  const paramsId = useParams().id
+
+  useEffect(() => {
+    const getTweetByIdAsync = async () => {
+      try {
+        const result = await getTweetById(paramsId);
+        setSelectedItem(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTweetByIdAsync();
+}, [paramsId]);
+
+if (selectedItem === null) {
+  return <div>Loading...</div>;
+}
+
   return (
-    <StyledTweetContent>
-      <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"}/>
-      <div className="tweet-content-info">
-        <span className="tweet-content-username">Apple</span>
-        <span className="tweet-content-account"> @apple</span>
+  <StyledTweetContent key={selectedItem.id}>
+    <StyledAvatar image={selectedItem.User.avatar}/>
+    <div className="tweet-content-info">
+      <span className="tweet-content-username">{selectedItem.User.name}</span>
+      <span className="tweet-content-account"> @{selectedItem.User.account}</span>
+    </div>
+    <div className="tweet-content-content">
+      {selectedItem.description}
       </div>
-      <div className="tweet-content-content">
-       12312312132132132132123123123123123123123123123123123123123123123132123132132123132123132
-        </div>
-      <div className="tweet-content-time">上午10:05・2023年6月10日</div>
-      <div className="tweet-content-count">
-        <div className="tweet-content-count-reply"><span>25</span> 回覆</div>
-        <div className="tweet-content-count-like"><span>34</span> 喜歡次數</div>
-      </div>
-      <div className="tweet-content-icon">
-        <OutlinedReply className="tweet-content-icon-reply"/>
-        <OutlinedLike className="tweet-content-icon-like"/>
-      </div>
+    <div className="tweet-content-time">{selectedItem.createdAt}</div>
+    <div className="tweet-content-count">
+      <div className="tweet-content-count-reply"><span>{selectedItem.replyCount}</span> 回覆</div>
+      <div className="tweet-content-count-like"><span>{selectedItem.likeCount}</span> 喜歡次數</div>
+    </div>
+    <div className="tweet-content-icon">
+      <OutlinedReply className="tweet-content-icon-reply"/>
+      <OutlinedLike className="tweet-content-icon-like"/>
+    </div>
   </StyledTweetContent>
   )
 }

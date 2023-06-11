@@ -6,6 +6,7 @@ import {
   PopularFollowerItem,
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
+import { GetTheTweetProvider } from '../context/GetTheTweet'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -80,29 +81,31 @@ const MainLayout = ({ children }) => {
     setOpenTweetModal(!openTweetModal)
   }
   return (
-    <StyledMainLayoutContainer className='container-fluid px-0'>
-      <div className='row mx-0'>
-        <div className='col-2 navbar-container'>
-          <Navbar handleOpenTweetModal={handleOpenTweetModal} />
+    <GetTheTweetProvider>
+      <StyledMainLayoutContainer className='container-fluid px-0'>
+        <div className='row mx-0'>
+          <div className='col-2 navbar-container'>
+            <Navbar handleOpenTweetModal={handleOpenTweetModal} />
+          </div>
+          <div className='col-7 main-container'>{children}</div>
+          <div className='col-3 popular-follower-container'>
+            <PopularFollower>
+              <PopularFollowerItem />
+              <PopularFollowerItem />
+              <PopularFollowerItem />
+            </PopularFollower>
+          </div>
         </div>
-        <div className='col-7 main-container'>{children}</div>
-        <div className='col-3 popular-follower-container'>
-          <PopularFollower>
-            <PopularFollowerItem />
-            <PopularFollowerItem />
-            <PopularFollowerItem />
-          </PopularFollower>
-        </div>
-      </div>
-      {openTweetModal && (
-        <StyledModalContainer>
-          <TweetModal
-            placeholder={'有什麼新鮮事？'}
-            handleOpenTweetModal={handleOpenTweetModal}
-          />
-        </StyledModalContainer>
-      )}
-    </StyledMainLayoutContainer>
+        {openTweetModal && (
+          <StyledModalContainer>
+            <TweetModal
+              placeholder={'有什麼新鮮事？'}
+              handleOpenTweetModal={handleOpenTweetModal}
+            />
+          </StyledModalContainer>
+        )}
+      </StyledMainLayoutContainer>
+    </GetTheTweetProvider>
   )
 }
 
