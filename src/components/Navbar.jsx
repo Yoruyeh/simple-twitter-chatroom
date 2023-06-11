@@ -104,7 +104,7 @@ const DefaultNavItems = [
   {
     id: "3",
     text: "設定",
-    link: "/home", 
+    link: "/setting", 
     isVisited: false,
     icons: {
       outlined: <OutlinedCog />,
