@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useCreateTweet } from '../context/CreateTweet';
 
 const StyledInputContainer = styled.div`
   border: none;
@@ -55,11 +56,18 @@ const StyledAvatar = styled.div`
 `
 
 const TweetInput = ({ className, placeholder }) => {
+  const {handleChange, tweetInputValue} = useCreateTweet()
+
   return (<>
     <StyledInputContainer>
       <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"} />
       <StyledInput>
-        <textarea className={`tweet-input ${className}`} placeholder={placeholder} />
+        <textarea 
+        className={`tweet-input ${className}`} 
+        placeholder={placeholder}
+        value={tweetInputValue}
+        onChange={(e) => handleChange(e.target.value)}
+         />
       </StyledInput>
     </StyledInputContainer>
     </>
