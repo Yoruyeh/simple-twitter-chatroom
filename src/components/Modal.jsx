@@ -174,7 +174,7 @@ const StyledEditAvatar = styled.div`
   }
 `
 
-const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
+const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
   const {tweetModalValue, handleClickTweetModal} = useCreateTweet()
   return (
     <>
@@ -183,7 +183,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
           <OutlinedClose className="close-button" onClick={handleOpenTweetModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetModalInput placeholder={placeholder} />
+          <TweetModalInput placeholder={placeholder} currentMember={currentMember} />
         </StyledModalBody>
         <StyledModalFooter>
           {tweetModalValue.length > 140 && <p>字數不可超過140字</p>}

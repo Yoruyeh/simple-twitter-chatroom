@@ -55,12 +55,12 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetInput = ({ placeholder }) => {
+const TweetInput = ({ placeholder, currentMember }) => {
   const {handleTweetInputChange, tweetInputValue} = useCreateTweet()
 
   return (<>
     <StyledInputContainer>
-      <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"} />
+      <StyledAvatar image={currentMember.avatar} />
       <StyledInput>
         <textarea 
         className="tweet-input" 
@@ -74,12 +74,12 @@ const TweetInput = ({ placeholder }) => {
   )
 }
 
-const TweetModalInput = ({ placeholder }) => {
+const TweetModalInput = ({ placeholder, currentMember }) => {
   const {handleTweetModalChange, tweetModalValue} = useCreateTweet()
 
   return (<>
     <StyledInputContainer>
-      <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"} />
+      <StyledAvatar image={currentMember.avatar} />
       <StyledInput>
         <textarea 
         className="tweet-input modal-reply-input" 

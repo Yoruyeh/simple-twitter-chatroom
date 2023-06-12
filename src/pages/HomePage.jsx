@@ -8,6 +8,7 @@ import { InputButton } from '../components/common/button.styled';
 import { useGetTheTweet } from '../context/GetTheTweet';
 import { ReplyModal } from '../components/Modal';
 import { useCreateTweet } from '../context/CreateTweet';
+import { useAuth } from '../context/AuthContext';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
@@ -62,12 +63,11 @@ const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false)
   const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
   const { tweets, handleClickTweetInput } = useCreateTweet()
+  const { currentMember } = useAuth()
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
   }
-
-  
 
   return (
     <MainLayout>
@@ -77,7 +77,7 @@ const HomePage = () => {
       </div>
       <div className="tweet-input-container">
         <div className="tweet-input-area">
-          <TweetInput placeholder={'發生什麼新鮮事？'} />
+          <TweetInput placeholder={'發生什麼新鮮事？'} currentMember={currentMember} />
         </div>
         <div className="tweet-button">
           <InputButton onClick={handleClickTweetInput}>推文</InputButton>
