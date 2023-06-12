@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-const GetTheTweetContext = createContext(null);
+const GetTheTweetContext = createContext(() => {});
 
 export const useGetTheTweet = () => useContext(GetTheTweetContext);
 
@@ -13,8 +13,13 @@ export const GetTheTweetProvider = ({ children }) => {
     navigate(`/tweets/${id}`)
   }
 
+  const handleReplyIconClicked = (id) => {
+    navigate(`/tweets/${id}/reply`)
+  }
+
   return (
-    <GetTheTweetContext.Provider value={{handleTweetContentClick}}>
+    <GetTheTweetContext.Provider 
+    value={{handleTweetContentClick, handleReplyIconClicked}}>
       {children}
     </GetTheTweetContext.Provider>
   );

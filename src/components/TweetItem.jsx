@@ -72,10 +72,16 @@ const StyledTweetIconContainer = styled.div`
 `;
 
 const TweetItemIcon = ({ tweet }) => {
+  const { handleReplyIconClicked } = useGetTheTweet()
+  
   return (
     <StyledTweetIconContainer data-id={tweet.id}>
-      <div className="tweet-reply-icon" data-id={tweet.id}>
-        <OutlinedReply data-id={tweet.id}/>
+      <div className="tweet-reply-icon" data-id={tweet.id} 
+      onClick={(e) => {
+        const clickedReplyIconId = e.target.dataset.id
+        handleReplyIconClicked(clickedReplyIconId)
+      }}>
+        <OutlinedReply data-id={tweet.id} />
         <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" data-id={tweet.id}>
@@ -101,8 +107,8 @@ const TweetItem = ({ tweet }) => {
       </div>
       <div className="tweet-content" data-id={tweet.id} 
       onClick={(e) => {
-        const clickedId = e.target.dataset.id
-        handleTweetContentClick(clickedId)
+        const clickedTweetId = e.target.dataset.id
+        handleTweetContentClick(clickedTweetId)
       }}>
         {tweet.description}
         </div>
