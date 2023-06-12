@@ -87,22 +87,22 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetContent = ({ selectedItem }) => {
+const TweetContent = ({ selectedTweetItem }) => {
 
   return (
-  <StyledTweetContent key={selectedItem.id}>
-    <StyledAvatar image={selectedItem.User.avatar}/>
+  <StyledTweetContent key={selectedTweetItem.id}>
+    <StyledAvatar image={selectedTweetItem.User.avatar}/>
     <div className="tweet-content-info">
-      <span className="tweet-content-username">{selectedItem.User.name}</span>
-      <span className="tweet-content-account"> @{selectedItem.User.account}</span>
+      <span className="tweet-content-username">{selectedTweetItem.User.name}</span>
+      <span className="tweet-content-account"> @{selectedTweetItem.User.account}</span>
     </div>
     <div className="tweet-content-content">
-      {selectedItem.description}
+      {selectedTweetItem.description}
       </div>
-    <div className="tweet-content-time">{selectedItem.createdAt}</div>
+    <div className="tweet-content-time">{selectedTweetItem.createdAt}</div>
     <div className="tweet-content-count">
-      <div className="tweet-content-count-reply"><span>{selectedItem.replyCount}</span> 回覆</div>
-      <div className="tweet-content-count-like"><span>{selectedItem.likeCount}</span> 喜歡次數</div>
+      <div className="tweet-content-count-reply"><span>{selectedTweetItem.replyCount}</span> 回覆</div>
+      <div className="tweet-content-count-like"><span>{selectedTweetItem.likeCount}</span> 喜歡次數</div>
     </div>
     <div className="tweet-content-icon">
       <OutlinedReply className="tweet-content-icon-reply"/>

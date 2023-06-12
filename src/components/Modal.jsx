@@ -192,7 +192,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
   );
 };
 
-const ReplyModal = ({ selectedItem, handleOpenReplyModal }) => {
+const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal }) => {
   return (
     <>
       <StyledReplyModalContainer>
@@ -200,11 +200,11 @@ const ReplyModal = ({ selectedItem, handleOpenReplyModal }) => {
           <OutlinedClose className="close-button" onClick={handleOpenReplyModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-           <TweetItemInReply selectedItem={selectedItem}/>
+           <TweetItemInReply selectedReplyItem={selectedReplyItem}/>
         </StyledModalBody>
         <StyledModalBody>
           <p className="reply-modal-account">
-            回覆給<span>@{selectedItem.User.account}</span>
+            回覆給<span>@{selectedReplyItem.User.account}</span>
           </p>
         </StyledModalBody>
         <StyledModalBody>
