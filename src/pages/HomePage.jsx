@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
 import { MainHeader } from '../components/Header';
@@ -8,6 +9,7 @@ import { InputButton } from '../components/common/button.styled';
 import { useGetTheTweet } from '../context/GetTheTweet';
 import { ReplyModal } from '../components/Modal';
 import { useCreateTweet } from '../context/CreateTweet';
+import { useAuth } from '../context/AuthContext';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
@@ -61,13 +63,19 @@ const StyledReplyModalContainer = styled.div`
 const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false)
   const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
-  const { tweets, handleAddTweet } = useCreateTweet()
+  const { tweets, handleClickTweetInput } = useCreateTweet()
+  const { isAuthenticated, currentMember } = useAuth()
+  const navigate = useNavigate()
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
   }
 
-  
+    useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <MainLayout>
@@ -77,10 +85,10 @@ const HomePage = () => {
       </div>
       <div className="tweet-input-container">
         <div className="tweet-input-area">
-          <TweetInput placeholder={'發生什麼新鮮事？'} />
+          <TweetInput placeholder={'發生什麼新鮮事？'} currentMember={currentMember} />
         </div>
         <div className="tweet-button">
-          <InputButton onClick={handleAddTweet}>推文</InputButton>
+          <InputButton onClick={handleClickTweetInput}>推文</InputButton>
         </div>
       </div>
       <div className="tweet-collection">
