@@ -8,19 +8,22 @@ export const useGetTheTweet = () => useContext(GetTheTweetContext);
 
 export const GetTheTweetProvider = ({ children }) => {
   const navigate = useNavigate()
+  const [selectedId, setSelectedId] = useState(0)
   
   const handleTweetContentClick = (id) => {
     navigate(`/tweets/${id}`)
   }
 
   const handleReplyIconClicked = (id) => {
-    navigate(`/tweets/${id}/reply`)
+    setSelectedId(id)
   }
 
   return (
     <GetTheTweetContext.Provider 
-    value={{handleTweetContentClick, handleReplyIconClicked}}>
+    value={{handleTweetContentClick, handleReplyIconClicked, selectedId}}>
       {children}
     </GetTheTweetContext.Provider>
   );
 };
+
+    // navigate(`/tweets/${id}/reply`)

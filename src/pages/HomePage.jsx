@@ -6,6 +6,7 @@ import TweetInput from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
 import { getTweets } from '../api/tweets';
+import { useGetTheTweet } from '../context/GetTheTweet';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
@@ -37,6 +38,8 @@ const StyledHomePageContainer = styled.div`
 
 const HomePage = () => {
   const [tweets, setTweets] = useState([]);
+  const { selectedId } = useGetTheTweet();
+  console.log(selectedId)
 
   useEffect(() => {
     const getTweetsAsync = async () => {

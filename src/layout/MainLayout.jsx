@@ -6,7 +6,6 @@ import {
   PopularFollowerItem,
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
-import { GetTheTweetProvider } from '../context/GetTheTweet'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -81,7 +80,6 @@ const MainLayout = ({ children }) => {
     setOpenTweetModal(!openTweetModal)
   }
   return (
-    <GetTheTweetProvider>
       <StyledMainLayoutContainer className='container-fluid px-0'>
         <div className='row mx-0'>
           <div className='col-2 navbar-container'>
@@ -103,7 +101,6 @@ const MainLayout = ({ children }) => {
           </StyledModalContainer>
         )}
       </StyledMainLayoutContainer>
-    </GetTheTweetProvider>
   )
 }
 
