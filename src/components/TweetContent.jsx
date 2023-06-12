@@ -1,7 +1,4 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
-import { getTweetById } from '../api/tweets';
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetContent = styled.div`
@@ -90,25 +87,7 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetContent = () => {
-  const [selectedItem, setSelectedItem] = useState(null)
-  const paramsId = useParams().id
-
-  useEffect(() => {
-    const getTweetByIdAsync = async () => {
-      try {
-        const result = await getTweetById(paramsId);
-        setSelectedItem(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTweetByIdAsync();
-}, [paramsId]);
-
-if (selectedItem === null) {
-  return <div>Loading...</div>;
-}
+const TweetContent = ({ selectedItem }) => {
 
   return (
   <StyledTweetContent key={selectedItem.id}>

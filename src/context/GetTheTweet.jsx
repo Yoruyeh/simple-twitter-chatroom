@@ -28,8 +28,17 @@ export const GetTheTweetProvider = ({ children }) => {
     }})
   const [isLoading, setIsLoading] = useState(false)
   
-  const handleTweetContentClick = (id) => {
+  const handleTweetContentClick = async (id) => {
+    setIsLoading(true)
+    try {
+    const tweet = await getTweetById(id);
+    setSelectedItem(tweet)
+    setIsLoading(false)
     navigate(`/tweets/${id}`)
+    } catch (error) {
+      console.error(error)
+      setIsLoading(false)
+    }
   }
 
   const handleReplyIconClicked = async (id) => {
@@ -52,5 +61,3 @@ export const GetTheTweetProvider = ({ children }) => {
     </GetTheTweetContext.Provider>
   );
 };
-
-    // navigate(`/tweets/${id}/reply`)
