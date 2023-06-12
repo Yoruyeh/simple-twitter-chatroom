@@ -64,24 +64,24 @@ const StyledTweetIconContainer = styled.div`
     width: 14px;
     height: 14px;
     margin-right: 9px;
-  }
 
-  &:hover {
+    &:hover {
     cursor: pointer;
+  }
   }
 `;
 
 const TweetItemIcon = ({ tweet }) => {
   const { handleReplyIconClicked } = useGetTheTweet()
-  
+
   return (
     <StyledTweetIconContainer data-id={tweet.id}>
-      <div className="tweet-reply-icon" data-id={tweet.id} 
-      onClick={(e) => {
+      <div className="tweet-reply-icon" data-id={tweet.id}>
+        <OutlinedReply data-id={tweet.id} 
+        onClick={(e) => {
         const clickedReplyIconId = e.target.dataset.id
         handleReplyIconClicked(clickedReplyIconId)
-      }}>
-        <OutlinedReply data-id={tweet.id} />
+      }} />
         <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" data-id={tweet.id}>

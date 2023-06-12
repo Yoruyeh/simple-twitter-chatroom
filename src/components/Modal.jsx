@@ -94,6 +94,7 @@ const StyledTweetModalContainer = styled.div`
 `;
 
 const StyledReplyModalContainer = styled.div`
+  background-color: var(--dark-0);
   width: 600px;
   height: 450px;
   border-radius: 14px;
@@ -199,7 +200,7 @@ const ReplyModal = () => {
           <OutlinedClose className="close-button"/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetItem />
+          {/* <TweetItem /> */}
         </StyledModalBody>
         <StyledModalBody>
           <p className="reply-modal-account">

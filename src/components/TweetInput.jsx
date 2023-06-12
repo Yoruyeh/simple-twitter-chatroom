@@ -28,7 +28,7 @@ const StyledInput = styled.div`
   .modal-reply-input {
     font-size: 18px;
     &::placeholder {
-      font-weigt: medium;
+      font-weight: normal;
     }
   }
   ::placeholder {

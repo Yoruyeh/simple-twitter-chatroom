@@ -7,10 +7,12 @@ import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
 import { getTweets } from '../api/tweets';
 import { useGetTheTweet } from '../context/GetTheTweet';
+import { ReplyModal } from '../components/Modal';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
 
   .tweet-input-container {
     display: flex;
@@ -36,10 +38,35 @@ const StyledHomePageContainer = styled.div`
   }
 `;
 
+const StyledReplyModalContainer = styled.div`
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -56px;
+    left: -50%;
+    transform: translateX(-120px);
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+  }
+  `
+
 const HomePage = () => {
-  const [tweets, setTweets] = useState([]);
+  const [tweets, setTweets] = useState([])
+  const [openReplyModal, setOpenReplyModal] = useState(true)
   const { selectedId } = useGetTheTweet();
   console.log(selectedId)
+
+  const handleOpenReplyModal = () => {
+  setOpenReplyModal(!openReplyModal)
+  }
 
   useEffect(() => {
     const getTweetsAsync = async () => {
@@ -53,7 +80,7 @@ const HomePage = () => {
     getTweetsAsync();
   }, []);
 
-  return (
+  return (<>
     <MainLayout>
       <StyledHomePageContainer>
       <div className="header">
@@ -64,14 +91,23 @@ const HomePage = () => {
           <TweetInput placeholder={'發生什麼新鮮事？'} />
         </div>
         <div className="tweet-button">
-          <InputButton >推文</InputButton>
+          <InputButton>推文</InputButton>
         </div>
       </div>
       <div className="tweet-collection">
         <TweetCollection tweets={tweets} />
       </div>
       </StyledHomePageContainer>
+      {openReplyModal && (
+          <StyledReplyModalContainer>
+            <ReplyModal
+              placeholder={'推你的回覆'}
+              handleOpenTweetModal={handleOpenReplyModal}
+            />
+          </StyledReplyModalContainer>
+        )}
     </MainLayout>
+    </>
   );
 };
 

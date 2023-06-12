@@ -6,6 +6,7 @@ import {
   PopularFollowerItem,
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
+import { useGetTheTweet } from '../context/GetTheTweet'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -53,7 +54,7 @@ const StyledMainLayoutContainer = styled.div`
   }
 `
 
-const StyledModalContainer = styled.div`
+const StyledTweetModalContainer = styled.div`
   position: fixed;
   top: 56px;
   left: 50%;
@@ -93,12 +94,12 @@ const MainLayout = ({ children }) => {
           </div>
         </div>
         {openTweetModal && (
-          <StyledModalContainer>
+          <StyledTweetModalContainer>
             <TweetModal
               placeholder={'有什麼新鮮事？'}
               handleOpenTweetModal={handleOpenTweetModal}
             />
-          </StyledModalContainer>
+          </StyledTweetModalContainer>
         )}
       </StyledMainLayoutContainer>
   )
