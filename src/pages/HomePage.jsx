@@ -61,7 +61,7 @@ const StyledReplyModalContainer = styled.div`
 const HomePage = () => {
   const [tweets, setTweets] = useState([])
   const [openReplyModal, setOpenReplyModal] = useState(false)
-  const { selectedItem } = useGetTheTweet();
+  const { selectedItem, isLoading } = useGetTheTweet();
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
@@ -97,7 +97,7 @@ const HomePage = () => {
         <TweetCollection tweets={tweets} handleOpenReplyModal={handleOpenReplyModal}/>
       </div>
       </StyledHomePageContainer>
-      {openReplyModal && (
+      {openReplyModal && !isLoading && (
           <StyledReplyModalContainer>
             <ReplyModal
               placeholder={'推你的回覆'}

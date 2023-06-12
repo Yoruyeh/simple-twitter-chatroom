@@ -9,7 +9,6 @@ export const useGetTheTweet = () => useContext(GetTheTweetContext);
 
 export const GetTheTweetProvider = ({ children }) => {
   const navigate = useNavigate()
-  // const [selectedId, setSelectedId] = useState(0)
   const [selectedItem, setSelectedItem] = useState({
     id: 14,
     userId: 14,
@@ -27,23 +26,27 @@ export const GetTheTweetProvider = ({ children }) => {
       avatar: "https://loremflickr.com/320/240/man/?random=0.23200002093710648",
       cover: "https://loremflickr.com/1440/480/city/?random=14.084527578970008"
     }})
+  const [isLoading, setIsLoading] = useState(false)
   
   const handleTweetContentClick = (id) => {
     navigate(`/tweets/${id}`)
   }
 
   const handleReplyIconClicked = async (id) => {
+    setIsLoading(true)
     try {
     const tweet = await getTweetById(id);
     setSelectedItem(tweet)
+    setIsLoading(false)
     } catch (error) {
       console.error(error)
+      setIsLoading(false)
     }
   }
 
   return (
     <GetTheTweetContext.Provider 
-    value={{handleTweetContentClick, handleReplyIconClicked, selectedItem}}>
+    value={{handleTweetContentClick, handleReplyIconClicked, isLoading, selectedItem}}>
       {children}
     </GetTheTweetContext.Provider>
   );
