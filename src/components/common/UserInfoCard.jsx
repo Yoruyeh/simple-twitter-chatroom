@@ -13,7 +13,7 @@ const Container = styled.div`
 const StyledImgWrapper = styled.div`
   position: relative;
   .img {
-    background-image: url(https://images.unsplash.com/photo-1564890769567-cae969d2f9ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
+    background-image: url(${({ cover }) => cover});
     aspect-ratio: 639 / 200;
     background-repeat: no-repeat;
     background-size: cover;
@@ -28,7 +28,7 @@ const StyledAvatarWrapper = styled.div`
   width: 21.909233%;
   .avatar {
     box-shadow: inset 0px 0px 0px 4px #fff;
-    background-image: url(https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);
+    background-image: url(${({ avatar }) => avatar});
     background-size: cover;
     border-radius: 100%;
     aspect-ratio: 1 / 1;
@@ -184,17 +184,19 @@ function ReturnActions(other) {
 
 export function UserInfoCard({
   other = true,
-  username = 'Liam C',
-  userid = 'user123456',
-  intro = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque, ab.',
-  following = '2',
-  followers = '5',
+  username,
+  userid,
+  intro,
+  following,
+  followers,
+  cover,
+  avatar,
 }) {
   return (
     <Container>
-      <StyledImgWrapper>
+      <StyledImgWrapper cover={cover}>
         <div className='img'></div>
-        <StyledAvatarWrapper>
+        <StyledAvatarWrapper avatar={avatar}>
           <div className='avatar'></div>
         </StyledAvatarWrapper>
       </StyledImgWrapper>
