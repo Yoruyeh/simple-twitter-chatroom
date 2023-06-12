@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
 import { MainHeader } from '../components/Header';
@@ -63,11 +64,18 @@ const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false)
   const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
   const { tweets, handleClickTweetInput } = useCreateTweet()
-  const { currentMember } = useAuth()
+  const { isAuthenticated, currentMember } = useAuth()
+  const navigate = useNavigate()
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
   }
+
+    useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <MainLayout>
