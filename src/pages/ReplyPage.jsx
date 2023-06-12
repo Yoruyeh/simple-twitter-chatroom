@@ -17,9 +17,9 @@ const StyledReplyPageContainer = styled.div`
   }
 `
 const ReplyPage = () => {
-  const { selectedItem, isLoading } = useGetTheTweet()
+  const { selectedTweetItem, isTweetLoading } = useGetTheTweet()
   return (
-  !isLoading && 
+  !isTweetLoading && 
   (
     <MainLayout>
       <StyledReplyPageContainer>
@@ -27,7 +27,7 @@ const ReplyPage = () => {
           <ReplyHeader />
         </div>
         <div className="tweet-content-container">
-          <TweetContent selectedItem={selectedItem} />
+          <TweetContent selectedTweetItem={selectedTweetItem} />
         </div>
         <div className="reply-collection">
           <ReplyCollection />

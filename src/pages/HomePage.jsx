@@ -61,7 +61,7 @@ const StyledReplyModalContainer = styled.div`
 const HomePage = () => {
   const [tweets, setTweets] = useState([])
   const [openReplyModal, setOpenReplyModal] = useState(false)
-  const { selectedItem, isLoading } = useGetTheTweet();
+  const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
@@ -79,7 +79,7 @@ const HomePage = () => {
     getTweetsAsync();
   }, []);
 
-  return (<>
+  return (
     <MainLayout>
       <StyledHomePageContainer>
       <div className="header">
@@ -97,17 +97,16 @@ const HomePage = () => {
         <TweetCollection tweets={tweets} handleOpenReplyModal={handleOpenReplyModal}/>
       </div>
       </StyledHomePageContainer>
-      {openReplyModal && !isLoading && (
+      {openReplyModal && !isReplyLoading && (
           <StyledReplyModalContainer>
             <ReplyModal
               placeholder={'推你的回覆'}
               handleOpenReplyModal={handleOpenReplyModal}
-              selectedItem={selectedItem}
+              selectedReplyItem={selectedReplyItem}
             />
           </StyledReplyModalContainer>
         )}
     </MainLayout>
-    </>
   );
 };
 
