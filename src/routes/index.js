@@ -59,6 +59,10 @@ const routes = [
     path: '/admin/card',
     element: <AdminCardPage />,
   },
+  {
+    path: '/tweets/:id/reply',
+    element: <HomePage />,
+  },
 ]
 
 export default routes

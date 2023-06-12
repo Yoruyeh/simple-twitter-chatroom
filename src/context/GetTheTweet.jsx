@@ -38,6 +38,7 @@ export const GetTheTweetProvider = ({ children }) => {
     const tweet = await getTweetById(id);
     setSelectedItem(tweet)
     setIsLoading(false)
+    navigate(`/tweets/${id}/reply`)
     } catch (error) {
       console.error(error)
       setIsLoading(false)
