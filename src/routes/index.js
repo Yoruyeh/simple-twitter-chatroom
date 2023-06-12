@@ -8,8 +8,10 @@ import SettingPage from '../pages/SettingPage'
 import ReplyPage from '../pages/ReplyPage'
 import UserFollowerPage from '../pages/UserFollowerPage'
 import AdminCardPage from '../pages/AdminCardPage'
-import Replies from '../components/Replies'
-import Likes from '../components/Likes'
+import TabRepliesTweets from '../components/common/TabRepliesTweets'
+import TabLikesTweets from '../components/common/TabLikesTweets'
+import TabTweets from '../components/common/TabTweets'
+import { TabTweetItems } from '../components/common/TabTweetItems'
 
 // 路由表
 const routes = [
@@ -42,12 +44,16 @@ const routes = [
     element: <UserPage />,
     children: [
       {
+        path: '',
+        element: <TabTweets />,
+      },
+      {
         path: 'replies',
-        element: <Replies />,
+        element: <TabRepliesTweets />,
       },
       {
         path: 'likes',
-        element: <Likes />,
+        element: <TabLikesTweets />,
       },
     ],
   },
@@ -70,6 +76,10 @@ const routes = [
   {
     path: '/admin/card',
     element: <AdminCardPage />,
+  },
+  {
+    path: '/test',
+    element: <TabTweetItems />,
   },
 ]
 
