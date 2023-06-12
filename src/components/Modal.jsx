@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import TweetInput from './TweetInput';
-import { TweetItem, TweetItemInReply } from './TweetItem';
+import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput'
 
 const StyledModalHeader = styled.header`
