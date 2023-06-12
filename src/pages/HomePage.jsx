@@ -61,7 +61,7 @@ const StyledReplyModalContainer = styled.div`
 const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false)
   const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
-  const { tweets, handleAddTweet } = useCreateTweet()
+  const { tweets, handleClickTweetInput } = useCreateTweet()
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
@@ -80,7 +80,7 @@ const HomePage = () => {
           <TweetInput placeholder={'發生什麼新鮮事？'} />
         </div>
         <div className="tweet-button">
-          <InputButton onClick={handleAddTweet}>推文</InputButton>
+          <InputButton onClick={handleClickTweetInput}>推文</InputButton>
         </div>
       </div>
       <div className="tweet-collection">
