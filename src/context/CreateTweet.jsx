@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import { getTweets, createTweet } from '../api/tweets';
 
 const CreateTweetContext = createContext(() => {});
@@ -7,30 +6,47 @@ const CreateTweetContext = createContext(() => {});
 export const useCreateTweet = () => useContext(CreateTweetContext);
 
 export const CreateTweetProvider = ({ children }) => {
-  // const navigate = useNavigate()
   const [tweets, setTweets] = useState([])
   const [tweetInputValue, setTweetInputValue] = useState('')
+  const [tweetModalValue, setTweetModalValue] = useState('')
   
-  const handleChange = (value) => {
+  const handleTweetInputChange = (value) => {
     setTweetInputValue(value)
   }
+  const handleTweetModalChange = (value) => {
+    setTweetModalValue(value)
+  }
 
-  const handleAddTweet = async () => {
+  const handleClickTweetInput = async () => {
     if(tweetInputValue.length === 0) {
       return
     }
-
     try {
-      const data = await createTweet({ 
+      await createTweet({ 
         description: tweetInputValue 
       })
-      console.log(data)
-      setTweets((prevTweets) => {
-      return [...prevTweets, data]
-    })
+      const tweets = await getTweets();
+      setTweets(tweets)
     } catch (error) {
       console.error(error)
     }
+    setTweetInputValue('')
+  }
+
+  const handleClickTweetModal = async () => {
+    if(tweetModalValue.length === 0 || tweetModalValue.length > 140) {
+      return
+    }
+    try {
+      await createTweet({ 
+        description: tweetModalValue 
+      })
+      const tweets = await getTweets();
+      setTweets(tweets)
+    } catch (error) {
+      console.error(error)
+    }
+    setTweetModalValue('')
   }
  
   useEffect(() => {
@@ -48,7 +64,7 @@ export const CreateTweetProvider = ({ children }) => {
 
   return (
     <CreateTweetContext.Provider 
-    value={{tweets, handleChange, handleAddTweet, tweetInputValue}}>
+    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal}}>
       {children}
     </CreateTweetContext.Provider>
   );

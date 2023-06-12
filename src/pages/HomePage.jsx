@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
 import { MainHeader } from '../components/Header';
-import TweetInput from '../components/TweetInput';
+import { TweetInput } from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
 import { useGetTheTweet } from '../context/GetTheTweet';

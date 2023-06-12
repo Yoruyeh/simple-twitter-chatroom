@@ -55,18 +55,18 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetInput = ({ className, placeholder }) => {
-  const {handleChange, tweetInputValue} = useCreateTweet()
+const TweetInput = ({ placeholder }) => {
+  const {handleTweetInputChange, tweetInputValue} = useCreateTweet()
 
   return (<>
     <StyledInputContainer>
       <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"} />
       <StyledInput>
         <textarea 
-        className={`tweet-input ${className}`} 
+        className="tweet-input" 
         placeholder={placeholder}
         value={tweetInputValue}
-        onChange={(e) => handleChange(e.target.value)}
+        onChange={(e) => handleTweetInputChange(e.target.value)}
          />
       </StyledInput>
     </StyledInputContainer>
@@ -74,4 +74,23 @@ const TweetInput = ({ className, placeholder }) => {
   )
 }
 
-export default TweetInput
+const TweetModalInput = ({ placeholder }) => {
+  const {handleTweetModalChange, tweetModalValue} = useCreateTweet()
+
+  return (<>
+    <StyledInputContainer>
+      <StyledAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"} />
+      <StyledInput>
+        <textarea 
+        className="tweet-input modal-reply-input" 
+        placeholder={placeholder}
+        value={tweetModalValue}
+        onChange={(e) => handleTweetModalChange(e.target.value)}
+         />
+      </StyledInput>
+    </StyledInputContainer>
+    </>
+  )
+}
+
+export {TweetInput, TweetModalInput}
