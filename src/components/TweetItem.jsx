@@ -73,14 +73,14 @@ const StyledTweetIconContainer = styled.div`
 
 const TweetItemIcon = ({ tweet }) => {
   return (
-    <StyledTweetIconContainer>
+    <StyledTweetIconContainer data-id={tweet.id}>
       <div className="tweet-reply-icon" data-id={tweet.id}>
-        <OutlinedReply />
-        <span className="tweet-reply-count">{tweet.replyCount}</span>
+        <OutlinedReply data-id={tweet.id}/>
+        <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" data-id={tweet.id}>
-        <OutlinedLike />
-        <span className="tweet-like-count">{tweet.likeCount}</span>
+        <OutlinedLike data-id={tweet.id}/>
+        <span className="tweet-like-count" data-id={tweet.id}>{tweet.likeCount}</span>
       </div>
     </StyledTweetIconContainer>
   );
