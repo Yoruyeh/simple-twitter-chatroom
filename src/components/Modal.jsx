@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import TweetInput from './TweetInput';
-import { TweetItem } from './TweetItem';
+import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput'
 
 const StyledModalHeader = styled.header`
@@ -94,6 +94,7 @@ const StyledTweetModalContainer = styled.div`
 `;
 
 const StyledReplyModalContainer = styled.div`
+  background-color: var(--dark-0);
   width: 600px;
   height: 450px;
   border-radius: 14px;
@@ -191,19 +192,19 @@ const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
   );
 };
 
-const ReplyModal = () => {
+const ReplyModal = ({ selectedItem, handleOpenReplyModal }) => {
   return (
     <>
       <StyledReplyModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button"/>
+          <OutlinedClose className="close-button" onClick={handleOpenReplyModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetItem />
+           <TweetItemInReply selectedItem={selectedItem}/>
         </StyledModalBody>
         <StyledModalBody>
           <p className="reply-modal-account">
-            回覆給<span>@apple</span>
+            回覆給<span>@{selectedItem.User.account}</span>
           </p>
         </StyledModalBody>
         <StyledModalBody>
@@ -218,7 +219,7 @@ const ReplyModal = () => {
         </StyledModalFooter>
       </StyledReplyModalContainer>
     </>
-  );
+  )
 };
 
 const EditModal = () => {

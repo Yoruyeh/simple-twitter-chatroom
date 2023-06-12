@@ -58,7 +58,6 @@ const PopularFollowerItem = () => {
     const getPopularFollowersAsync = async () => {
       try {
         const popularObject = await getPopularFollowers();
-        console.log(popularObject)
         const populars = popularObject.users
         setPopularFollowers(populars);
       } catch (error) {
