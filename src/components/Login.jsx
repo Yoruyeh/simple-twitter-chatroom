@@ -120,11 +120,11 @@ export default function Login() {
     const regexPassword = /^[a-zA-Z0-9]{8,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
-      setInput(0, 'danger', '帳號不存在')
+      setInput(0, 'danger', '帳號需要1-20位數字或字母')
     }
     // password不符合
     if (!regexPassword.test(password)) {
-      setInput(1, 'danger', '密碼要8-20位數才能登入')
+      setInput(1, 'danger', '密碼要8-20位數字或字母')
       // 比對完成跳出程序
       return
     }
@@ -139,7 +139,8 @@ export default function Login() {
       localStorage.setItem('token', token)
       navigate('/home')
     }
-    // 請求結束啟用input
+
+    // 成功處理結束啟用input
     disabledAllInput()
   }
 
