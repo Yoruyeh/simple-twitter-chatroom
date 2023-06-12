@@ -79,7 +79,7 @@ const HomePage = () => {
     getTweetsAsync();
   }, []);
 
-  return (<>
+  return (
     <MainLayout>
       <StyledHomePageContainer>
       <div className="header">
@@ -107,7 +107,6 @@ const HomePage = () => {
           </StyledReplyModalContainer>
         )}
     </MainLayout>
-    </>
   );
 };
 

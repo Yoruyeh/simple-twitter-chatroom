@@ -3,7 +3,7 @@ import { TweetItem, TweetItemIcon } from "./TweetItem";
 const TweetCollection = ({ tweets, handleOpenReplyModal }) => {
   return (
   <div>
-    {tweets.map((tweet) => {
+    {tweets && tweets.map((tweet) => {
       return (
         <div className="tweet-item-wrapper" key={tweet.id}>
         <TweetItem tweet={tweet}/>
