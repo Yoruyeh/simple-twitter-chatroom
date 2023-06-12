@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
 import { MainHeader } from '../components/Header';
-import TweetInput from '../components/TweetInput';
+import { TweetInput } from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
-import { getTweets } from '../api/tweets';
 import { useGetTheTweet } from '../context/GetTheTweet';
 import { ReplyModal } from '../components/Modal';
+import { useCreateTweet } from '../context/CreateTweet';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
@@ -59,25 +59,15 @@ const StyledReplyModalContainer = styled.div`
   `
 
 const HomePage = () => {
-  const [tweets, setTweets] = useState([])
   const [openReplyModal, setOpenReplyModal] = useState(false)
   const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
+  const { tweets, handleAddTweet } = useCreateTweet()
 
   const handleOpenReplyModal = () => {
   setOpenReplyModal(!openReplyModal)
   }
 
-  useEffect(() => {
-    const getTweetsAsync = async () => {
-      try {
-        const tweets = await getTweets();
-        setTweets(tweets);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTweetsAsync();
-  }, []);
+  
 
   return (
     <MainLayout>
@@ -90,7 +80,7 @@ const HomePage = () => {
           <TweetInput placeholder={'發生什麼新鮮事？'} />
         </div>
         <div className="tweet-button">
-          <InputButton>推文</InputButton>
+          <InputButton onClick={handleAddTweet}>推文</InputButton>
         </div>
       </div>
       <div className="tweet-collection">

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
-import TweetInput from './TweetInput';
+import { TweetInput, TweetModalInput } from './TweetInput';
 import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput'
+import { useCreateTweet } from '../context/CreateTweet';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -174,6 +175,7 @@ const StyledEditAvatar = styled.div`
 `
 
 const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
+  const {tweetModalValue, handleClickTweetModal} = useCreateTweet()
   return (
     <>
       <StyledTweetModalContainer>
@@ -181,11 +183,15 @@ const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
           <OutlinedClose className="close-button" onClick={handleOpenTweetModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetInput placeholder={placeholder}/>
+          <TweetModalInput placeholder={placeholder} />
         </StyledModalBody>
         <StyledModalFooter>
-          <p>字數不可超過140字</p>
-          <InputButton>推文</InputButton>
+          {tweetModalValue.length > 140 && <p>字數不可超過140字</p>}
+          <InputButton 
+          onClick={() => {
+            handleClickTweetModal()
+            handleOpenTweetModal()
+            }}>推文</InputButton>
         </StyledModalFooter>
       </StyledTweetModalContainer>
     </>

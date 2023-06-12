@@ -117,20 +117,20 @@ const TweetItem = ({ tweet }) => {
   );
 };
 
-const TweetItemInReply = ({ selectedItem }) => {
+const TweetItemInReply = ({ selectedReplyItem }) => {
 
   return (
-    <StyledTweetItemContainer key={selectedItem.id}>
-      <StyledAvatar image={selectedItem.User.avatar} />
+    <StyledTweetItemContainer key={selectedReplyItem.id}>
+      <StyledAvatar image={selectedReplyItem.User.avatar} />
       <div className="tweet-info">
-        <span className="tweet-info-username">{selectedItem.User.name}</span>
-        <span className="tweet-info-account"> @{selectedItem.User.account}・</span>
+        <span className="tweet-info-username">{selectedReplyItem.User.name}</span>
+        <span className="tweet-info-account"> @{selectedReplyItem.User.account}・</span>
         <span className="tweet-info-time">
-          {selectedItem.diffCreatedAt}
+          {selectedReplyItem.diffCreatedAt}
         </span>
       </div>
-      <div className="tweet-content" data-id={selectedItem.id} >
-        {selectedItem.description}
+      <div className="tweet-content" data-id={selectedReplyItem.id} >
+        {selectedReplyItem.description}
         </div>
     </StyledTweetItemContainer>
   );
