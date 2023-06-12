@@ -71,7 +71,7 @@ const StyledTweetIconContainer = styled.div`
   }
 `;
 
-const TweetItemIcon = ({ tweet }) => {
+const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
   const { handleReplyIconClicked } = useGetTheTweet()
 
   return (
@@ -81,6 +81,7 @@ const TweetItemIcon = ({ tweet }) => {
         onClick={(e) => {
         const clickedReplyIconId = e.target.dataset.id
         handleReplyIconClicked(clickedReplyIconId)
+        handleOpenReplyModal()
       }} />
         <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>
       </div>
@@ -116,4 +117,24 @@ const TweetItem = ({ tweet }) => {
   );
 };
 
-export { TweetItemIcon, TweetItem };
+const TweetItemInReply = ({ selectedItem }) => {
+
+  return (
+    <StyledTweetItemContainer key={selectedItem.id}>
+      <StyledAvatar image={selectedItem.User.avatar} />
+      <div className="tweet-info">
+        <span className="tweet-info-username">{selectedItem.User.name}</span>
+        <span className="tweet-info-account"> @{selectedItem.User.account}・</span>
+        <span className="tweet-info-time">
+          {selectedItem.diffCreatedAt}
+        </span>
+      </div>
+      <div className="tweet-content" data-id={selectedItem.id} >
+        {selectedItem.description}
+        </div>
+    </StyledTweetItemContainer>
+  );
+};
+
+
+export { TweetItemIcon, TweetItem, TweetItemInReply };

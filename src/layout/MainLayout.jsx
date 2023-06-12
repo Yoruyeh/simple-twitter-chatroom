@@ -6,7 +6,6 @@ import {
   PopularFollowerItem,
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
-import { useGetTheTweet } from '../context/GetTheTweet'
 
 const StyledMainLayoutContainer = styled.div`
   .row {

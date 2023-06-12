@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import TweetInput from './TweetInput';
-import { TweetItem } from './TweetItem';
+import { TweetItem, TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput'
 
 const StyledModalHeader = styled.header`
@@ -192,15 +192,15 @@ const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
   );
 };
 
-const ReplyModal = () => {
+const ReplyModal = ({ selectedItem, handleOpenReplyModal }) => {
   return (
     <>
       <StyledReplyModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button"/>
+          <OutlinedClose className="close-button" onClick={handleOpenReplyModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          {/* <TweetItem /> */}
+          <TweetItemInReply selectedItem={selectedItem}/>
         </StyledModalBody>
         <StyledModalBody>
           <p className="reply-modal-account">
