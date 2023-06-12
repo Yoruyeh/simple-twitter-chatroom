@@ -33,20 +33,22 @@ export default function UserPage() {
       // token 不存在，跳轉到 login
       if (!token) {
         navigate('/login')
+        return
       }
       // 驗證 token 是否有效
       // 無效則返回 login
       const result = await checkPermission(token)
       if (!result) {
         navigate('/login')
+        return
       }
       // 取得 id
       userId = result.id
       // 取得使用者資料
-      getUserASync(token, userId)
+      await getUserASync(token, userId)
     }
     checkTokenIsValid()
-  }, [navigate, userData])
+  }, [navigate])
 
   return (
     <MainLayout>
