@@ -8,6 +8,8 @@ import SettingPage from '../pages/SettingPage'
 import ReplyPage from '../pages/ReplyPage'
 import UserFollowerPage from '../pages/UserFollowerPage'
 import AdminCardPage from '../pages/AdminCardPage'
+import Replies from '../components/Replies'
+import Likes from '../components/Likes'
 
 // 路由表
 const routes = [
@@ -38,6 +40,16 @@ const routes = [
   {
     path: '/:userID',
     element: <UserPage />,
+    children: [
+      {
+        path: 'replies',
+        element: <Replies />,
+      },
+      {
+        path: 'likes',
+        element: <Likes />,
+      },
+    ],
   },
   {
     path: '/setting',
