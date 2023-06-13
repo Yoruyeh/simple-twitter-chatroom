@@ -60,6 +60,21 @@ export async function getUserReplied(token, userId) {
     })
     return data
   } catch (error) {
-    console.error(`Get User Tweet Failed: ${error}`)
+    console.error(`Get User Realied Tweets Failed: ${error}`)
+  }
+}
+
+// 拿到使用者喜歡的tweet資料
+export async function getUserLikes(token, userId) {
+  try {
+    // 取得 api 回傳資料
+    const { data } = await axios.get(`${usersURL}/${userId}/likes`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return data
+  } catch (error) {
+    console.error(`Get User Likes Tweets  Failed: ${error}`)
   }
 }
