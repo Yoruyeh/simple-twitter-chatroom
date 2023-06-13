@@ -62,7 +62,7 @@ const StyledReplyModalContainer = styled.div`
 
 const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
+  const { selectedReplyItem, isModalLoading } = useGetTheTweet();
   const { tweets, handleClickTweetInput } = useCreateTweet();
   const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
@@ -101,7 +101,7 @@ const HomePage = () => {
           />
         </div>
       </StyledHomePageContainer>
-      {openReplyModal && !isReplyLoading && (
+      {openReplyModal && !isModalLoading && (
         <StyledReplyModalContainer>
           <ReplyModal
             placeholder={'推你的回覆'}
