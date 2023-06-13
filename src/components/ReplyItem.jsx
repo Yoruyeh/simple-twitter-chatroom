@@ -58,7 +58,7 @@ const ReplyItem = ({ reply }) => {
       <div className="reply-info">
         <span className="reply-info-username">{reply.replyerData.name}</span>
         <span className="reply-info-account"> @{reply.replyerData.account}・</span>
-        <span className="reply-info-time">1小時</span>
+        <span className="reply-info-time">{reply.replyerData.diffCreatedAt}</span>
       </div>
       <div className="reply-to">
         回覆

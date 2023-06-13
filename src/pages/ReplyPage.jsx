@@ -18,10 +18,10 @@ const StyledReplyPageContainer = styled.div`
   }
 `
 const ReplyPage = () => {
-  const { selectedTweetItem, isTweetLoading } = useGetTheTweet()
-  const { repliesById } = useCreateReply()
+  const { selectedTweetItem } = useGetTheTweet()
+  const { repliesById, isReplyLoading } = useCreateReply()
   return (
-  !isTweetLoading && 
+  !isReplyLoading && 
   (
     <MainLayout>
       <StyledReplyPageContainer>

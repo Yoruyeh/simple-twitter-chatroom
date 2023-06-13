@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getRepliesById, createReply } from '../api/replies';
+import { useGetTheTweet } from './GetTheTweet';
 
 const CreateReplyContext = createContext(() => {});
 
@@ -8,6 +9,7 @@ export const useCreateReply = () => useContext(CreateReplyContext);
 export const CreateReplyProvider = ({ children }) => {
   const [repliesById, setRepliesById] = useState([])
   const [replyInputValue, setReplyInputValue] = useState('')
+  const { selectedTweetItem, isTweetLoading } = useGetTheTweet()
   
   const handleReplyInputChange = (value) => {
     setReplyInputValue(value)
@@ -18,10 +20,10 @@ export const CreateReplyProvider = ({ children }) => {
       return
     }
     try {
-      await createReply({ 
+      await createReply(selectedTweetItem.id, { 
         comment: replyInputValue 
       })
-      const replies = await getRepliesById();
+      const replies = await getRepliesById(selectedTweetItem.id);
       setRepliesById(replies)
     } catch (error) {
       console.error(error)
@@ -30,16 +32,18 @@ export const CreateReplyProvider = ({ children }) => {
   }
  
   useEffect(() => {
-    const getRepliesByIdAsync = async () => {
+    if(isTweetLoading) {
+      const getRepliesByIdAsync = async () => {
       try {
-        const replies = await getRepliesById();
+        const replies = await getRepliesById(selectedTweetItem.id);
         setRepliesById(replies);
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     };
     getRepliesByIdAsync();
-  }, []);
+  }
+  }, [isTweetLoading, selectedTweetItem]);
 
 
   return (

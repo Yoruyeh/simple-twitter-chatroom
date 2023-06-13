@@ -4,7 +4,7 @@ const ReplyCollection = ({ repliesById }) => {
 
 
   return (
-    <div>
+    <>
       {repliesById.map((reply) => {
         return (
           <div className="reply-item-wrapper" key={reply.replyId}>
@@ -12,7 +12,7 @@ const ReplyCollection = ({ repliesById }) => {
           </div>
         )
       })}
-    </div>
+    </>
   );
 };
 

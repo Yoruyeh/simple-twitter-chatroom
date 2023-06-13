@@ -29,11 +29,11 @@ export const getRepliesById = async (id) => {
 };
 
 
-export const createReply = async (payload) => {
+export const createReply = async (id, payload) => {
   const { comment } = payload;
 
   try {
-    const res = await axiosInstance.post(`${baseUrl}/tweets/:tweets_id/replies`, {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
       comment
     });
     return res.data;
