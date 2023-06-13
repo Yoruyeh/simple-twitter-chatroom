@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
   checkTokenIsValid();
-  }, [payload]);
+  }, []);
 
   return (
     <AuthContext.Provider
