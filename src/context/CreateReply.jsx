@@ -44,7 +44,7 @@ export const CreateReplyProvider = ({ children }) => {
 
   return (
     <CreateReplyContext.Provider 
-    value={{repliesById, handleReplyInputChange, handleClickReplyInput}}>
+    value={{repliesById, replyInputValue, handleReplyInputChange, handleClickReplyInput}}>
       {children}
     </CreateReplyContext.Provider>
   );

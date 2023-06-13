@@ -5,6 +5,7 @@ import { TweetModalInput, TweetReplyInput } from './TweetInput';
 import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput';
 import { useCreateTweet } from '../context/CreateTweet';
+import { useCreateReply } from '../context/CreateReply';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -207,6 +208,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
 };
 
 const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
+  const {replyInputValue, handleClickReplyInput} = useCreateReply()
   return (
     <>
       <StyledReplyModalContainer>
@@ -231,8 +233,12 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
           />
         </StyledModalBody>
         <StyledModalFooter>
-          <p>內容不可空白</p>
-          <InputButton>回覆</InputButton>
+          {replyInputValue.length === 0 && <p>內容不可空白</p>}
+          <InputButton 
+          onClick={() => {
+            handleClickReplyInput()
+            handleOpenReplyModal()
+            }}>回覆</InputButton>
         </StyledModalFooter>
       </StyledReplyModalContainer>
     </>

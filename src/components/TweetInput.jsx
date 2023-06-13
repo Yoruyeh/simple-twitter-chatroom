@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useCreateTweet } from '../context/CreateTweet';
+import { useCreateReply } from '../context/CreateReply';
 
 const StyledInputContainer = styled.div`
   border: none;
@@ -96,6 +97,8 @@ const TweetModalInput = ({ placeholder, currentMember }) => {
 };
 
 const TweetReplyInput = ({ placeholder, currentMember }) => {
+    const { handleReplyInputChange, replyInputValue } = useCreateReply();
+
   return (
     <>
       <StyledInputContainer>
@@ -104,8 +107,8 @@ const TweetReplyInput = ({ placeholder, currentMember }) => {
           <textarea
             className="tweet-input modal-reply-input"
             placeholder={placeholder}
-            // value={tweetModalValue}
-            // onChange={(e) => handleTweetModalChange(e.target.value)}
+            value={replyInputValue}
+            onChange={(e) => handleReplyInputChange(e.target.value)}
           />
         </StyledInput>
       </StyledInputContainer>
