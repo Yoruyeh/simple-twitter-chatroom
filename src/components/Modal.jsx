@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
-import TweetInput from './TweetInput';
-import { TweetItem } from './TweetItem';
+import { TweetInput, TweetModalInput } from './TweetInput';
+import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput'
+import { useCreateTweet } from '../context/CreateTweet';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -94,6 +95,7 @@ const StyledTweetModalContainer = styled.div`
 `;
 
 const StyledReplyModalContainer = styled.div`
+  background-color: var(--dark-0);
   width: 600px;
   height: 450px;
   border-radius: 14px;
@@ -172,7 +174,8 @@ const StyledEditAvatar = styled.div`
   }
 `
 
-const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
+const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
+  const {tweetModalValue, handleClickTweetModal} = useCreateTweet()
   return (
     <>
       <StyledTweetModalContainer>
@@ -180,30 +183,34 @@ const TweetModal = ({ placeholder, handleOpenTweetModal }) => {
           <OutlinedClose className="close-button" onClick={handleOpenTweetModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetInput placeholder={placeholder}/>
+          <TweetModalInput placeholder={placeholder} currentMember={currentMember} />
         </StyledModalBody>
         <StyledModalFooter>
-          <p>字數不可超過140字</p>
-          <InputButton>推文</InputButton>
+          {tweetModalValue.length > 140 && <p>字數不可超過140字</p>}
+          <InputButton 
+          onClick={() => {
+            handleClickTweetModal()
+            handleOpenTweetModal()
+            }}>推文</InputButton>
         </StyledModalFooter>
       </StyledTweetModalContainer>
     </>
   );
 };
 
-const ReplyModal = () => {
+const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal }) => {
   return (
     <>
       <StyledReplyModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button"/>
+          <OutlinedClose className="close-button" onClick={handleOpenReplyModal}/>
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetItem />
+           <TweetItemInReply selectedReplyItem={selectedReplyItem}/>
         </StyledModalBody>
         <StyledModalBody>
           <p className="reply-modal-account">
-            回覆給<span>@apple</span>
+            回覆給<span>@{selectedReplyItem.User.account}</span>
           </p>
         </StyledModalBody>
         <StyledModalBody>
@@ -218,7 +225,7 @@ const ReplyModal = () => {
         </StyledModalFooter>
       </StyledReplyModalContainer>
     </>
-  );
+  )
 };
 
 const EditModal = () => {

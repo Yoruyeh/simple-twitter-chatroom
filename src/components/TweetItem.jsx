@@ -64,26 +64,37 @@ const StyledTweetIconContainer = styled.div`
     width: 14px;
     height: 14px;
     margin-right: 9px;
+
+    &:hover {
+    cursor: pointer;
+  }
   }
 `;
 
-const TweetItemIcon = ({ tweet }) => {
+const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
+  const { handleReplyIconClicked } = useGetTheTweet()
+
   return (
-    <StyledTweetIconContainer>
+    <StyledTweetIconContainer data-id={tweet.id}>
       <div className="tweet-reply-icon" data-id={tweet.id}>
-        <OutlinedReply />
-        <span className="tweet-reply-count">{tweet.replyCount}</span>
+        <OutlinedReply data-id={tweet.id} 
+        onClick={(e) => {
+        const clickedReplyIconId = e.target.dataset.id
+        handleReplyIconClicked(clickedReplyIconId)
+        handleOpenReplyModal()
+      }} />
+        <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" data-id={tweet.id}>
-        <OutlinedLike />
-        <span className="tweet-like-count">{tweet.likeCount}</span>
+        <OutlinedLike data-id={tweet.id}/>
+        <span className="tweet-like-count" data-id={tweet.id}>{tweet.likeCount}</span>
       </div>
     </StyledTweetIconContainer>
   );
 };
 
 const TweetItem = ({ tweet }) => {
-  const { handleClick } = useGetTheTweet()
+  const { handleTweetContentClick } = useGetTheTweet()
 
   return (
     <StyledTweetItemContainer>
@@ -97,8 +108,8 @@ const TweetItem = ({ tweet }) => {
       </div>
       <div className="tweet-content" data-id={tweet.id} 
       onClick={(e) => {
-        const clickedId = e.target.dataset.id
-        handleClick(clickedId)
+        const clickedTweetId = e.target.dataset.id
+        handleTweetContentClick(clickedTweetId)
       }}>
         {tweet.description}
         </div>
@@ -106,4 +117,24 @@ const TweetItem = ({ tweet }) => {
   );
 };
 
-export { TweetItemIcon, TweetItem };
+const TweetItemInReply = ({ selectedReplyItem }) => {
+
+  return (
+    <StyledTweetItemContainer key={selectedReplyItem.id}>
+      <StyledAvatar image={selectedReplyItem.User.avatar} />
+      <div className="tweet-info">
+        <span className="tweet-info-username">{selectedReplyItem.User.name}</span>
+        <span className="tweet-info-account"> @{selectedReplyItem.User.account}・</span>
+        <span className="tweet-info-time">
+          {selectedReplyItem.diffCreatedAt}
+        </span>
+      </div>
+      <div className="tweet-content" data-id={selectedReplyItem.id} >
+        {selectedReplyItem.description}
+        </div>
+    </StyledTweetItemContainer>
+  );
+};
+
+
+export { TweetItemIcon, TweetItem, TweetItemInReply };
