@@ -63,7 +63,7 @@ export const GetTheTweetProvider = ({ children }) => {
     }
   };
 
-  const handleReplyIconClicked = async (id) => {
+  const handleReplyIconClickedAtHome = async (id) => {
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -76,11 +76,25 @@ export const GetTheTweetProvider = ({ children }) => {
     }
   };
 
+  const handleReplyIconClicked = async (id) => {
+    setIsModalLoading(true);
+    try {
+      const tweet = await getTweetById(id);
+      setSelectedReplyItem(tweet);
+      setIsModalLoading(false);
+      navigate(`/tweets/${id}`);
+    } catch (error) {
+      console.error(error);
+      setIsModalLoading(false);
+    }
+  };
+
   return (
     <GetTheTweetContext.Provider
       value={{
         handleTweetContentClick,
         handleReplyIconClicked,
+        handleReplyIconClickedAtHome,
         selectedTweetItem,
         selectedReplyItem,
         isTweetLoading,

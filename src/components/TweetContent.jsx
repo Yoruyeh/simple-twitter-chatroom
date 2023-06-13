@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
+import { useGetTheTweet } from '../context/GetTheTweet'
 
 const StyledTweetContent = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -69,11 +70,17 @@ const StyledTweetContent = styled.div`
     position: absolute;
     top: 21px;
     left: 0;
+     &:hover {
+      cursor: pointer;
+    }
   }
   .tweet-content-icon-like {
     position: absolute;
     top: 21px;
     left: 133px;
+     &:hover {
+      cursor: pointer;
+    }
   }
 `
 const StyledAvatar = styled.div`
@@ -87,8 +94,8 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetContent = ({ selectedTweetItem }) => {
-
+const TweetContent = ({ selectedTweetItem, handleOpenReplyModal }) => {
+  const { handleReplyIconClicked } = useGetTheTweet()
   return (
   <StyledTweetContent key={selectedTweetItem.id}>
     <StyledAvatar image={selectedTweetItem.User.avatar}/>
@@ -105,7 +112,11 @@ const TweetContent = ({ selectedTweetItem }) => {
       <div className="tweet-content-count-like"><span>{selectedTweetItem.likeCount}</span> 喜歡次數</div>
     </div>
     <div className="tweet-content-icon">
-      <OutlinedReply className="tweet-content-icon-reply"/>
+      <OutlinedReply className="tweet-content-icon-reply" 
+      onClick={() => {
+      handleReplyIconClicked(selectedTweetItem.id)
+      handleOpenReplyModal()
+      }}/>
       <OutlinedLike className="tweet-content-icon-like"/>
     </div>
   </StyledTweetContent>
