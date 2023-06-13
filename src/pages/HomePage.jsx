@@ -6,7 +6,7 @@ import { MainHeader } from '../components/Header';
 import { TweetInput } from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
-import { useGetTheTweet } from '../context/GetTheTweet';
+import { useGetTheTweet } from '../context/GetTweetAndReplies';
 import { ReplyModal } from '../components/Modal';
 import { useCreateTweet } from '../context/CreateTweet';
 import { useAuth } from '../context/AuthContext';
@@ -65,7 +65,7 @@ const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { selectedReplyItem, isModalLoading } = useGetTheTweet();
   const { tweets, handleClickTweetInput } = useCreateTweet();
-  const { updatedTweets } = useCreateReply()
+  const { updatedTweets } = useGetTheTweet()
   const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
 

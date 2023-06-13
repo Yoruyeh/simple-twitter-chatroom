@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useGetTheTweet } from '../context/GetTheTweet'
+import { useGetTheTweet } from '../context/GetTweetAndReplies'
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetItemContainer = styled.div`
