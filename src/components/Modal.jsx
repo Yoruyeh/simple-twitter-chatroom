@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
-import { TweetInput, TweetModalInput } from './TweetInput';
+import { TweetModalInput, TweetReplyInput } from './TweetInput';
 import { TweetItemInReply } from './TweetItem';
-import AuthInput from './AuthInput'
+import AuthInput from './AuthInput';
 import { useCreateTweet } from '../context/CreateTweet';
 
 const StyledModalHeader = styled.header`
@@ -17,12 +17,12 @@ const StyledModalHeader = styled.header`
     left: 19px;
 
     & > path {
-    fill: var(--main);
+      fill: var(--main);
 
-    &:hover {
-      cursor: pointer;
+      &:hover {
+        cursor: pointer;
+      }
     }
-  }
   }
 
   .save-button {
@@ -38,7 +38,6 @@ const StyledModalHeader = styled.header`
     transform: translateY(-50%);
     left: 70px;
   }
-  
 `;
 
 const StyledModalBody = styled.div`
@@ -49,8 +48,8 @@ const StyledModalBody = styled.div`
     color: var(--default);
     margin-top: 10px;
     margin-left: 82px;
-    & >span {
-    color: var(--main);
+    & > span {
+      color: var(--main);
     }
   }
   .edit-name-count {
@@ -126,11 +125,11 @@ const StyledEditModalContainer = styled.div`
   grid-template-rows: 56px 200px 1fr;
   position: relative;
   z-index: 2;
-`
+`;
 const StyledEditCover = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(${({ image }) => image ? image : ""});
+  background-image: url(${({ image }) => (image ? image : '')});
   background-size: cover;
   position: relative;
   .add-cover-button {
@@ -151,14 +150,14 @@ const StyledEditCover = styled.div`
       fill: var(--dark-0);
     }
   }
-`
+`;
 
 const StyledEditAvatar = styled.div`
   width: 140px;
   height: 140px;
   border-radius: 50%;
   border: 4px solid var(--dark-0);
-  background-image: url(${({ image }) => image ? image : ""});
+  background-image: url(${({ image }) => (image ? image : '')});
   background-size: cover;
   position: absolute;
   top: 181px;
@@ -172,41 +171,53 @@ const StyledEditAvatar = styled.div`
       fill: var(--dark-0);
     }
   }
-`
+`;
 
 const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
-  const {tweetModalValue, handleClickTweetModal} = useCreateTweet()
+  const { tweetModalValue, handleClickTweetModal } = useCreateTweet();
   return (
     <>
       <StyledTweetModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button" onClick={handleOpenTweetModal}/>
+          <OutlinedClose
+            className="close-button"
+            onClick={handleOpenTweetModal}
+          />
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetModalInput placeholder={placeholder} currentMember={currentMember} />
+          <TweetModalInput
+            placeholder={placeholder}
+            currentMember={currentMember}
+          />
         </StyledModalBody>
         <StyledModalFooter>
           {tweetModalValue.length > 140 && <p>字數不可超過140字</p>}
-          <InputButton 
-          onClick={() => {
-            handleClickTweetModal()
-            handleOpenTweetModal()
-            }}>推文</InputButton>
+          <InputButton
+            onClick={() => {
+              handleClickTweetModal();
+              handleOpenTweetModal();
+            }}
+          >
+            推文
+          </InputButton>
         </StyledModalFooter>
       </StyledTweetModalContainer>
     </>
   );
 };
 
-const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal }) => {
+const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
   return (
     <>
       <StyledReplyModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button" onClick={handleOpenReplyModal}/>
+          <OutlinedClose
+            className="close-button"
+            onClick={handleOpenReplyModal}
+          />
         </StyledModalHeader>
         <StyledModalBody>
-           <TweetItemInReply selectedReplyItem={selectedReplyItem}/>
+          <TweetItemInReply selectedReplyItem={selectedReplyItem} />
         </StyledModalBody>
         <StyledModalBody>
           <p className="reply-modal-account">
@@ -214,9 +225,9 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal }) => {
           </p>
         </StyledModalBody>
         <StyledModalBody>
-          <TweetInput
-            className={'modal-reply-input'}
+          <TweetReplyInput
             placeholder={'推你的回覆'}
+            currentMember={currentMember}
           />
         </StyledModalBody>
         <StyledModalFooter>
@@ -225,34 +236,52 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal }) => {
         </StyledModalFooter>
       </StyledReplyModalContainer>
     </>
-  )
+  );
 };
 
 const EditModal = () => {
-  return <>
-    <StyledEditModalContainer>
-      <StyledModalHeader>
-        <OutlinedClose className="close-button"/>
-        <h5>編輯個人資料</h5>
-        <InputButton className="save-button">儲存</InputButton>
-      </StyledModalHeader>
-      <StyledModalBody>
-        <StyledEditCover image={"https://images.unsplash.com/photo-1685948595028-3c5023244556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80"}>
-          <OutlinedAddPhoto className="add-cover-button"/>
-          <OutlinedClose className="delete-cover-button"/>
-        </StyledEditCover>
-      </StyledModalBody>
-      <StyledModalBody>
-        <AuthInput placeholder={"John Doe"} label={"名稱"} className={"edit-modal-name"}/>
-        <p className="edit-name-count">8/50</p>
-        <AuthInput placeholder={"John Doe"} label={"自我介紹"} className={"edit-modal-introduction"}/>
-        <p className="edit-intro-count">0/160</p>
-      </StyledModalBody>
-      <StyledEditAvatar image={"https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80"}>
-      <OutlinedAddPhoto className="add-avatar-button"/>
-      </StyledEditAvatar>
-    </StyledEditModalContainer>
-  </>;
+  return (
+    <>
+      <StyledEditModalContainer>
+        <StyledModalHeader>
+          <OutlinedClose className="close-button" />
+          <h5>編輯個人資料</h5>
+          <InputButton className="save-button">儲存</InputButton>
+        </StyledModalHeader>
+        <StyledModalBody>
+          <StyledEditCover
+            image={
+              'https://images.unsplash.com/photo-1685948595028-3c5023244556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80'
+            }
+          >
+            <OutlinedAddPhoto className="add-cover-button" />
+            <OutlinedClose className="delete-cover-button" />
+          </StyledEditCover>
+        </StyledModalBody>
+        <StyledModalBody>
+          <AuthInput
+            placeholder={'John Doe'}
+            label={'名稱'}
+            className={'edit-modal-name'}
+          />
+          <p className="edit-name-count">8/50</p>
+          <AuthInput
+            placeholder={'John Doe'}
+            label={'自我介紹'}
+            className={'edit-modal-introduction'}
+          />
+          <p className="edit-intro-count">0/160</p>
+        </StyledModalBody>
+        <StyledEditAvatar
+          image={
+            'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80'
+          }
+        >
+          <OutlinedAddPhoto className="add-avatar-button" />
+        </StyledEditAvatar>
+      </StyledEditModalContainer>
+    </>
+  );
 };
 
 export { TweetModal, ReplyModal, EditModal };

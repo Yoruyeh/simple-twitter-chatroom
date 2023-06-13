@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import MainLayout from '../layout/MainLayout'
+import MainLayout from '../layout/MainLayout';
 import { MainHeader } from '../components/Header';
 import { TweetInput } from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
@@ -30,7 +30,7 @@ const StyledHomePageContainer = styled.div`
     border-bottom: 10px solid var(--gray1);
     position: relative;
     & button {
-      position: absolute; 
+      position: absolute;
       bottom: 16px;
       right: 24px;
     }
@@ -58,20 +58,20 @@ const StyledReplyModalContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 0;
   }
-  `
+`;
 
 const HomePage = () => {
-  const [openReplyModal, setOpenReplyModal] = useState(false)
+  const [openReplyModal, setOpenReplyModal] = useState(false);
   const { selectedReplyItem, isReplyLoading } = useGetTheTweet();
-  const { tweets, handleClickTweetInput } = useCreateTweet()
-  const { isAuthenticated, currentMember } = useAuth()
-  const navigate = useNavigate()
+  const { tweets, handleClickTweetInput } = useCreateTweet();
+  const { isAuthenticated, currentMember } = useAuth();
+  const navigate = useNavigate();
 
   const handleOpenReplyModal = () => {
-  setOpenReplyModal(!openReplyModal)
-  }
+    setOpenReplyModal(!openReplyModal);
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
@@ -80,34 +80,39 @@ const HomePage = () => {
   return (
     <MainLayout>
       <StyledHomePageContainer>
-      <div className="header">
-        <MainHeader />
-      </div>
-      <div className="tweet-input-container">
-        <div className="tweet-input-area">
-          <TweetInput placeholder={'發生什麼新鮮事？'} currentMember={currentMember} />
+        <div className="header">
+          <MainHeader />
         </div>
-        <div className="tweet-button">
-          <InputButton onClick={handleClickTweetInput}>推文</InputButton>
+        <div className="tweet-input-container">
+          <div className="tweet-input-area">
+            <TweetInput
+              placeholder={'發生什麼新鮮事？'}
+              currentMember={currentMember}
+            />
+          </div>
+          <div className="tweet-button">
+            <InputButton onClick={handleClickTweetInput}>推文</InputButton>
+          </div>
         </div>
-      </div>
-      <div className="tweet-collection">
-        <TweetCollection tweets={tweets} handleOpenReplyModal={handleOpenReplyModal}/>
-      </div>
+        <div className="tweet-collection">
+          <TweetCollection
+            tweets={tweets}
+            handleOpenReplyModal={handleOpenReplyModal}
+          />
+        </div>
       </StyledHomePageContainer>
       {openReplyModal && !isReplyLoading && (
-          <StyledReplyModalContainer>
-            <ReplyModal
-              placeholder={'推你的回覆'}
-              handleOpenReplyModal={handleOpenReplyModal}
-              selectedReplyItem={selectedReplyItem}
-            />
-          </StyledReplyModalContainer>
-        )}
+        <StyledReplyModalContainer>
+          <ReplyModal
+            placeholder={'推你的回覆'}
+            handleOpenReplyModal={handleOpenReplyModal}
+            selectedReplyItem={selectedReplyItem}
+            currentMember={currentMember}
+          />
+        </StyledReplyModalContainer>
+      )}
     </MainLayout>
   );
 };
 
 export default HomePage;
-
-
