@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useCreateTweet } from '../context/CreateTweet';
-import { useCreateReply } from '../context/CreateReply';
 import { useGetTheTweet } from '../context/GetTweetAndReplies';
 
 const StyledInputContainer = styled.div`

@@ -10,7 +10,6 @@ import { useGetTheTweet } from '../context/GetTweetAndReplies';
 import { ReplyModal } from '../components/Modal';
 import { useCreateTweet } from '../context/CreateTweet';
 import { useAuth } from '../context/AuthContext';
-import { useCreateReply } from '../context/CreateReply';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;

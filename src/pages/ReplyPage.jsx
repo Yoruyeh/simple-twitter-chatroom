@@ -5,7 +5,6 @@ import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
 import ReplyCollection from '../components/ReplyCollection'
 import { useGetTheTweet } from '../context/GetTweetAndReplies';
-import { useCreateReply } from '../context/CreateReply'
 import { ReplyModal } from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
 
