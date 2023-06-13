@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         setPayload(null);
         return;
       } 
+      try {
       const result = await checkPermission(token);
       if (result) {
         setIsAuthenticated(true);
@@ -48,8 +49,11 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setPayload(null);
       }
-    };
-    checkTokenIsValid();
+    } catch (error) {
+      console.error(error);;
+    }
+  };
+  checkTokenIsValid();
   }, [pathname, payload]);
 
   return (

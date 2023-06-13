@@ -1,14 +1,17 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getTweets, createTweet } from '../api/tweets';
+import { useAuth } from '../context/AuthContext'
 
 const CreateTweetContext = createContext(() => {});
 
 export const useCreateTweet = () => useContext(CreateTweetContext);
 
 export const CreateTweetProvider = ({ children }) => {
+  const { isAuthenticated } = useAuth()
   const [tweets, setTweets] = useState([])
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
+
   
   const handleTweetInputChange = (value) => {
     setTweetInputValue(value)
@@ -50,7 +53,8 @@ export const CreateTweetProvider = ({ children }) => {
   }
  
   useEffect(() => {
-    const getTweetsAsync = async () => {
+    if (isAuthenticated) {
+      const getTweetsAsync = async () => {
       try {
         const tweets = await getTweets();
         setTweets(tweets);
@@ -59,7 +63,8 @@ export const CreateTweetProvider = ({ children }) => {
       }
     };
     getTweetsAsync();
-  }, []);
+    }
+  }, [isAuthenticated]);
 
 
   return (
