@@ -8,8 +8,8 @@ import SettingPage from '../pages/SettingPage'
 import ReplyPage from '../pages/ReplyPage'
 import UserFollowerPage from '../pages/UserFollowerPage'
 import AdminCardPage from '../pages/AdminCardPage'
-import TabRepliesTweets from '../components/common/TabRepliesTweets'
-import TabLikesTweets from '../components/common/TabLikesTweets'
+// import TabRepliesTweets from '../components/common/TabRepliesTweets'
+// import TabLikesTweets from '../components/common/TabLikesTweets'
 import TabTweets from '../components/common/TabTweets'
 import { TabTweetItems } from '../components/common/TabTweetItems'
 
@@ -47,14 +47,14 @@ const routes = [
         path: '',
         element: <TabTweets />,
       },
-      {
-        path: 'replies',
-        element: <TabRepliesTweets />,
-      },
-      {
-        path: 'likes',
-        element: <TabLikesTweets />,
-      },
+      // {
+      //   path: 'replies',
+      //   element: <TabRepliesTweets />,
+      // },
+      // {
+      //   path: 'likes',
+      //   element: <TabLikesTweets />,
+      // },
     ],
   },
   {
