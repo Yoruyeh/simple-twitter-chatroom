@@ -1,27 +1,11 @@
 import ReplyItem from './ReplyItem'
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { getRepliesById } from '../api/replies';
 
-const ReplyCollection = () => {
-  const [replies, setReplies] = useState([])
-  const paramsId = useParams().id
+const ReplyCollection = ({ repliesById }) => {
 
-  useEffect(() => {
-    const getTweetByIdAsync = async () => {
-      try {
-        const result = await getRepliesById(paramsId);
-        setReplies(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTweetByIdAsync();
-}, [paramsId]);
 
   return (
     <div>
-      {replies.map((reply) => {
+      {repliesById.map((reply) => {
         return (
           <div className="reply-item-wrapper" key={reply.replyId}>
             <ReplyItem reply={reply}/>

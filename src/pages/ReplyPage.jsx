@@ -5,6 +5,7 @@ import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
 import ReplyCollection from '../components/ReplyCollection'
 import { useGetTheTweet } from '../context/GetTheTweet';
+import { useCreateReply } from '../context/CreateReply'
 
 const StyledReplyPageContainer = styled.div`
   width: 100%;
@@ -18,6 +19,7 @@ const StyledReplyPageContainer = styled.div`
 `
 const ReplyPage = () => {
   const { selectedTweetItem, isTweetLoading } = useGetTheTweet()
+  const { repliesById } = useCreateReply()
   return (
   !isTweetLoading && 
   (
@@ -30,7 +32,7 @@ const ReplyPage = () => {
           <TweetContent selectedTweetItem={selectedTweetItem} />
         </div>
         <div className="reply-collection">
-          <ReplyCollection />
+          <ReplyCollection repliesById={repliesById}/>
         </div>
       </StyledReplyPageContainer>
     </MainLayout>
