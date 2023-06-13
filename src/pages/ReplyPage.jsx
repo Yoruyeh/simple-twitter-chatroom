@@ -1,4 +1,3 @@
-// import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout'
 import { ReplyHeader } from '../components/Header';
@@ -18,10 +17,10 @@ const StyledReplyPageContainer = styled.div`
   }
 `
 const ReplyPage = () => {
-  const { selectedTweetItem } = useGetTheTweet()
+  const { selectedTweetItem, isTweetLoading } = useGetTheTweet()
   const { repliesById, isReplyLoading } = useCreateReply()
   return (
-  !isReplyLoading && 
+  !isTweetLoading && !isReplyLoading &&
   (
     <MainLayout>
       <StyledReplyPageContainer>
