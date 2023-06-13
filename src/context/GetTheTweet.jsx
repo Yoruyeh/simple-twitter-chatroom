@@ -9,6 +9,7 @@ export const useGetTheTweet = () => useContext(GetTheTweetContext);
 
 export const GetTheTweetProvider = ({ children }) => {
   const navigate = useNavigate()
+
   const [selectedTweetItem, setSelectedTweetItem] = useState({
     id: 14,
     userId: 14,

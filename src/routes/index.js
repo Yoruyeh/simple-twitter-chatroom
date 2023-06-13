@@ -81,6 +81,10 @@ const routes = [
     path: '/test',
     element: <TabTweetItems />,
   },
+  {
+    path: '/tweets/:id/reply',
+    element: <HomePage />,
+  },
 ]
 
 export default routes

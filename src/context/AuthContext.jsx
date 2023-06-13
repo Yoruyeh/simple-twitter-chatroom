@@ -2,7 +2,6 @@ import { createContext, useState, useEffect, useContext } from 'react';
 // import { login } from '../api/users'
 import { checkPermission } from '../api/checkPermission'
 import jwt_decode from "jwt-decode"
-import { useLocation } from 'react-router-dom';
 
 const defaultAuthContext = {
   isAuthenticated: false,
@@ -29,7 +28,6 @@ export const AuthProvider = ({ children }) => {
     cover: "https://loremflickr.com/1440/480/city/?random=67.32648393466276",
     introduction: "hi"
   });
-  const { pathname } = useLocation()
 
   useEffect(() => {
     const checkTokenIsValid = async () => {
@@ -39,6 +37,7 @@ export const AuthProvider = ({ children }) => {
         setPayload(null);
         return;
       } 
+      try {
       const result = await checkPermission(token);
       if (result) {
         setIsAuthenticated(true);
@@ -48,9 +47,12 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setPayload(null);
       }
-    };
-    checkTokenIsValid();
-  }, [pathname, payload]);
+    } catch (error) {
+      console.error(error);;
+    }
+  };
+  checkTokenIsValid();
+  }, []);
 
   return (
     <AuthContext.Provider
