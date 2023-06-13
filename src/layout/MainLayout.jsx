@@ -6,7 +6,7 @@ import {
   PopularFollowerItem,
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
-import { GetTheTweetProvider } from '../context/GetTheTweet'
+import { useAuth } from '../context/AuthContext'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -54,7 +54,7 @@ const StyledMainLayoutContainer = styled.div`
   }
 `
 
-const StyledModalContainer = styled.div`
+const StyledTweetModalContainer = styled.div`
   position: fixed;
   top: 56px;
   left: 50%;
@@ -76,12 +76,12 @@ const StyledModalContainer = styled.div`
 
 const MainLayout = ({ children }) => {
   const [openTweetModal, setOpenTweetModal] = useState(false)
+    const { currentMember } = useAuth()
 
   const handleOpenTweetModal = () => {
     setOpenTweetModal(!openTweetModal)
   }
   return (
-    <GetTheTweetProvider>
       <StyledMainLayoutContainer className='container-fluid px-0'>
         <div className='row mx-0'>
           <div className='col-2 navbar-container'>
@@ -95,15 +95,15 @@ const MainLayout = ({ children }) => {
           </div>
         </div>
         {openTweetModal && (
-          <StyledModalContainer>
+          <StyledTweetModalContainer>
             <TweetModal
               placeholder={'有什麼新鮮事？'}
               handleOpenTweetModal={handleOpenTweetModal}
+              currentMember={currentMember}
             />
-          </StyledModalContainer>
+          </StyledTweetModalContainer>
         )}
       </StyledMainLayoutContainer>
-    </GetTheTweetProvider>
   )
 }
 
