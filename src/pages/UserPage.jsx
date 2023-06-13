@@ -46,7 +46,7 @@ export default function UserPage() {
       getUserASync(token, userId)
     }
     checkTokenIsValid()
-  }, [navigate, userData])
+  }, [navigate])
 
   return (
     <MainLayout>

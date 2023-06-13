@@ -19,10 +19,6 @@ const ReplyCollection = () => {
     getTweetByIdAsync();
 }, [paramsId]);
 
-if (setReplies === null) {
-  return <div>Loading...</div>;
-}
-
   return (
     <div>
       {replies.map((reply) => {
