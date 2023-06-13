@@ -6,6 +6,7 @@ import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput';
 import { useCreateTweet } from '../context/CreateTweet';
 import { useCreateReply } from '../context/CreateReply';
+import { useNavigate } from 'react-router-dom'
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -209,13 +210,17 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
 
 const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
   const {replyInputValue, handleClickReplyInput} = useCreateReply()
+  const navigate = useNavigate()
   return (
     <>
       <StyledReplyModalContainer>
         <StyledModalHeader>
           <OutlinedClose
             className="close-button"
-            onClick={handleOpenReplyModal}
+            onClick={() => {
+              handleOpenReplyModal()
+              navigate('/home')
+            }}
           />
         </StyledModalHeader>
         <StyledModalBody>

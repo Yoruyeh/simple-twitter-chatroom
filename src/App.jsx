@@ -10,13 +10,13 @@ export default function App() {
   const element = useRoutes(routes)
   return (
     <AuthProvider>
-    <CreateTweetProvider>
     <GetTheTweetProvider>
+    <CreateTweetProvider>
     <CreateReplyProvider>
     {element}
     </CreateReplyProvider>
-    </GetTheTweetProvider>
     </CreateTweetProvider>
+    </GetTheTweetProvider>
     </AuthProvider>
   )
 }
