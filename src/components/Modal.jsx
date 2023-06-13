@@ -242,6 +242,9 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
           <InputButton 
           onClick={() => {
             handleClickReplyInput()
+            if (replyInputValue.length === 0) {
+              return
+            }
             handleOpenReplyModal()
             }}>回覆</InputButton>
         </StyledModalFooter>
