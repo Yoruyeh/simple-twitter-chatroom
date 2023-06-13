@@ -29,15 +29,15 @@ export const getRepliesById = async (id) => {
 };
 
 
-// export const createReply = async (payload) => {
-//   const { comment } = payload;
+export const createReply = async (payload) => {
+  const { comment } = payload;
 
-//   try {
-//     const res = await axiosInstance.post(`${baseUrl}/tweets/:tweets_id/replies`, {
-//       comment
-//     });
-//     return res.data;
-//   } catch (error) {
-//     console.error('[Create Reply failed]: ', error);
-//   }
-// };
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/:tweets_id/replies`, {
+      comment
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Create Reply failed]: ', error);
+  }
+};
