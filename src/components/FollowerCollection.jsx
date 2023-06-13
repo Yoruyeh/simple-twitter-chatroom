@@ -7,8 +7,11 @@ const FollowerCollection = () => {
   const [userFollows, setUserFollows] = useState([])
   const { id } = useParams();
   const pathname = window.location.pathname
+  
 
   useEffect(() => {
+    const isFollowersOrFollowingsPath = pathname.includes('followers') || pathname.includes('followings');
+    if(isFollowersOrFollowingsPath) {
     const fetchData = async () => {
       try {
         let result;
@@ -22,7 +25,8 @@ const FollowerCollection = () => {
         console.error(error);
       }
     };
-    fetchData();
+    fetchData()
+  }
   }, [id, pathname]);
 
   return (

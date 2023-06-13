@@ -69,38 +69,3 @@ export const CreateTweetProvider = ({ children }) => {
     </CreateTweetContext.Provider>
   );
 };
-
-
-
-// const handleChange = (value) => {
-//     setInputValue(value)
-//   }
-
-//   const handleAddTodo = async () => {
-//     if (inputValue.length === 0) {
-//       return
-//     }
-
-//     try {
-//       const data = await createTodo({
-//       title: inputValue,
-//       isDone: false,
-//     });
-
-//     setTodos((prevTodos) => {
-//       return [...prevTodos, 
-//       {
-//         id: data.id,
-//         title: data.title,
-//         isDone: false,
-//         isEdit: false,
-//       },
-//     ]
-//     })
-
-//     setInputValue('')
-
-//     } catch(error) {
-//       console.error(error)
-//     }
-//   }

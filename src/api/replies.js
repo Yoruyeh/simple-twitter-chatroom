@@ -27,3 +27,17 @@ export const getRepliesById = async (id) => {
     console.error('[Get Replies failed]: ', error);
   }
 };
+
+
+export const createReply = async (id, payload) => {
+  const { comment } = payload;
+
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets/${id}/replies`, {
+      comment
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Create Reply failed]: ', error);
+  }
+};

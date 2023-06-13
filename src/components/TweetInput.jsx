@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 import { useCreateTweet } from '../context/CreateTweet';
+import { useCreateReply } from '../context/CreateReply';
 
 const StyledInputContainer = styled.div`
   border: none;
-  font-family: 'Noto Sans TC', sans-serif; 
+  font-family: 'Noto Sans TC', sans-serif;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-`
+`;
 
 const StyledInput = styled.div`
   width: 100%;
@@ -37,15 +38,15 @@ const StyledInput = styled.div`
     color: var(--secondary);
   }
   :focus::placeholder {
-      color: transparent;
-    }
-  ::-webkit-scrollbar { 
-    width: 2px; 
+    color: transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 2px;
     background-color: transparent;
   }
-`
+`;
 const StyledAvatar = styled.div`
-  background-image: url(${(props) => props.image ? props.image : ""});
+  background-image: url(${(props) => (props.image ? props.image : '')});
   background-size: cover;
   width: 50px;
   height: 50px;
@@ -53,44 +54,66 @@ const StyledAvatar = styled.div`
   position: absolute;
   top: 16px;
   left: 24px;
-`
+`;
 
 const TweetInput = ({ placeholder, currentMember }) => {
-  const {handleTweetInputChange, tweetInputValue} = useCreateTweet()
+  const { handleTweetInputChange, tweetInputValue } = useCreateTweet();
 
-  return (<>
-    <StyledInputContainer>
-      <StyledAvatar image={currentMember.avatar} />
-      <StyledInput>
-        <textarea 
-        className="tweet-input" 
-        placeholder={placeholder}
-        value={tweetInputValue}
-        onChange={(e) => handleTweetInputChange(e.target.value)}
-         />
-      </StyledInput>
-    </StyledInputContainer>
+  return (
+    <>
+      <StyledInputContainer>
+        <StyledAvatar image={currentMember.avatar} />
+        <StyledInput>
+          <textarea
+            className="tweet-input"
+            placeholder={placeholder}
+            value={tweetInputValue}
+            onChange={(e) => handleTweetInputChange(e.target.value)}
+          />
+        </StyledInput>
+      </StyledInputContainer>
     </>
-  )
-}
+  );
+};
 
 const TweetModalInput = ({ placeholder, currentMember }) => {
-  const {handleTweetModalChange, tweetModalValue} = useCreateTweet()
+  const { handleTweetModalChange, tweetModalValue } = useCreateTweet();
 
-  return (<>
-    <StyledInputContainer>
-      <StyledAvatar image={currentMember.avatar} />
-      <StyledInput>
-        <textarea 
-        className="tweet-input modal-reply-input" 
-        placeholder={placeholder}
-        value={tweetModalValue}
-        onChange={(e) => handleTweetModalChange(e.target.value)}
-         />
-      </StyledInput>
-    </StyledInputContainer>
+  return (
+    <>
+      <StyledInputContainer>
+        <StyledAvatar image={currentMember.avatar} />
+        <StyledInput>
+          <textarea
+            className="tweet-input modal-reply-input"
+            placeholder={placeholder}
+            value={tweetModalValue}
+            onChange={(e) => handleTweetModalChange(e.target.value)}
+          />
+        </StyledInput>
+      </StyledInputContainer>
     </>
-  )
-}
+  );
+};
 
-export {TweetInput, TweetModalInput}
+const TweetReplyInput = ({ placeholder, currentMember }) => {
+    const { handleReplyInputChange, replyInputValue } = useCreateReply();
+
+  return (
+    <>
+      <StyledInputContainer>
+        <StyledAvatar image={currentMember.avatar} />
+        <StyledInput>
+          <textarea
+            className="tweet-input modal-reply-input"
+            placeholder={placeholder}
+            value={replyInputValue}
+            onChange={(e) => handleReplyInputChange(e.target.value)}
+          />
+        </StyledInput>
+      </StyledInputContainer>
+    </>
+  );
+};
+
+export { TweetInput, TweetModalInput, TweetReplyInput };
