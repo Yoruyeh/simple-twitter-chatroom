@@ -10,6 +10,7 @@ import { useGetTheTweet } from '../context/GetTheTweet';
 import { ReplyModal } from '../components/Modal';
 import { useCreateTweet } from '../context/CreateTweet';
 import { useAuth } from '../context/AuthContext';
+import { useCreateReply } from '../context/CreateReply';
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
@@ -64,6 +65,7 @@ const HomePage = () => {
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { selectedReplyItem, isModalLoading } = useGetTheTweet();
   const { tweets, handleClickTweetInput } = useCreateTweet();
+  const { updatedTweets } = useCreateReply()
   const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
 
@@ -98,6 +100,7 @@ const HomePage = () => {
           <TweetCollection
             tweets={tweets}
             handleOpenReplyModal={handleOpenReplyModal}
+            updatedTweets={updatedTweets}
           />
         </div>
       </StyledHomePageContainer>
