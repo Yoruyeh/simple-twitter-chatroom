@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { getTweets, createTweet } from '../api/tweets';
+import { getTweets, createTweet, getTweetById } from '../api/tweets';
 import { useAuth } from '../context/AuthContext'
 import { getLikes, createLike, createUnLike } from '../api/like';
 import { useGetTheTweet } from './GetTweetAndReplies';
@@ -80,6 +80,30 @@ export const CreateTweetProvider = ({ children }) => {
     const likes = await getLikes(currentMember.id);
     setUserLikeArr(likes)
   }
+
+  // const handleUnLikeAtReply = async (id) => {
+  //   try {
+  //     await createUnLike(id)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  //   const tweet = await getTweetById(id)
+  //   setSelectedReplyItem(tweet)
+  //   const likes = await getLikes(currentMember.id);
+  //   setUserLikeArr(likes)
+  // }
+
+  // const handleLikeAtReply = async (id) => {
+  //   try {
+  //     await createLike(id)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  //   const tweet = await getTweetById(id)
+  //   setSelectedReplyItem(tweet)
+  //   const likes = await getLikes(currentMember.id);
+  //   setUserLikeArr(likes)
+  // }
 
   
   useEffect(() => {

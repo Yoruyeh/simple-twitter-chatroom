@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { OutlinedLike, OutlinedReply } from '../assets/icons';
+import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
 import { useGetTheTweet } from '../context/GetTweetAndReplies'
+import { useCreateTweet } from '../context/CreateTweet';
+// import { useCreateTweet } from '../context/CreateTweet'
 
 const StyledTweetContent = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -82,6 +84,11 @@ const StyledTweetContent = styled.div`
       cursor: pointer;
     }
   }
+  .liked  {
+    > path {
+      fill: var(--main);
+    }
+  }
 `
 const StyledAvatar = styled.div`
   background-image: url(${(props) => props.image ? props.image : ""});
@@ -94,27 +101,27 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetContent = ({ selectedReplyItem, handleOpenReplyModal }) => {
+const TweetContent = ({ selectedItem, handleOpenReplyModal }) => {
   const { handleReplyIconClicked } = useGetTheTweet()
   return (
-  <StyledTweetContent key={selectedReplyItem.id}>
-    <StyledAvatar image={selectedReplyItem.User.avatar}/>
+  <StyledTweetContent key={selectedItem.id}>
+    <StyledAvatar image={selectedItem.User.avatar}/>
     <div className="tweet-content-info">
-      <span className="tweet-content-username">{selectedReplyItem.User.name}</span>
-      <span className="tweet-content-account"> @{selectedReplyItem.User.account}</span>
+      <span className="tweet-content-username">{selectedItem.User.name}</span>
+      <span className="tweet-content-account"> @{selectedItem.User.account}</span>
     </div>
     <div className="tweet-content-content">
-      {selectedReplyItem.description}
+      {selectedItem.description}
       </div>
-    <div className="tweet-content-time">{selectedReplyItem.createdAt}</div>
+    <div className="tweet-content-time">{selectedItem.createdAt}</div>
     <div className="tweet-content-count">
-      <div className="tweet-content-count-reply"><span>{selectedReplyItem.replyCount}</span> 回覆</div>
-      <div className="tweet-content-count-like"><span>{selectedReplyItem.likeCount}</span> 喜歡次數</div>
+      <div className="tweet-content-count-reply"><span>{selectedItem.replyCount}</span> 回覆</div>
+      <div className="tweet-content-count-like"><span>{selectedItem.likeCount}</span> 喜歡次數</div>
     </div>
     <div className="tweet-content-icon">
       <OutlinedReply className="tweet-content-icon-reply" 
       onClick={() => {
-      handleReplyIconClicked(selectedReplyItem.id)
+      handleReplyIconClicked(selectedItem.id)
       handleOpenReplyModal()
       }}/>
       <OutlinedLike className="tweet-content-icon-like"/>
