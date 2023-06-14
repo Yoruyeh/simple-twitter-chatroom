@@ -43,7 +43,7 @@ const StyledReplyModalContainer = styled.div`
 const ReplyPage = () => {
   const { currentMember } = useAuth()
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { selectedTweetItem, isReplyPageLoading, selectedReplyItem, isModalLoading, replies } = useGetSelectedTweet();
+  const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies } = useGetSelectedTweet();
 
   const handleOpenReplyModal = () => {
     setOpenReplyModal(!openReplyModal);
@@ -59,7 +59,7 @@ const ReplyPage = () => {
           <ReplyHeader />
         </div>
         <div className="tweet-content-container">
-            <TweetContent selectedTweetItem={selectedTweetItem} handleOpenReplyModal={handleOpenReplyModal}/>
+            <TweetContent selectedReplyItem={selectedReplyItem} handleOpenReplyModal={handleOpenReplyModal}/>
         </div>
         <div className="reply-collection">
           <ReplyCollection replies={replies}/>

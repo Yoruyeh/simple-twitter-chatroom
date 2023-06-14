@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useGetTheTweet } from '../context/GetTweetAndReplies'
 import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 

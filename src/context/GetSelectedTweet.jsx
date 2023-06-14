@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 import { getTweets, getTweetById } from '../api/tweets';
 import { getRepliesById, createReply } from '../api/replies';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from './GetTweets';
 
 const GetSelectedTweetContext = createContext(() => {});
@@ -10,10 +10,9 @@ export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
 
 export const GetSelectedTweetProvider = ({ children }) => {
   const navigate = useNavigate()
-  const pathname = useLocation().pathname
   const { setTweets } = useGetTweets()
   // 點進內容渲染reply page
-  const [selectedTweetItem, setSelectedTweetItem] = useState({
+   const [selectedReplyItem, setSelectedReplyItem] = useState({
     id: 14,
     userId: 14,
     description:
@@ -35,25 +34,6 @@ export const GetSelectedTweetProvider = ({ children }) => {
   const [replies, setReplies] = useState([])
   const [isReplyPageLoading, setIsReplyPageLoading] = useState(false)
   // 點icon渲然該推文內容及input modal
-  const [selectedReplyItem, setSelectedReplyItem] = useState({
-    id: 14,
-    userId: 14,
-    description:
-      'Quibusdam quod quo beatae totam ut sit ducimus sunt. Minima eos deleniti quo a quia. Et repellendus explicabo inventore voluptas vel dignissimos pariatur. Atque aut laboriosam rem deleniti aperiam aut voluptatem vero vitae.',
-    createdAt: '2023-06-10 09:39:53',
-    updatedAt: '2023-06-10 09:39:53',
-    diffCreatedAt: 'a few seconds ago',
-    replyCount: 5,
-    likeCount: 0,
-    User: {
-      id: 14,
-      name: 'user1',
-      email: 'user1@example.com',
-      account: 'user1',
-      avatar: 'https://loremflickr.com/320/240/man/?random=0.23200002093710648',
-      cover: 'https://loremflickr.com/1440/480/city/?random=14.084527578970008',
-    },
-  })
   const [isModalLoading, setIsModalLoading] = useState(false)
   // 回覆的input控制
   const [replyInputValue, setReplyInputValue] = useState('')
@@ -62,7 +42,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
     setIsReplyPageLoading(true);
     try {
       const tweet = await getTweetById(id)
-      setSelectedTweetItem(tweet)
+      setSelectedReplyItem(tweet)
       const replysById = await getRepliesById(id)
       setReplies(replysById)
       setIsReplyPageLoading(false);
@@ -111,18 +91,13 @@ export const GetSelectedTweetProvider = ({ children }) => {
       await createReply(selectedReplyItem.id, {
         comment: replyInputValue,
       });
-      if (pathname.includes('reply')) {
-        const tweets = await getTweets()
-        setTweets(tweets)
-        const tweet = await getTweetById(selectedReplyItem.id)
-        setSelectedTweetItem(tweet)
-        navigate(`tweets/${selectedReplyItem.id}`)
-      } else {
-        const tweet = await getTweetById(selectedReplyItem.id)
-        setSelectedReplyItem(tweet)
-        const replies = await getRepliesById(selectedReplyItem.id);
-        setReplies(replies);
-      }
+      const tweets = await getTweets()
+      setTweets(tweets)
+      const tweet = await getTweetById(selectedReplyItem.id)
+      setSelectedReplyItem(tweet)
+      const replies = await getRepliesById(selectedReplyItem.id);
+      setReplies(replies);
+      navigate(`/tweets/${selectedReplyItem.id}`)
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +107,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
 
   return (
     <GetSelectedTweetContext.Provider 
-    value={{selectedTweetItem, isReplyPageLoading, handleTweetContentClick, 
+    value={{isReplyPageLoading, handleTweetContentClick, 
     handleReplyIconClickedAtHome, selectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue}}>
       {children}
     </GetSelectedTweetContext.Provider>

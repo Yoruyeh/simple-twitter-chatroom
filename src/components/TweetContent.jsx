@@ -100,29 +100,29 @@ const StyledAvatar = styled.div`
   left: 24px;
 `
 
-const TweetContent = ({ selectedTweetItem, handleOpenReplyModal }) => {
+const TweetContent = ({ selectedReplyItem, handleOpenReplyModal }) => {
   const { handleReplyIconClicked } = useGetSelectedTweet()
   // const {userLikesArr, handleUnLikeAtReply, handleLikeAtReply} = useCreateTweet()
 
   return (
-  <StyledTweetContent key={selectedTweetItem.id}>
-    <StyledAvatar image={selectedTweetItem.User.avatar}/>
+  <StyledTweetContent key={selectedReplyItem.id}>
+    <StyledAvatar image={selectedReplyItem.User.avatar}/>
     <div className="tweet-content-info">
-      <span className="tweet-content-username">{selectedTweetItem.User.name}</span>
-      <span className="tweet-content-account"> @{selectedTweetItem.User.account}</span>
+      <span className="tweet-content-username">{selectedReplyItem.User.name}</span>
+      <span className="tweet-content-account"> @{selectedReplyItem.User.account}</span>
     </div>
     <div className="tweet-content-content">
-      {selectedTweetItem.description}
+      {selectedReplyItem.description}
       </div>
-    <div className="tweet-content-time">{selectedTweetItem.createdAt}</div>
+    <div className="tweet-content-time">{selectedReplyItem.createdAt}</div>
     <div className="tweet-content-count">
-      <div className="tweet-content-count-reply"><span>{selectedTweetItem.replyCount}</span> 回覆</div>
-      <div className="tweet-content-count-like"><span>{selectedTweetItem.likeCount}</span> 喜歡次數</div>
+      <div className="tweet-content-count-reply"><span>{selectedReplyItem.replyCount}</span> 回覆</div>
+      <div className="tweet-content-count-like"><span>{selectedReplyItem.likeCount}</span> 喜歡次數</div>
     </div>
     <div className="tweet-content-icon">
       <OutlinedReply className="tweet-content-icon-reply" 
       onClick={() => {
-      handleReplyIconClicked(selectedTweetItem.id)
+      handleReplyIconClicked(selectedReplyItem.id)
       handleOpenReplyModal()
       }}/>
       {/* {userLikesArr.some(item => item.Tweet.id === selectedTweetItem.id) ? (
