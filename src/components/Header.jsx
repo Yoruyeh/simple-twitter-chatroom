@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { OutlinedBack } from '../assets/icons';
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext';
 
 const StyledMainHeader = styled.header`
   font-family: 'Noto Sans TC';
@@ -52,11 +54,23 @@ const MainHeader = () => {
   );
 };
 
+const SettingHeader = () => {
+  return (
+  <>
+    <StyledMainHeader>
+      <h4>帳戶設定</h4>
+    </StyledMainHeader>
+  </>
+  );
+};
+
 const ReplyHeader = () => {
+  const navigate = useNavigate()
   return (
   <>
     <StyledReplyHeader>
-      <OutlinedBack className='header-icon-back'/>
+      <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate('/home')}/>
       <h4>推文</h4>
     </StyledReplyHeader>
   </>
@@ -64,15 +78,26 @@ const ReplyHeader = () => {
 };
 
 const UserHeader = () => {
+  const navigate = useNavigate()
+  const pathname = useLocation().pathname
+  const { currentMember } = useAuth()
+
   return (
   <>
     <StyledUserHeader>
-      <OutlinedBack className='header-icon-back'/>
-      <h5>John Doe</h5>
+      {pathname.includes('followers') || pathname.includes('followings') ? (
+        <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate(`/${currentMember.id}`)}/>
+      ) : (
+        <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate('/home')}/>
+      )}
+      
+      <h5>{currentMember.name}</h5>
       <StyledText>25 推文</StyledText>
     </StyledUserHeader>
   </>
   );
 };
 
-export { MainHeader, ReplyHeader, UserHeader};
+export { MainHeader, SettingHeader, ReplyHeader, UserHeader};
