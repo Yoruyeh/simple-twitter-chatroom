@@ -31,15 +31,13 @@ const StyledFollowButton = styled(StyledAuthButton)`
   width: 96px;
   height: 40px;
   font-size: 16px;
-  ${({ isfollowed }) =>
-    !JSON.parse(isfollowed) &&
-    css`
-      background-color: #ffffff;
-      color: #ff6600;
-      border: 1px solid #ff6600;
-      width: 64px;
-      height: 40px;
-    `}
+  &.unfollowed {
+    background-color: #ffffff;
+    color: #ff6600;
+    border: 1px solid #ff6600;
+    width: 64px;
+    height: 40px;
+  }
 `
 
 const StyledInputButton = styled(StyledAuthButton)`

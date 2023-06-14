@@ -1,40 +1,13 @@
 import FollowerItem from './FollowerItem'
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower'
 
-const FollowerCollection = () => {
-  const [userFollows, setUserFollows] = useState([])
-  const { id } = useParams();
-  const pathname = window.location.pathname
-  
-
-  useEffect(() => {
-    const isFollowersOrFollowingsPath = pathname.includes('followers') || pathname.includes('followings');
-    if(isFollowersOrFollowingsPath) {
-    const fetchData = async () => {
-      try {
-        let result;
-        if (pathname.includes('followers')) {
-          result = await getUserFollowersById(id);
-        } else if (pathname.includes('followings')) {
-          result = await getUserFollowingsById(id);
-        }
-        setUserFollows(result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData()
-  }
-  }, [id, pathname]);
+const FollowerCollection = ({ userFollows, handleUnFollowClicked, handleFollowClicked }) => {
 
   return (
     <div>
-      {userFollows.map((follow) => {
+      {userFollows && userFollows.map((follow) => {
         return (
           <div className="follow-item-wrapper" key={follow.followerId || follow.followingId}>
-            <FollowerItem follow={follow}/>
+            <FollowerItem follow={follow} followed={follow.followed || follow.isfollowed} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
           </div>
         )
       })}

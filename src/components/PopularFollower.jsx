@@ -110,8 +110,8 @@ const PopularFollowerItem = () => {
             @{popular.account}
           </div>
         </StyledFollowerInfo>
-        {currentMember.id !== popular.id &&
-        <FollowButton isfollowed={String(popular.isFollowed)} data-id={popular.id}
+        {currentMember.id !== popular.id && !popular.isFollowed ? (
+          <FollowButton className="unfollowed" data-id={popular.id}
         onClick={(e) => {
           const clickedFollowId = e.currentTarget.dataset.id
           if(popular.isFollowed === true) {
@@ -119,9 +119,19 @@ const PopularFollowerItem = () => {
           } else {
             handleFollowClicked(clickedFollowId)
           }
-        }}>
-          {!popular.isFollowed ? '跟隨' : '正在跟隨'}
-          </FollowButton>}
+        }}>跟隨</FollowButton>
+        ) : (
+          <FollowButton className="followed" data-id={popular.id}
+        onClick={(e) => {
+          const clickedFollowId = e.currentTarget.dataset.id
+          if(popular.isFollowed === true) {
+            handleUnFollowClicked(clickedFollowId)
+          } else {
+            handleFollowClicked(clickedFollowId)
+          }
+        }}>正在跟隨</FollowButton>
+        )
+        }
       </StyledFollowerItem>
       )
     })}
