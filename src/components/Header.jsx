@@ -54,6 +54,16 @@ const MainHeader = () => {
   );
 };
 
+const SettingHeader = () => {
+  return (
+  <>
+    <StyledMainHeader>
+      <h4>帳戶設定</h4>
+    </StyledMainHeader>
+  </>
+  );
+};
+
 const ReplyHeader = () => {
   const navigate = useNavigate()
   return (
@@ -71,7 +81,7 @@ const UserHeader = () => {
   const navigate = useNavigate()
   const pathname = useLocation().pathname
   const { currentMember } = useAuth()
-  
+
   return (
   <>
     <StyledUserHeader>
@@ -90,4 +100,4 @@ const UserHeader = () => {
   );
 };
 
-export { MainHeader, ReplyHeader, UserHeader};
+export { MainHeader, SettingHeader, ReplyHeader, UserHeader};
