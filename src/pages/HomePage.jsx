@@ -66,6 +66,8 @@ const HomePage = () => {
   const { tweets, handleClickTweetInput } = useCreateTweet();
   const { updatedTweets } = useGetTheTweet()
   const { isAuthenticated, currentMember } = useAuth();
+   const { userLikesArr, isLoading } = useCreateTweet()
+   console.log(userLikesArr)
   const navigate = useNavigate();
 
   const handleOpenReplyModal = () => {
@@ -79,6 +81,7 @@ const HomePage = () => {
   }, [navigate, isAuthenticated]);
 
   return (
+    isAuthenticated &&
     <MainLayout>
       <StyledHomePageContainer>
         <div className="header">

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useGetTheTweet } from '../context/GetTweetAndReplies'
-import { OutlinedLike, OutlinedReply } from '../assets/icons';
+import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
+import { useCreateTweet } from '../context/CreateTweet';
 
 const StyledTweetItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -69,27 +70,40 @@ const StyledTweetIconContainer = styled.div`
     cursor: pointer;
   }
   }
+
+  .tweet-like-icon-liked  {
+    > path {
+      fill: var(--main);
+    }
+  }
 `;
 
 const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
   const { handleReplyIconClickedAtHome } = useGetTheTweet()
+  const { userLikesArr, isLoading } = useCreateTweet()
 
   return (
-    <StyledTweetIconContainer data-id={tweet.id}>
-      <div className="tweet-reply-icon" data-id={tweet.id}>
+    !isLoading &&  (
+    <StyledTweetIconContainer >
+      <div className="tweet-reply-icon" >
         <OutlinedReply data-id={tweet.id} 
         onClick={(e) => {
-        const clickedReplyIconId = e.target.dataset.id
+        const clickedReplyIconId = e.currentTarget.dataset.id
         handleReplyIconClickedAtHome(clickedReplyIconId)
         handleOpenReplyModal()
       }} />
-        <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>
+        <span className="tweet-reply-count" >{tweet.replyCount}</span>
       </div>
-      <div className="tweet-like-icon" data-id={tweet.id}>
-        <OutlinedLike data-id={tweet.id}/>
-        <span className="tweet-like-count" data-id={tweet.id}>{tweet.likeCount}</span>
+      <div className="tweet-like-icon" >
+        {userLikesArr.some(item => item.Tweet.id === tweet.id) ? (
+          <FilledLike data-id={tweet.id} className="tweet-like-icon-liked"/>
+        ): (
+          <OutlinedLike data-id={tweet.id} className="tweet-like-icon-unliked"/>
+        )}
+        <span className="tweet-like-count" >{tweet.likeCount}</span>
       </div>
     </StyledTweetIconContainer>
+    )
   );
 };
 
@@ -108,7 +122,7 @@ const TweetItem = ({ tweet }) => {
       </div>
       <div className="tweet-content" data-id={tweet.id} 
       onClick={(e) => {
-        const clickedTweetId = e.target.dataset.id
+        const clickedTweetId = e.currentTarget.dataset.id
         handleTweetContentClick(clickedTweetId)
       }}>
         {tweet.description}
@@ -138,3 +152,21 @@ const TweetItemInReply = ({ selectedReplyItem }) => {
 
 
 export { TweetItemIcon, TweetItem, TweetItemInReply };
+
+// .tweet-like-icon-unliked {
+//     width: 14px;
+//     height: 14px;
+//     margin-right: 9px;
+
+//     &:hover {
+//     cursor: pointer;
+//   }
+//   }
+//   .tweet-like-icon-liked {
+//      width: 14px;
+//     height: 14px;
+//     margin-right: 9px;
+
+//     & svg {
+//       fill: var(--main);
+//     }

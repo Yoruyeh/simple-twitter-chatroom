@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export const getUserLikes = async (id) => {
+export const getLikes = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}/likes`);
     return res.data;

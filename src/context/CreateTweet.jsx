@@ -1,14 +1,17 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getTweets, createTweet } from '../api/tweets';
 import { useAuth } from '../context/AuthContext'
+import { getLikes } from '../api/like';
 
 const CreateTweetContext = createContext(() => {});
 
 export const useCreateTweet = () => useContext(CreateTweetContext);
 
 export const CreateTweetProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentMember } = useAuth()
   const [tweets, setTweets] = useState([])
+  const [userLikesArr, setUserLikeArr] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
 
@@ -63,13 +66,23 @@ export const CreateTweetProvider = ({ children }) => {
       }
     };
     getTweetsAsync();
+    const getUserLikesAsyn = async () => {
+      try {
+        const result = await getLikes(currentMember.id)
+        setUserLikeArr(result)
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error)
+      }
     }
-  }, [isAuthenticated]);
+    getUserLikesAsyn()
+    }
+  }, [isAuthenticated, currentMember]);
 
 
   return (
     <CreateTweetContext.Provider 
-    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal}}>
+    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal, userLikesArr, isLoading}}>
       {children}
     </CreateTweetContext.Provider>
   );
