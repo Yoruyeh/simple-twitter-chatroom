@@ -50,7 +50,7 @@ export default function TabRepliesTweets() {
     <StyledContainer>
       {tweets.map((tweet) => {
         return (
-          <li key={tweet.Tweet.id}>
+          <li key={tweet.id}>
             <TabRepliesItems tweet={tweet} replyid></TabRepliesItems>
           </li>
         )
