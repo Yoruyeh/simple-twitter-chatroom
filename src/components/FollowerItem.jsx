@@ -40,7 +40,7 @@ const StyledAvatar = styled.div`
 `;
 
 
-const FollowerItem = ({ follow, followed }) => {
+const FollowerItem = ({ follow, followed, handleFollowClicked, handleUnFollowClicked }) => {
   return (
     <StyledFollowerItemContainer>
       <StyledAvatar image={follow.avatar} />
@@ -49,10 +49,18 @@ const FollowerItem = ({ follow, followed }) => {
           {follow.introduction}
         </div>
         {!followed ? (
-        <FollowButton className="user-follower-button unfollowed">跟隨</FollowButton>
+        <FollowButton className="user-follower-button unfollowed" data-id={follow.followerId || follow.followingId}
+        onClick={(e) => {
+          const followClickedId = e.currentTarget.dataset.id
+          handleFollowClicked(followClickedId)
+        }}>跟隨</FollowButton>
         ) 
         : (
-        <FollowButton className="user-follower-button followed">正在跟隨</FollowButton>
+        <FollowButton className="user-follower-button followed" data-id={follow.followerId || follow.followingId} 
+        onClick={(e) => {
+          const UnfollowClickedId = e.currentTarget.dataset.id
+          handleUnFollowClicked(UnfollowClickedId)
+        }}>正在跟隨</FollowButton>
         )}
     </StyledFollowerItemContainer>
   );

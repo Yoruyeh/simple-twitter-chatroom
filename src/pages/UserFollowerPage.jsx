@@ -97,9 +97,9 @@ const UserFollowerPage = () => {
       </div>
       <div className="user-follower-collection">
         {pathname.includes('followers') ? (
-          <FollowerCollection currentMember={currentMember} userFollows={userFollowers}/>
+          <FollowerCollection currentMember={currentMember} userFollows={userFollowers} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
         ) : (
-          <FollowerCollection currentMember={currentMember} userFollows={userFollowings}/>
+          <FollowerCollection currentMember={currentMember} userFollows={userFollowings} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
         )}
       </div>
       </StyledFollowerPageContainer>

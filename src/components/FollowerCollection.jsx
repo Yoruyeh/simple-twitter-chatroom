@@ -1,13 +1,13 @@
 import FollowerItem from './FollowerItem'
 
-const FollowerCollection = ({ userFollows }) => {
+const FollowerCollection = ({ userFollows, handleUnFollowClicked, handleFollowClicked }) => {
 
   return (
     <div>
       {userFollows && userFollows.map((follow) => {
         return (
           <div className="follow-item-wrapper" key={follow.followerId || follow.followingId}>
-            <FollowerItem follow={follow} followed={follow.followed || follow.isfollowed}/>
+            <FollowerItem follow={follow} followed={follow.followed || follow.isfollowed} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
           </div>
         )
       })}
