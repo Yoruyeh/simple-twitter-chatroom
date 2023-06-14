@@ -209,10 +209,10 @@ export function UserInfoCard({
         <h5 className='username'>{username}</h5>
         <span className='userid'>@{userid}</span>
         <p className='userintro'>{intro}</p>
-        <NavLink>
+        <NavLink to={`/${userid}/followings`}>
           {following} <span>個追隨中</span>
         </NavLink>
-        <NavLink>
+        <NavLink to={`/${userid}/followers`}>
           {followers} <span>位跟隨者</span>
         </NavLink>
       </StyledInfoWrapper>
