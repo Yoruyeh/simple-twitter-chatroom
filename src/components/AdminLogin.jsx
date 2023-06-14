@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useImmer } from 'use-immer'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 // logo
@@ -9,6 +9,7 @@ import { Logo } from '../assets/icons'
 import { AuthButton } from './common/button.styled'
 // input 元件
 import AuthInput from './AuthInput'
+import { adminLogin } from '../api/admin'
 
 // Container
 const StyledContainer = styled.div`
@@ -80,6 +81,7 @@ export default function AdminLogin() {
   const [account, setAccount] = useState('') // 帳號 value
   const [password, setPassword] = useState('') // 密碼 value
   const [inputList, UpdateInputList] = useImmer(inputs)
+  const navigate = useNavigate()
 
   // 設置 input狀態 函數
   function setInput(num, status, errorText) {
@@ -101,17 +103,17 @@ export default function AdminLogin() {
     }
   }
   // 禁用所有input
-  // function disabledAllInput(boolean) {
-  //   if (boolean) {
-  //     for (let i = 0; i < inputs.length; i++) {
-  //       setInput(i, 'disabled')
-  //     }
-  //   } else {
-  //     for (let i = 0; i < inputs.length; i++) {
-  //       setInput(i, '')
-  //     }
-  //   }
-  // }
+  function disabledAllInput(boolean) {
+    if (boolean) {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, 'disabled')
+      }
+    } else {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, '')
+      }
+    }
+  }
   // Button事件
   async function handleClick() {
     // 判斷 account、password 是否符合格式
@@ -128,20 +130,22 @@ export default function AdminLogin() {
       return
     }
 
-    // try {
-    //   // 請求時禁用input
-    //   disabledAllInput(true)
-    //   // 保存返回的 success、authToken 資料
-    //   const { success, token } = await login({ account, password })
-    //   // 取得成功，將 authToken 存進用戶的 localStorage
-    //   if (success) {
-    //     localStorage.setItem('token', token)
-    //   }
-    // } catch (error) {
-    //   console.log('錯誤拉')
-    // }
-    // // 請求結束啟用input
-    // disabledAllInput()
+    // 請求時禁用input
+    disabledAllInput(true)
+    // 保存返回的 success、authToken 資料
+    const { success, token, error } = await adminLogin(account, password)
+    // 取得成功，將 authToken 存進用戶的 localStorage
+    // console.log(success)
+    if (success) {
+      localStorage.setItem('adminToken', token)
+      navigate('/admin/list')
+    } else {
+      // 彈出框處理 (未完成)
+      console.log(`登入失敗${error.message}`)
+    }
+
+    // 請求結束啟用input
+    disabledAllInput()
   }
   return (
     <StyledContainer className='d-flex flex-column align-items-center'>
