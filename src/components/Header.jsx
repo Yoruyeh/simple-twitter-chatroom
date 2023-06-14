@@ -28,6 +28,9 @@ const StyledReplyHeader = styled(StyledMainHeader)`
     top: 50%;
     transform: translateY(-50%);
     left: 24px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `
 
