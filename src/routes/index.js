@@ -7,11 +7,12 @@ import UserPage from '../pages/UserPage'
 import SettingPage from '../pages/SettingPage'
 import ReplyPage from '../pages/ReplyPage'
 import UserFollowerPage from '../pages/UserFollowerPage'
-import AdminCardPage from '../pages/AdminCardPage'
+import AdminCard from '../components/AdminCard'
 import TabRepliesTweets from '../components/common/TabRepliesTweets'
 import TabLikesTweets from '../components/common/TabLikesTweets'
 import TabTweets from '../components/common/TabTweets'
-import { TabTweetItems } from '../components/common/TabTweetItems'
+import AdminList from '../components/AdminList'
+import AdminPage from '../pages/AdminPage'
 
 // 路由表
 const routes = [
@@ -24,8 +25,26 @@ const routes = [
     element: <RegistPage />,
   },
   {
-    path: '/admin',
+    path: '/admin/login',
     element: <AdminLoginPage />,
+  },
+  {
+    path: '/admin',
+    element: <AdminPage />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to='list' />,
+      },
+      {
+        path: 'list',
+        element: <AdminList />,
+      },
+      {
+        path: 'cards',
+        element: <AdminCard />,
+      },
+    ],
   },
   {
     path: `/simple-twitter`,
@@ -44,7 +63,7 @@ const routes = [
     element: <UserPage />,
     children: [
       {
-        path: '',
+        index: true,
         element: <TabTweets />,
       },
       {
@@ -72,14 +91,6 @@ const routes = [
   {
     path: '/:id/followings',
     element: <UserFollowerPage />,
-  },
-  {
-    path: '/admin/card',
-    element: <AdminCardPage />,
-  },
-  {
-    path: '/test',
-    element: <TabTweetItems />,
   },
   {
     path: '/tweets/:id/reply',

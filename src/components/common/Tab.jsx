@@ -74,7 +74,7 @@ function ReturnItems() {
     return (
       <>
         <li>
-          <NavLink className={computedClassName} end to='./'>
+          <NavLink className={computedClassName} end to=''>
             推文
           </NavLink>
         </li>
