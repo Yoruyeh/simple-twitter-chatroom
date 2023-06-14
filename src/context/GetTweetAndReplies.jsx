@@ -157,7 +157,7 @@ export const GetTheTweetProvider = ({ children }) => {
         replyInputValue,
         repliesById,
         isReplyLoading,
-        updatedTweets, updatedSelected
+        updatedTweets, updatedSelected, setUpdatedTweets
       }}
     >
       {children}

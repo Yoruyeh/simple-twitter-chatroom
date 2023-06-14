@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { getTweets, createTweet } from '../api/tweets';
 import { useAuth } from '../context/AuthContext'
 import { getLikes, createLike, createUnLike } from '../api/like';
+import { useGetTheTweet } from './GetTweetAndReplies';
 
 const CreateTweetContext = createContext(() => {});
 
@@ -9,9 +10,9 @@ export const useCreateTweet = () => useContext(CreateTweetContext);
 
 export const CreateTweetProvider = ({ children }) => {
   const { isAuthenticated, currentMember } = useAuth()
+  const { setUpdatedTweets } = useGetTheTweet()
   const [tweets, setTweets] = useState([])
   const [userLikesArr, setUserLikeArr] = useState([])
-  // const [updatedUserLikesArr, setUpdatedUserLikesArr] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
@@ -62,8 +63,10 @@ export const CreateTweetProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
-    const result = await getLikes(currentMember.id);
-    setUserLikeArr(result)
+    const tweets = await getTweets()
+    setUpdatedTweets(tweets)
+    const likes = await getLikes(currentMember.id);
+    setUserLikeArr(likes)
   }
 
   const handleLikeAtHome = async (id) => {
@@ -72,8 +75,10 @@ export const CreateTweetProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
-    const result = await getLikes(currentMember.id);
-    setUserLikeArr(result)
+    const tweets = await getTweets()
+    setUpdatedTweets(tweets)
+    const likes = await getLikes(currentMember.id);
+    setUserLikeArr(likes)
   }
 
   

@@ -160,20 +160,3 @@ const TweetItemInReply = ({ selectedReplyItem }) => {
 
 export { TweetItemIcon, TweetItem, TweetItemInReply };
 
-// .tweet-like-icon-unliked {
-//     width: 14px;
-//     height: 14px;
-//     margin-right: 9px;
-
-//     &:hover {
-//     cursor: pointer;
-//   }
-//   }
-//   .tweet-like-icon-liked {
-//      width: 14px;
-//     height: 14px;
-//     margin-right: 9px;
-
-//     & svg {
-//       fill: var(--main);
-//     }
