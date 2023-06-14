@@ -1,12 +1,12 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
 import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput';
-import { useCreateTweet } from '../context/CreateTweet';
-import { useNavigate } from 'react-router-dom'
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
+import { useGetTweets } from '../context/GetTweets';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -176,7 +176,7 @@ const StyledEditAvatar = styled.div`
 `;
 
 const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
-  const { tweetModalValue, handleClickTweetModal } = useCreateTweet();
+  const { tweetModalValue, handleClickTweetModal } = useGetTweets();
   return (
     <>
       <StyledTweetModalContainer>
@@ -209,7 +209,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
 };
 
 const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
-  const {replyInputValue, handleClickReplyInput} = useGetTheTweet()
+  const {replyInputValue, handleClickReplyInput} = useGetSelectedTweet()
   const navigate = useNavigate()
   return (
     <>

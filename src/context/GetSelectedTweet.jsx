@@ -1,17 +1,18 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useContext, useState } from 'react'
 import { getTweets, getTweetById } from '../api/tweets';
-import { createReply, getRepliesById } from '../api/replies';
-import { useAuth } from './AuthContext';
+import { getRepliesById, createReply } from '../api/replies';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useGetTweets } from './GetTweets';
 
-const GetTheTweetContext = createContext(() => {});
+const GetSelectedTweetContext = createContext(() => {});
 
-export const useGetTheTweet = () => useContext(GetTheTweetContext);
+export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
 
-export const GetTheTweetProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth()
-
+export const GetSelectedTweetProvider = ({ children }) => {
+  const navigate = useNavigate()
+  const pathname = useLocation().pathname
+  const { setTweets } = useGetTweets()
+  // 點進內容渲染reply page
   const [selectedTweetItem, setSelectedTweetItem] = useState({
     id: 14,
     userId: 14,
@@ -30,7 +31,10 @@ export const GetTheTweetProvider = ({ children }) => {
       avatar: 'https://loremflickr.com/320/240/man/?random=0.23200002093710648',
       cover: 'https://loremflickr.com/1440/480/city/?random=14.084527578970008',
     },
-  });
+  })
+  const [replies, setReplies] = useState([])
+  const [isReplyPageLoading, setIsReplyPageLoading] = useState(false)
+  // 點icon渲然該推文內容及input modal
   const [selectedReplyItem, setSelectedReplyItem] = useState({
     id: 14,
     userId: 14,
@@ -49,25 +53,23 @@ export const GetTheTweetProvider = ({ children }) => {
       avatar: 'https://loremflickr.com/320/240/man/?random=0.23200002093710648',
       cover: 'https://loremflickr.com/1440/480/city/?random=14.084527578970008',
     },
-  });
-  const [isTweetLoading, setIsTweetLoading] = useState(false);
-  const [isModalLoading, setIsModalLoading] = useState(false);
-  const [repliesById, setRepliesById] = useState([]);
-  const [replyInputValue, setReplyInputValue] = useState('');
-  const [isReplyLoading, SetIsReplyLoading] = useState(false);
-  const [updatedTweets, setUpdatedTweets] = useState([])
-  const [updatedSelected, setUpdatedSelected] = useState(null)
+  })
+  const [isModalLoading, setIsModalLoading] = useState(false)
+  // 回覆的input控制
+  const [replyInputValue, setReplyInputValue] = useState('')
 
   const handleTweetContentClick = async (id) => {
-    setIsTweetLoading(true);
+    setIsReplyPageLoading(true);
     try {
-      const tweet = await getTweetById(id);
-      setSelectedTweetItem(tweet);
-      setIsTweetLoading(false);
+      const tweet = await getTweetById(id)
+      setSelectedTweetItem(tweet)
+      const replysById = await getRepliesById(id)
+      setReplies(replysById)
+      setIsReplyPageLoading(false);
       navigate(`/tweets/${id}`);
     } catch (error) {
       console.error(error);
-      setIsTweetLoading(false);
+      setIsReplyPageLoading(false);
     }
   };
 
@@ -88,7 +90,7 @@ export const GetTheTweetProvider = ({ children }) => {
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
-      setSelectedTweetItem(tweet);
+      setSelectedReplyItem(tweet);
       setIsModalLoading(false);
       navigate(`/tweets/${id}`);
     } catch (error) {
@@ -109,58 +111,30 @@ export const GetTheTweetProvider = ({ children }) => {
       await createReply(selectedReplyItem.id, {
         comment: replyInputValue,
       });
-      const tweets = await getTweets()
-      setUpdatedTweets(tweets)
-      const tweet = await getTweetById(selectedReplyItem.id)
-      setUpdatedSelected(tweet)
-      setSelectedTweetItem(tweet)
-      const replies = await getRepliesById(selectedReplyItem.id);
-      setRepliesById(replies);
-      navigate(`tweets/${selectedReplyItem.id}`)
+      if (pathname.includes('reply')) {
+        const tweets = await getTweets()
+        setTweets(tweets)
+        const tweet = await getTweetById(selectedReplyItem.id)
+        setSelectedTweetItem(tweet)
+        navigate(`tweets/${selectedReplyItem.id}`)
+      } else {
+        const tweet = await getTweetById(selectedReplyItem.id)
+        setSelectedReplyItem(tweet)
+        const replies = await getRepliesById(selectedReplyItem.id);
+        setReplies(replies);
+      }
     } catch (error) {
       console.error(error);
     }
     setReplyInputValue('');
   };
 
-  useEffect(() => {
-    if(!isAuthenticated) {
-      return
-    }
-    if (!isTweetLoading) {
-      SetIsReplyLoading(true);
-      const getRepliesByIdAsync = async () => {
-        try {
-          const replies = await getRepliesById(selectedTweetItem.id);
-          setRepliesById(replies);
-          SetIsReplyLoading(false);
-        } catch (error) {
-          console.error(error);
-          SetIsReplyLoading(false);
-        }
-      };
-      getRepliesByIdAsync();
-    }
-  }, [isTweetLoading, selectedTweetItem, isAuthenticated]);
 
   return (
-    <GetTheTweetContext.Provider
-      value={{
-        handleTweetContentClick,
-        handleReplyIconClicked,
-        handleReplyIconClickedAtHome,
-        selectedTweetItem,
-        selectedReplyItem,
-        isTweetLoading,
-        isModalLoading,
-        handleReplyInputChange,
-        handleClickReplyInput,
-        replyInputValue,
-        repliesById,
-        isReplyLoading,
-        updatedTweets, updatedSelected, setUpdatedTweets, setSelectedTweetItem}}
-    >
+    <GetSelectedTweetContext.Provider 
+    value={{selectedTweetItem, isReplyPageLoading, handleTweetContentClick, 
+    handleReplyIconClickedAtHome, selectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue}}>
       {children}
-    </GetTheTweetContext.Provider>
+    </GetSelectedTweetContext.Provider>
   );
-};
+}

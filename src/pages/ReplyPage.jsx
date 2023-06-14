@@ -4,9 +4,10 @@ import MainLayout from '../layout/MainLayout'
 import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
 import ReplyCollection from '../components/ReplyCollection'
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
 import { ReplyModal } from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet';
+
 
 const StyledReplyPageContainer = styled.div`
   width: 100%;
@@ -41,10 +42,8 @@ const StyledReplyModalContainer = styled.div`
 
 const ReplyPage = () => {
   const { currentMember } = useAuth()
-  const { isTweetLoading } = useGetTheTweet()
-  const { repliesById, isReplyLoading } = useGetTheTweet()
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { selectedTweetItem, selectedReplyItem, isModalLoading } = useGetTheTweet();
+  const { selectedTweetItem, isReplyPageLoading, selectedReplyItem, isModalLoading, replies } = useGetSelectedTweet();
 
   const handleOpenReplyModal = () => {
     setOpenReplyModal(!openReplyModal);
@@ -52,7 +51,7 @@ const ReplyPage = () => {
 
 
   return (
-  !isTweetLoading && !isReplyLoading &&
+  !isReplyPageLoading &&
   (
     <MainLayout>
       <StyledReplyPageContainer>
@@ -63,7 +62,7 @@ const ReplyPage = () => {
             <TweetContent selectedTweetItem={selectedTweetItem} handleOpenReplyModal={handleOpenReplyModal}/>
         </div>
         <div className="reply-collection">
-          <ReplyCollection repliesById={repliesById}/>
+          <ReplyCollection replies={replies}/>
         </div>
       </StyledReplyPageContainer>
       {openReplyModal && !isModalLoading && (

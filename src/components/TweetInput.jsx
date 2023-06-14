@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useCreateTweet } from '../context/CreateTweet';
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
+import { useGetTweets } from '../context/GetTweets';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet'
 
 const StyledInputContainer = styled.div`
   border: none;
@@ -57,7 +57,7 @@ const StyledAvatar = styled.div`
 `;
 
 const TweetInput = ({ placeholder, currentMember }) => {
-  const { handleTweetInputChange, tweetInputValue } = useCreateTweet();
+  const { handleTweetInputChange, tweetInputValue } = useGetTweets();
 
   return (
     <>
@@ -77,7 +77,7 @@ const TweetInput = ({ placeholder, currentMember }) => {
 };
 
 const TweetModalInput = ({ placeholder, currentMember }) => {
-  const { handleTweetModalChange, tweetModalValue } = useCreateTweet();
+  const { handleTweetModalChange, tweetModalValue } = useGetTweets();
 
   return (
     <>
@@ -97,7 +97,7 @@ const TweetModalInput = ({ placeholder, currentMember }) => {
 };
 
 const TweetReplyInput = ({ placeholder, currentMember }) => {
-    const { handleReplyInputChange, replyInputValue } = useGetTheTweet();
+    const { handleReplyInputChange, replyInputValue } = useGetSelectedTweet();
 
   return (
     <>

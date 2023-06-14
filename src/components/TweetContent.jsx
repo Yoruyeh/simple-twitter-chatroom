@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
-import { useGetTheTweet } from '../context/GetTweetAndReplies'
-import { useCreateTweet } from '../context/CreateTweet';
-// import { useCreateTweet } from '../context/CreateTweet'
+import { useGetSelectedTweet } from '../context/GetSelectedTweet'
+
 
 const StyledTweetContent = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -102,8 +101,8 @@ const StyledAvatar = styled.div`
 `
 
 const TweetContent = ({ selectedTweetItem, handleOpenReplyModal }) => {
-  const { handleReplyIconClicked } = useGetTheTweet()
-  const {userLikesArr, handleUnLikeAtReply, handleLikeAtReply} = useCreateTweet()
+  const { handleReplyIconClicked } = useGetSelectedTweet()
+  // const {userLikesArr, handleUnLikeAtReply, handleLikeAtReply} = useCreateTweet()
 
   return (
   <StyledTweetContent key={selectedTweetItem.id}>
@@ -126,7 +125,7 @@ const TweetContent = ({ selectedTweetItem, handleOpenReplyModal }) => {
       handleReplyIconClicked(selectedTweetItem.id)
       handleOpenReplyModal()
       }}/>
-      {userLikesArr.some(item => item.Tweet.id === selectedTweetItem.id) ? (
+      {/* {userLikesArr.some(item => item.Tweet.id === selectedTweetItem.id) ? (
         <FilledLike className="tweet-content-icon-like liked" data-id={selectedTweetItem.id}
         onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
@@ -140,7 +139,7 @@ const TweetContent = ({ selectedTweetItem, handleOpenReplyModal }) => {
             handleLikeAtReply(clickedLikedIconId)
           }}
         />
-      )}
+      )} */}
     </div>
   </StyledTweetContent>
   )
