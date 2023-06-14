@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useGetTheTweet } from '../context/GetTheTweet'
+import { useGetTheTweet } from '../context/GetTweetAndReplies'
 import { OutlinedLike, OutlinedReply } from '../assets/icons';
 
 const StyledTweetItemContainer = styled.div`
@@ -72,7 +72,7 @@ const StyledTweetIconContainer = styled.div`
 `;
 
 const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
-  const { handleReplyIconClicked } = useGetTheTweet()
+  const { handleReplyIconClickedAtHome } = useGetTheTweet()
 
   return (
     <StyledTweetIconContainer data-id={tweet.id}>
@@ -80,7 +80,7 @@ const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
         <OutlinedReply data-id={tweet.id} 
         onClick={(e) => {
         const clickedReplyIconId = e.target.dataset.id
-        handleReplyIconClicked(clickedReplyIconId)
+        handleReplyIconClickedAtHome(clickedReplyIconId)
         handleOpenReplyModal()
       }} />
         <span className="tweet-reply-count" data-id={tweet.id}>{tweet.replyCount}</span>

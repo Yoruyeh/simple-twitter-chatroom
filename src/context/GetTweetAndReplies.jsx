@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTweetById } from '../api/tweets';
+import { getTweets, getTweetById } from '../api/tweets';
+import { createReply, getRepliesById } from '../api/replies';
 
 const GetTheTweetContext = createContext(() => {});
 
@@ -49,6 +50,11 @@ export const GetTheTweetProvider = ({ children }) => {
   });
   const [isTweetLoading, setIsTweetLoading] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
+  const [repliesById, setRepliesById] = useState([]);
+  const [replyInputValue, setReplyInputValue] = useState('');
+  const [isReplyLoading, SetIsReplyLoading] = useState(false);
+  const [updatedTweets, setUpdatedTweets] = useState([])
+  const [updatedSelected, setUpdatedSelected] = useState(null)
 
   const handleTweetContentClick = async (id) => {
     setIsTweetLoading(true);
@@ -63,7 +69,7 @@ export const GetTheTweetProvider = ({ children }) => {
     }
   };
 
-  const handleReplyIconClicked = async (id) => {
+  const handleReplyIconClickedAtHome = async (id) => {
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -76,15 +82,77 @@ export const GetTheTweetProvider = ({ children }) => {
     }
   };
 
+  const handleReplyIconClicked = async (id) => {
+    setIsModalLoading(true);
+    try {
+      const tweet = await getTweetById(id);
+      setSelectedReplyItem(tweet);
+      setIsModalLoading(false);
+      navigate(`/tweets/${id}`);
+    } catch (error) {
+      console.error(error);
+      setIsModalLoading(false);
+    }
+  };
+
+  const handleReplyInputChange = (value) => {
+    setReplyInputValue(value);
+  };
+
+  const handleClickReplyInput = async () => {
+    if (replyInputValue.length === 0) {
+      return;
+    }
+    try {
+      await createReply(selectedReplyItem.id, {
+        comment: replyInputValue,
+      });
+      const tweets = await getTweets()
+      setUpdatedTweets(tweets)
+      const tweet = await getTweetById(selectedReplyItem.id)
+      setUpdatedSelected(tweet)
+      const replies = await getRepliesById(selectedReplyItem.id);
+      setRepliesById(replies);
+      navigate(`tweets/${selectedReplyItem.id}`)
+    } catch (error) {
+      console.error(error);
+    }
+    setReplyInputValue('');
+  };
+
+  useEffect(() => {
+    if (!isTweetLoading) {
+      SetIsReplyLoading(true);
+      const getRepliesByIdAsync = async () => {
+        try {
+          const replies = await getRepliesById(selectedTweetItem.id);
+          setRepliesById(replies);
+          SetIsReplyLoading(false);
+        } catch (error) {
+          console.error(error);
+          SetIsReplyLoading(false);
+        }
+      };
+      getRepliesByIdAsync();
+    }
+  }, [isTweetLoading, selectedTweetItem]);
+
   return (
     <GetTheTweetContext.Provider
       value={{
         handleTweetContentClick,
         handleReplyIconClicked,
+        handleReplyIconClickedAtHome,
         selectedTweetItem,
         selectedReplyItem,
         isTweetLoading,
         isModalLoading,
+        handleReplyInputChange,
+        handleClickReplyInput,
+        replyInputValue,
+        repliesById,
+        isReplyLoading,
+        updatedTweets, updatedSelected
       }}
     >
       {children}
