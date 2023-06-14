@@ -172,7 +172,7 @@ export default function Login() {
         </li>
         <span>・</span>
         <li>
-          <NavLink to='/admin'>後台登入</NavLink>
+          <NavLink to='/admin/login'>後台登入</NavLink>
         </li>
       </StyledLink>
     </StyledContainer>
