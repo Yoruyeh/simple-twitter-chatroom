@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getTweets, createTweet } from '../api/tweets';
 import { useAuth } from '../context/AuthContext'
-import { getLikes } from '../api/like';
+import { getLikes, createLike, createUnLike } from '../api/like';
 
 const CreateTweetContext = createContext(() => {});
 
@@ -11,6 +11,7 @@ export const CreateTweetProvider = ({ children }) => {
   const { isAuthenticated, currentMember } = useAuth()
   const [tweets, setTweets] = useState([])
   const [userLikesArr, setUserLikeArr] = useState([])
+  // const [updatedUserLikesArr, setUpdatedUserLikesArr] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
@@ -54,7 +55,28 @@ export const CreateTweetProvider = ({ children }) => {
     }
     setTweetModalValue('')
   }
- 
+
+  const handleUnLikeAtHome = async (id) => {
+    try {
+      await createUnLike(id)
+    } catch (error) {
+      console.error(error)
+    }
+    const result = await getLikes(currentMember.id);
+    setUserLikeArr(result)
+  }
+
+  const handleLikeAtHome = async (id) => {
+    try {
+      await createLike(id)
+    } catch (error) {
+      console.error(error)
+    }
+    const result = await getLikes(currentMember.id);
+    setUserLikeArr(result)
+  }
+
+  
   useEffect(() => {
     if (isAuthenticated) {
       const getTweetsAsync = async () => {
@@ -82,7 +104,7 @@ export const CreateTweetProvider = ({ children }) => {
 
   return (
     <CreateTweetContext.Provider 
-    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal, userLikesArr, isLoading}}>
+    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal, userLikesArr, isLoading, handleLikeAtHome, handleUnLikeAtHome}}>
       {children}
     </CreateTweetContext.Provider>
   );
