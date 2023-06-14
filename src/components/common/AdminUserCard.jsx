@@ -6,14 +6,14 @@ const StyledContainer = styled.div`
   padding: 0 0 24px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 10px 10px;
+  margin: auto;
 `
 
 const StyledImgWrapper = styled.div`
   position: relative;
-
   .background-img {
     border-radius: 10px 10px 0 0;
-    background-image: url(https://images.unsplash.com/photo-1564890769567-cae969d2f9ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
+    background-image: url(${(props) => props.cover});
     background-size: cover;
     aspect-ratio: 210 / 140;
   }
@@ -27,7 +27,7 @@ const StyledImgWrapper = styled.div`
     aspect-ratio: 210 / 100;
     .user-img {
       box-shadow: inset 0px 0px 0px 4px #fff;
-      background-image: url(https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=662&q=80);
+      background-image: url(${(props) => props.avatar});
       background-size: cover;
       aspect-ratio: 1 / 1;
       border-radius: 100%;
@@ -76,10 +76,23 @@ const StyledInfoWrapper = styled.div`
   }
 `
 
-export default function AdminUserCard() {
+export default function AdminUserCard({ user }) {
+  const tweetCounts = formatNumber(user.tweetCount)
+  const likeCounts = formatNumber(user.likeCount)
+  const follwerCounts = formatNumber(user.followerCount)
+  const follwingCounts = formatNumber(user.followingCount)
+
+  function formatNumber(num) {
+    if (num >= 1000) {
+      return Math.floor(num / 100) / 10 + 'k'
+    } else {
+      return num.toString()
+    }
+  }
+
   return (
-    <StyledContainer className='col-3'>
-      <StyledImgWrapper>
+    <StyledContainer>
+      <StyledImgWrapper cover={user.cover} avatar={user.avatar}>
         <div className='background-img'></div>
         <div className='user-img-wrapper'>
           <div className='user-img'></div>
@@ -87,26 +100,26 @@ export default function AdminUserCard() {
       </StyledImgWrapper>
 
       <StyledInfoWrapper className='d-flex flex-column align-items-center'>
-        <h6 className='user-name'>User</h6>
-        <p className='user-id'>@userid</p>
+        <h6 className='user-name'>{user.name}</h6>
+        <p className='user-id'>@{user.id}</p>
 
         <div className='icon-group row'>
           <div className='icon-wrapper d-flex col-6 align-items-center'>
             <FilledPost></FilledPost>
-            <span className='icon-text'>1.5k</span>
+            <span className='icon-text'>{tweetCounts}</span>
           </div>
           <div className='icon-wrapper d-flex col-6 align-items-center'>
             <OutlinedLike></OutlinedLike>
-            <span className='icon-text'>20k</span>
+            <span className='icon-text'>{likeCounts}</span>
           </div>
         </div>
 
         <div className='follow-group row'>
           <span className='col-6 following'>
-            34 <span className='text'>個跟隨中</span>
+            {follwerCounts} <span className='text'>個跟隨中</span>
           </span>
           <span className='col-6 follower'>
-            59 <span className='text'>位跟隨者</span>
+            {follwingCounts} <span className='text'>位跟隨者</span>
           </span>
         </div>
       </StyledInfoWrapper>
