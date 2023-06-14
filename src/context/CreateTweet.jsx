@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { getTweets, createTweet } from '../api/tweets';
+import { getTweets, createTweet, getTweetById } from '../api/tweets';
 import { useAuth } from '../context/AuthContext'
 import { getLikes, createLike, createUnLike } from '../api/like';
 import { useGetTheTweet } from './GetTweetAndReplies';
@@ -10,7 +10,7 @@ export const useCreateTweet = () => useContext(CreateTweetContext);
 
 export const CreateTweetProvider = ({ children }) => {
   const { isAuthenticated, currentMember } = useAuth()
-  const { setUpdatedTweets } = useGetTheTweet()
+  const { setUpdatedTweets, setSelectedTweetItem } = useGetTheTweet()
   const [tweets, setTweets] = useState([])
   const [userLikesArr, setUserLikeArr] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -81,6 +81,30 @@ export const CreateTweetProvider = ({ children }) => {
     setUserLikeArr(likes)
   }
 
+  const handleUnLikeAtReply = async (id) => {
+    try {
+      await createUnLike(id)
+    } catch (error) {
+      console.error(error)
+    }
+    const tweet = await getTweetById(id)
+    setSelectedTweetItem(tweet)
+    const likes = await getLikes(currentMember.id);
+    setUserLikeArr(likes)
+  }
+
+  const handleLikeAtReply = async (id) => {
+    try {
+      await createLike(id)
+    } catch (error) {
+      console.error(error)
+    }
+    const tweet = await getTweetById(id)
+    setSelectedTweetItem(tweet)
+    const likes = await getLikes(currentMember.id);
+    setUserLikeArr(likes)
+  }
+
   
   useEffect(() => {
     if (isAuthenticated) {
@@ -109,7 +133,7 @@ export const CreateTweetProvider = ({ children }) => {
 
   return (
     <CreateTweetContext.Provider 
-    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal, userLikesArr, isLoading, handleLikeAtHome, handleUnLikeAtHome}}>
+    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal, userLikesArr, isLoading, handleLikeAtHome, handleUnLikeAtHome, handleUnLikeAtReply, handleLikeAtReply, setTweetModalValue}}>
       {children}
     </CreateTweetContext.Provider>
   );
