@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { FollowButton } from './common/button.styled';
 import { getPopularFollowers } from '../api/popular.follower';
+import { Follow, UnFollow } from '../api/user.follower';
+import { useAuth } from '../context/AuthContext';
 
 const StyledFollowerContainer = styled.div`
   width: 273px;
@@ -53,6 +55,34 @@ const StyledFollowerInfo = styled.div`
 
 const PopularFollowerItem = () => {
   const [popularFollowers, setPopularFollowers] = useState([]);
+  const { currentMember } = useAuth()
+
+  const handleFollowClicked = async (id) => {
+    if (currentMember.id === id) {
+      return
+    }
+    try {
+      await Follow({ 
+        id: id 
+      })
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users
+      setPopularFollowers(populars)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleUnFollowClicked = async (id) => {
+    try {
+      await UnFollow(id)
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users
+      setPopularFollowers(populars)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     const getPopularFollowersAsync = async () => {
@@ -80,9 +110,18 @@ const PopularFollowerItem = () => {
             @{popular.account}
           </div>
         </StyledFollowerInfo>
-        <FollowButton isfollowed={String(popular.isFollowed)}>
+        {currentMember.id !== popular.id &&
+        <FollowButton isfollowed={String(popular.isFollowed)} data-id={popular.id}
+        onClick={(e) => {
+          const clickedFollowId = e.currentTarget.dataset.id
+          if(popular.isFollowed === true) {
+            handleUnFollowClicked(clickedFollowId)
+          } else {
+            handleFollowClicked(clickedFollowId)
+          }
+        }}>
           {!popular.isFollowed ? '跟隨' : '正在跟隨'}
-          </FollowButton>
+          </FollowButton>}
       </StyledFollowerItem>
       )
     })}

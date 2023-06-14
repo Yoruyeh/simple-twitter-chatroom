@@ -36,3 +36,25 @@ export const getUserFollowingsById = async (id) => {
     console.error('[Get User Followings failed]: ', error);
   }
 };
+
+export const Follow = async (payload) => {
+  const { id } = payload;
+
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/followships`, {
+      id
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Create Follow failed]: ', error);
+  }
+};
+
+export const UnFollow = async (id) => {
+  try {
+    const res = await axiosInstance.delete(`${baseUrl}/followships/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error('[Delete Follow failed]: ', error);
+  }
+};

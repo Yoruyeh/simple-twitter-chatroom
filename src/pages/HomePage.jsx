@@ -79,6 +79,7 @@ const HomePage = () => {
   }, [navigate, isAuthenticated]);
 
   return (
+    isAuthenticated &&
     <MainLayout>
       <StyledHomePageContainer>
         <div className="header">

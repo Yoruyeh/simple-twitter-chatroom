@@ -1,14 +1,19 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getTweets, createTweet } from '../api/tweets';
 import { useAuth } from '../context/AuthContext'
+import { getLikes, createLike, createUnLike } from '../api/like';
+import { useGetTheTweet } from './GetTweetAndReplies';
 
 const CreateTweetContext = createContext(() => {});
 
 export const useCreateTweet = () => useContext(CreateTweetContext);
 
 export const CreateTweetProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentMember } = useAuth()
+  const { setUpdatedTweets } = useGetTheTweet()
   const [tweets, setTweets] = useState([])
+  const [userLikesArr, setUserLikeArr] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
 
@@ -51,7 +56,32 @@ export const CreateTweetProvider = ({ children }) => {
     }
     setTweetModalValue('')
   }
- 
+
+  const handleUnLikeAtHome = async (id) => {
+    try {
+      await createUnLike(id)
+    } catch (error) {
+      console.error(error)
+    }
+    const tweets = await getTweets()
+    setUpdatedTweets(tweets)
+    const likes = await getLikes(currentMember.id);
+    setUserLikeArr(likes)
+  }
+
+  const handleLikeAtHome = async (id) => {
+    try {
+      await createLike(id)
+    } catch (error) {
+      console.error(error)
+    }
+    const tweets = await getTweets()
+    setUpdatedTweets(tweets)
+    const likes = await getLikes(currentMember.id);
+    setUserLikeArr(likes)
+  }
+
+  
   useEffect(() => {
     if (isAuthenticated) {
       const getTweetsAsync = async () => {
@@ -63,13 +93,23 @@ export const CreateTweetProvider = ({ children }) => {
       }
     };
     getTweetsAsync();
+    const getUserLikesAsyn = async () => {
+      try {
+        const result = await getLikes(currentMember.id)
+        setUserLikeArr(result)
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error)
+      }
     }
-  }, [isAuthenticated]);
+    getUserLikesAsyn()
+    }
+  }, [isAuthenticated, currentMember]);
 
 
   return (
     <CreateTweetContext.Provider 
-    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal}}>
+    value={{tweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, tweetModalValue, handleClickTweetModal, userLikesArr, isLoading, handleLikeAtHome, handleUnLikeAtHome}}>
       {children}
     </CreateTweetContext.Provider>
   );

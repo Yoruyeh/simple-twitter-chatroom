@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTweets, getTweetById } from '../api/tweets';
 import { createReply, getRepliesById } from '../api/replies';
+import { useAuth } from './AuthContext';
 
 const GetTheTweetContext = createContext(() => {});
 
@@ -9,6 +10,7 @@ export const useGetTheTweet = () => useContext(GetTheTweetContext);
 
 export const GetTheTweetProvider = ({ children }) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth()
 
   const [selectedTweetItem, setSelectedTweetItem] = useState({
     id: 14,
@@ -121,6 +123,9 @@ export const GetTheTweetProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if(!isAuthenticated) {
+      return
+    }
     if (!isTweetLoading) {
       SetIsReplyLoading(true);
       const getRepliesByIdAsync = async () => {
@@ -135,7 +140,7 @@ export const GetTheTweetProvider = ({ children }) => {
       };
       getRepliesByIdAsync();
     }
-  }, [isTweetLoading, selectedTweetItem]);
+  }, [isTweetLoading, selectedTweetItem, isAuthenticated]);
 
   return (
     <GetTheTweetContext.Provider
@@ -152,7 +157,7 @@ export const GetTheTweetProvider = ({ children }) => {
         replyInputValue,
         repliesById,
         isReplyLoading,
-        updatedTweets, updatedSelected
+        updatedTweets, updatedSelected, setUpdatedTweets
       }}
     >
       {children}
