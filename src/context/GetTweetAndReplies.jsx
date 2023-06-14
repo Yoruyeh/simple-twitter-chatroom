@@ -88,7 +88,7 @@ export const GetTheTweetProvider = ({ children }) => {
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
-      setSelectedReplyItem(tweet);
+      setSelectedTweetItem(tweet);
       setIsModalLoading(false);
       navigate(`/tweets/${id}`);
     } catch (error) {
@@ -113,6 +113,7 @@ export const GetTheTweetProvider = ({ children }) => {
       setUpdatedTweets(tweets)
       const tweet = await getTweetById(selectedReplyItem.id)
       setUpdatedSelected(tweet)
+      setSelectedTweetItem(tweet)
       const replies = await getRepliesById(selectedReplyItem.id);
       setRepliesById(replies);
       navigate(`tweets/${selectedReplyItem.id}`)
@@ -157,8 +158,7 @@ export const GetTheTweetProvider = ({ children }) => {
         replyInputValue,
         repliesById,
         isReplyLoading,
-        updatedTweets, updatedSelected, setUpdatedTweets
-      }}
+        updatedTweets, updatedSelected, setUpdatedTweets, setSelectedTweetItem}}
     >
       {children}
     </GetTheTweetContext.Provider>

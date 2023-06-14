@@ -76,7 +76,7 @@ const StyledTweetModalContainer = styled.div`
 
 const MainLayout = ({ children }) => {
   const [openTweetModal, setOpenTweetModal] = useState(false)
-    const { currentMember } = useAuth()
+  const { currentMember } = useAuth()
 
   const handleOpenTweetModal = () => {
     setOpenTweetModal(!openTweetModal)
