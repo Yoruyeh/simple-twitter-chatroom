@@ -34,6 +34,30 @@ export async function getUser(token, userId) {
   }
 }
 
+// 註冊
+export async function registerAccount(
+  username,
+  account,
+  email,
+  password,
+  checkPassword
+) {
+  try {
+    const { data } = await axios.post(`${usersURL}`, {
+      name: username,
+      account,
+      email,
+      password,
+      checkPassword,
+    })
+
+    return { success: true, ...data }
+  } catch (error) {
+    console.error(`Register Failed: ${error}`)
+    return { success: false, error }
+  }
+}
+
 // 拿到某個使用者的所有推文
 export async function getUserTweet(token, userId) {
   try {

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useImmer } from 'use-immer'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { registerAccount } from '../api/users'
 // import { login } from '../api/users'
 // logo
 import { Logo } from '../assets/icons'
@@ -103,7 +104,7 @@ export default function Regist() {
   const [password, setPassword] = useState('') // 密碼 value
   const [checkPassword, setCheckPassword] = useState('') // 密碼確認 value
   const [inputList, UpdateInputList] = useImmer(inputs)
-
+  const navigate = useNavigate()
   // 設置 input狀態 函數
   function setInput(num, status, errorText) {
     UpdateInputList((draft) => {
@@ -134,17 +135,17 @@ export default function Regist() {
   }
 
   // 禁用所有input
-  // function disabledAllInput(boolean) {
-  //   if (boolean) {
-  //     for (let i = 0; i < inputs.length; i++) {
-  //       setInput(i, 'disabled')
-  //     }
-  //   } else {
-  //     for (let i = 0; i < inputs.length; i++) {
-  //       setInput(i, '')
-  //     }
-  //   }
-  // }
+  function disabledAllInput(boolean) {
+    if (boolean) {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, 'disabled')
+      }
+    } else {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, '')
+      }
+    }
+  }
   // Button事件
   async function handleClick() {
     // 判斷 input value 是否符合格式
@@ -174,20 +175,25 @@ export default function Regist() {
       return
     }
 
-    // try {
-    //   // 禁用所有按鈕
-    //   disabledAllInput(true)
-    //   // 保存返回的 success、authToken 資料
-    //   const { success, token } = await login({ account, password })
-    //   // 取得成功，將 authToken 存進用戶的 localStorage
-    //   if (success) {
-    //     localStorage.setItem('token', token)
-    //   }
-    // } catch (error) {
-    //   console.log('錯誤拉')
-    // }
-    // // 啟用所有按鈕
-    // disabledAllInput()
+    // 禁用所有按鈕
+    disabledAllInput(true)
+    // 判斷是否註冊成功
+    const { success, error } = await registerAccount(
+      username,
+      account,
+      email,
+      password,
+      checkPassword
+    )
+    // 成功，跳轉到 login
+    if (success) {
+      navigate('/login')
+      return
+    }
+    // 失敗
+    console.error(`註冊失敗: ${error}`)
+    // 啟用所有按鈕
+    disabledAllInput()
   }
 
   return (
