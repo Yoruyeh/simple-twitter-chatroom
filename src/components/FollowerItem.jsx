@@ -40,7 +40,7 @@ const StyledAvatar = styled.div`
 `;
 
 
-const FollowerItem = ({ follow }) => {
+const FollowerItem = ({ follow, followed }) => {
   return (
     <StyledFollowerItemContainer>
       <StyledAvatar image={follow.avatar} />
@@ -48,9 +48,12 @@ const FollowerItem = ({ follow }) => {
         <div className="user-follower-info">
           {follow.introduction}
         </div>
-        <FollowButton className="user-follower-button" isfollowed={String(follow.isFollowed)}> 
-            {!follow.isFollowed ? '跟隨' : '正在跟隨'}
-        </FollowButton>
+        {!followed ? (
+        <FollowButton className="user-follower-button unfollowed">跟隨</FollowButton>
+        ) 
+        : (
+        <FollowButton className="user-follower-button followed">正在跟隨</FollowButton>
+        )}
     </StyledFollowerItemContainer>
   );
 };
