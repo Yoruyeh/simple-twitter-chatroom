@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useNavigate, NavLink, Outlet } from 'react-router-dom'
 import { checkPermission } from '../../api/checkPermission'
+import { useAuth } from '../../context/AuthContext'
 // 顏色變量
 const dividerColor = '#E6ECF0'
 const fontDefaultColor = '#657786'
@@ -42,7 +43,7 @@ function ReturnItems() {
   function computedClassName({ isActive }) {
     return isActive ? 'tab-botton active' : 'tab-botton'
   }
-
+const { currentMember } = useAuth()
   if (
     window.location.pathname.includes('followers') ||
     window.location.pathname.includes('followings')
@@ -52,7 +53,7 @@ function ReturnItems() {
         <li>
           <NavLink
             className={computedClassName}
-            onClick={() => navigate('/14/followers')}
+            onClick={() => navigate(`/${currentMember.id}/followers`)}
           >
             追蹤者
           </NavLink>
@@ -60,7 +61,7 @@ function ReturnItems() {
         <li>
           <NavLink
             className={computedClassName}
-            onClick={() => navigate('/14/followings')}
+            onClick={() => navigate(`/${currentMember.id}/followings`)}
           >
             正在追蹤
           </NavLink>
