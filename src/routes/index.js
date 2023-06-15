@@ -139,6 +139,16 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/others/:id',
+    element: <OtherUserPage />,
+    children: [
+      {
+        path: 'tweets/:id/reply',
+        element: <TabTweets />,
+      },
+    ]
+  },
 ]
 
 export default routes

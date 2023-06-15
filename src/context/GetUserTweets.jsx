@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getUserInfo, getUserTweets, getUserReplies, getUserLikes } from '../api/other.users'
 import { useAuth } from './AuthContext';
 import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower';
-
+import { getTweetById } from '../api/tweets'
+import { useGetSelectedTweet } from './GetSelectedTweet';
 
 
 const GetUserTweetsContext = createContext(() => {});
@@ -12,11 +13,11 @@ export const useGetUserTweets = () => useContext(GetUserTweetsContext);
 
 export const GetUserTweetsProvider = ({ children }) => {
   const navigate = useNavigate()
+  const { setSelectedReplyItem, setIsModalLoading } = useGetSelectedTweet()
   const { currentMember } = useAuth()
   const [currentMemberInfo, setCurrentMemberInfo] = useState({})
   const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
   const [currentMemberFollowings, setCurrentMemberFollowings]  = useState([])
-
   const [userInfo, setUserInfo] = useState({})
   const [userTweets, setUserTweets] = useState([])
   const [userReplies, setUserReplies] = useState([])
@@ -42,6 +43,19 @@ export const GetUserTweetsProvider = ({ children }) => {
       console.error(error)
     }
   }
+
+  const handleReplyIconClickedAtOther = async (id) => {
+    setIsModalLoading(true);
+    try {
+      const tweet = await getTweetById(id);
+      setSelectedReplyItem(tweet);
+      setIsModalLoading(false);
+      navigate(`/others/${userInfo.id}/tweets/${id}/reply`);
+    } catch (error) {
+      console.error(error);
+      setIsModalLoading(false);
+    }
+  };
 
   useEffect(() => {
     const getUserInfoAsync = async () => {
@@ -76,7 +90,7 @@ export const GetUserTweetsProvider = ({ children }) => {
 
   return (
     <GetUserTweetsContext.Provider 
-    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings}}>
+    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings, handleReplyIconClickedAtOther}}>
       {children}
     </GetUserTweetsContext.Provider>
   );

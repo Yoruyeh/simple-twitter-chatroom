@@ -1,9 +1,10 @@
 import { styled } from 'styled-components'
 import { OutlinedReply, OutlinedLike, FilledLike } from '../../assets/icons'
 import { PillButton } from './button.styled'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetLikes } from '../../context/GetLikes'
+import { useGetUserTweets } from '../../context/GetUserTweets'
 
 const TweetContainer = styled(Link)`
   color: var(--dark-100);
@@ -113,7 +114,10 @@ function returnButton(button) {
 
 export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) {
   const { handleReplyIconClickedAtUser } = useGetSelectedTweet()
+  const { handleReplyIconClickedAtOther } = useGetUserTweets()
   const { userLikes, handleUnLike, handleLike } = useGetLikes()
+  const pathname = useLocation().pathname
+
 
   return (
     <TweetContainer className='d-flex px-0'>
@@ -141,8 +145,12 @@ export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) 
         <OutlinedReply data-id={tweet.id} 
         onClick={(e) => {
         const clickedReplyIconId = e.currentTarget.dataset.id
-        handleReplyIconClickedAtUser(clickedReplyIconId)
-        handleOpenReplyModal()
+        if (pathname.includes('others')) {
+          handleReplyIconClickedAtOther(clickedReplyIconId)
+        } else {
+          handleReplyIconClickedAtUser(clickedReplyIconId)
+        }
+          handleOpenReplyModal()
       }} />
               <span className='item-text'>{tweet.replyCount}</span>
             </div>

@@ -123,7 +123,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   return (
     <GetSelectedTweetContext.Provider 
     value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser}}>
+    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading}}>
       {children}
     </GetSelectedTweetContext.Provider>
   );
