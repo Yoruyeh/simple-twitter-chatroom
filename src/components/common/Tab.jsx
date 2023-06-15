@@ -38,8 +38,7 @@ const StyledContainer = styled.div`
 `
 
 // 根據條件返回相應的內容
-function ReturnItems({ handleOpenReplyModal }) {
-  const navigate = useNavigate()
+function ReturnItems() {
   function computedClassName({ isActive }) {
     return isActive ? 'tab-botton active' : 'tab-botton'
   }
@@ -53,16 +52,14 @@ const { currentMember } = useAuth()
         <li>
           <NavLink
             className={computedClassName}
-            onClick={() => navigate(`/${currentMember.id}/followers`)}
-          >
+            to={`/${currentMember.id}/followers`}>
             追蹤者
           </NavLink>
         </li>
         <li>
           <NavLink
             className={computedClassName}
-            onClick={() => navigate(`/${currentMember.id}/followings`)}
-          >
+            to={`/${currentMember.id}/followings`}>
             正在追蹤
           </NavLink>
         </li>
