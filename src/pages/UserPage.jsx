@@ -5,8 +5,8 @@ import { UserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 import MainLayout from '../layout/MainLayout'
 import { UserHeader } from '../components/Header'
-import { getUser } from '../api/users'
-import { checkPermission } from '../api/checkPermission'
+import { useAuth } from '../context/AuthContext'
+import { useGetUserTweets } from '../context/GetUserTweets'
 
 const StyledContainer = styled.div`
   .user-info {
@@ -14,42 +14,18 @@ const StyledContainer = styled.div`
   }
 `
 export default function UserPage() {
-  const [userData, setUserData] = useState({})
+  const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  const { currentMemberInfo } = useGetUserTweets()
 
-  useEffect(() => {
-    let userId = ''
 
-    // 取得 user 資料函數
-    async function getUserASync(token, userId) {
-      const data = await getUser(token, userId)
-      setUserData(data)
+ useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
     }
+  }, [navigate, isAuthenticated]);
 
-    // 檢查 token 是否有效、並取得使用者資料
-    async function checkTokenIsValid() {
-      // 在本地瀏覽器取得 token
-      const token = localStorage.getItem('token')
-      // token 不存在，跳轉到 login
-      if (!token) {
-        navigate('/login')
-        return
-      }
-      // 驗證 token 是否有效
-      // 無效則返回 login
-      const result = await checkPermission(token)
-      if (!result) {
-        navigate('/login')
-        return
-      }
-      // 取得 id
-      userId = result.id
-      // 取得使用者資料
-      await getUserASync(token, userId)
-    }
-    checkTokenIsValid()
-  }, [navigate])
-
+  
   return (
     <MainLayout>
       <StyledContainer className='container-fuild'>
@@ -57,16 +33,7 @@ export default function UserPage() {
           <UserHeader />
         </div>
         <div className='user-info'>
-          <UserInfoCard
-            userId = {userData.id}
-            username={userData.name}
-            useraccount={userData.account}
-            intro={userData.introduction}
-            following={userData.following}
-            follower={userData.follower}
-            cover={userData.cover}
-            avatar={userData.avatar}
-          />
+          <UserInfoCard currentMemberInfo={currentMemberInfo}/>
         </div>
         <div className='user-tab'>
           <Tab></Tab>
