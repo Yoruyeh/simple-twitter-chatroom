@@ -3,6 +3,7 @@ import { getTweets, getTweetById } from '../api/tweets';
 import { getRepliesById, createReply } from '../api/replies';
 import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from './GetTweets';
+import { useAuth } from './AuthContext';
 
 const GetSelectedTweetContext = createContext(() => {});
 
@@ -10,6 +11,7 @@ export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
 
 export const GetSelectedTweetProvider = ({ children }) => {
   const navigate = useNavigate()
+  const { currentMember } = useAuth()
   const { setTweets } = useGetTweets()
   // 點進內容渲染reply page
    const [selectedReplyItem, setSelectedReplyItem] = useState({
@@ -66,13 +68,26 @@ export const GetSelectedTweetProvider = ({ children }) => {
     }
   };
 
+  const handleReplyIconClickedAtUser = async (id) => {
+    setIsModalLoading(true);
+    try {
+      const tweet = await getTweetById(id);
+      setSelectedReplyItem(tweet);
+      setIsModalLoading(false);
+      navigate(`/${currentMember.id}/tweets/${id}/reply`);
+    } catch (error) {
+      console.error(error);
+      setIsModalLoading(false);
+    }
+  };
+
   const handleReplyIconClicked = async (id) => {
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
       setSelectedReplyItem(tweet);
       setIsModalLoading(false);
-      navigate(`/tweets/${id}`);
+      navigate(`/replies/tweets/${id}/reply`);
     } catch (error) {
       console.error(error);
       setIsModalLoading(false);
@@ -108,7 +123,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   return (
     <GetSelectedTweetContext.Provider 
     value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue}}>
+    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser}}>
       {children}
     </GetSelectedTweetContext.Provider>
   );

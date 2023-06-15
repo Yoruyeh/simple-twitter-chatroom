@@ -14,6 +14,7 @@ import TabTweets from '../components/common/TabTweets'
 import AdminList from '../components/AdminList'
 import AdminPage from '../pages/AdminPage'
 
+
 // 路由表
 const routes = [
   {
@@ -95,6 +96,20 @@ const routes = [
   {
     path: '/tweets/:id/reply',
     element: <HomePage />,
+  },
+  {
+    path: '/replies/tweets/:id/reply',
+    element: <ReplyPage />,
+  },
+  {
+    path: '/:userId',
+    element: <UserPage />,
+    children: [
+      {
+        path: 'tweets/:id/reply',
+        element: <TabTweets />,
+      },
+    ]
   },
 ]
 

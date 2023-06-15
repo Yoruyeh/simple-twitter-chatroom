@@ -38,7 +38,7 @@ const StyledContainer = styled.div`
 `
 
 // 根據條件返回相應的內容
-function ReturnItems() {
+function ReturnItems({ handleOpenReplyModal }) {
   const navigate = useNavigate()
   function computedClassName({ isActive }) {
     return isActive ? 'tab-botton active' : 'tab-botton'
@@ -94,7 +94,7 @@ const { currentMember } = useAuth()
   }
 }
 
-export default function Tab() {
+export default function Tab({ handleOpenReplyModal }) {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function Tab() {
     <>
       <StyledContainer className='container-fluid'>
         <ul className='d-flex link-wrapper'>
-          <ReturnItems />
+          <ReturnItems handleOpenReplyModal={handleOpenReplyModal}/>
         </ul>
         <div className='user-tab d-flex flex-column'>
           {/* 嵌套路由組件呈現的位置 */}
