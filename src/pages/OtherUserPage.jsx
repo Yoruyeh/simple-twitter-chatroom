@@ -38,12 +38,13 @@ export default function OtherUserPage() {
         <div className='user-info'>
           <OtherUserInfoCard
             username={userInfo.name}
-            userid={userInfo.id}
+            useraccount={userInfo.account}
             intro={userInfo.introduction}
             following={userInfo.following}
             followers={userInfo.follower}
             cover={userInfo.cover}
             avatar={userInfo.avatar}
+            userId = {userInfo.id}
           />
         </div>
         <div className='user-tab'>

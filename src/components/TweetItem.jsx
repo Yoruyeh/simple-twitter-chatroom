@@ -147,6 +147,7 @@ const TweetItem = ({ tweet }) => {
       <StyledAvatar image={tweet.User.avatar} data-id={tweet.userId}
       onClick={(e) => {
         const clickedAvatarId = e.currentTarget.dataset.id
+        console.log(clickedAvatarId)
         handleAvatarClick(clickedAvatarId)
       }}/>
       <div className="tweet-info">

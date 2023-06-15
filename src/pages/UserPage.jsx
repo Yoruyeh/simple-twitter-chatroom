@@ -58,11 +58,12 @@ export default function UserPage() {
         </div>
         <div className='user-info'>
           <UserInfoCard
+            userId = {userData.id}
             username={userData.name}
-            userid={userData.id}
+            useraccount={userData.account}
             intro={userData.introduction}
             following={userData.following}
-            followers={userData.follower}
+            follower={userData.follower}
             cover={userData.cover}
             avatar={userData.avatar}
           />

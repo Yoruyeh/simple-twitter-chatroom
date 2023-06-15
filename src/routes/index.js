@@ -14,6 +14,7 @@ import TabTweets from '../components/common/TabTweets'
 import AdminList from '../components/AdminList'
 import AdminPage from '../pages/AdminPage'
 import OtherUserPage from '../pages/OtherUserPage'
+import OtherUserFollowerPage from '../pages/OtherUserFollowerPage'
 
 
 // 路由表
@@ -106,11 +107,11 @@ const routes = [
   },
   {
     path: '/others/:id/followers',
-    element: <UserFollowerPage />,
+    element: <OtherUserFollowerPage />,
   },
   {
     path: '/others/:id/followings',
-    element: <UserFollowerPage />,
+    element: <OtherUserFollowerPage />,
   },
   {
     path: '/setting',
