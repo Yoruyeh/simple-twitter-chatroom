@@ -51,7 +51,7 @@ export default function TabRepliesTweets() {
 
   return (
     <StyledContainer>
-    {pathname.includes('other') ? 
+    {pathname.includes('others') ? 
       userReplies.map((tweet) => (
         <li key={tweet.id}>
           <TabRepliesItems tweet={tweet} replyid/>

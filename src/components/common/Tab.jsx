@@ -56,14 +56,14 @@ const pathname = useLocation().pathname
         <li>
           <NavLink
             className={computedClassName}
-            to={`/${currentMember.id}/followers`}>
+            to={pathname.includes('others') ? `/others/${userInfo.id}/followers` : `/${currentMember.id}/followers`}>
             追蹤者
           </NavLink>
         </li>
         <li>
           <NavLink
             className={computedClassName}
-            to={`/${currentMember.id}/followings`}>
+            to={pathname.includes('others') ? `/others/${userInfo.id}/followings` : `/${currentMember.id}/followings`}>
             正在追蹤
           </NavLink>
         </li>
@@ -76,7 +76,7 @@ const pathname = useLocation().pathname
     return (
   <>
     <li>
-      <NavLink className={computedClassName} end to={pathname.includes('other') ? `/other/${userInfo.id}` : `/${currentMember.id}`}>推文</NavLink>
+      <NavLink className={computedClassName} end to={pathname.includes('others') ? `/others/${userInfo.id}` : `/${currentMember.id}`}>推文</NavLink>
     </li>
     <li>
       <NavLink className={computedClassName} to='replies'>回覆</NavLink>

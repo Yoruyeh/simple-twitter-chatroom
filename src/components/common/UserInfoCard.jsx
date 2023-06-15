@@ -183,7 +183,7 @@ function ReturnActions(other) {
 }
 
 export function UserInfoCard({
-  other = true,
+  other = false,
   username,
   userid,
   intro,
@@ -213,6 +213,44 @@ export function UserInfoCard({
           {following} <span>個追隨中</span>
         </NavLink>
         <NavLink to={`/${userid}/followers`}>
+          {followers} <span>位跟隨者</span>
+        </NavLink>
+      </StyledInfoWrapper>
+    </Container>
+  )
+}
+
+export function OtherUserInfoCard({
+  other = true,
+  username,
+  userid,
+  intro,
+  following,
+  followers,
+  cover,
+  avatar,
+}) {
+  return (
+    <Container>
+      <StyledImgWrapper cover={cover}>
+        <div className='img'></div>
+        <StyledAvatarWrapper avatar={avatar}>
+          <div className='avatar'></div>
+        </StyledAvatarWrapper>
+      </StyledImgWrapper>
+
+      <StyledActionWrapper className='col-12 d-flex justify-content-end'>
+        {ReturnActions(other)}
+      </StyledActionWrapper>
+
+      <StyledInfoWrapper>
+        <h5 className='username'>{username}</h5>
+        <span className='userid'>@{userid}</span>
+        <p className='userintro'>{intro}</p>
+        <NavLink to={`/others/${userid}/followings`}>
+          {following} <span>個追隨中</span>
+        </NavLink>
+        <NavLink to={`/others/${userid}/followers`}>
           {followers} <span>位跟隨者</span>
         </NavLink>
       </StyledInfoWrapper>

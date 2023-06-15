@@ -81,7 +81,7 @@ export default function TabTweets() {
 
   return (
     <StyledContainer>
-      {pathname.includes('other') ? (
+      {pathname.includes('others') ? (
         [...userTweets].reverse().map((tweet) => (
           <li key={tweet.id}>
             <TabTweetItems 

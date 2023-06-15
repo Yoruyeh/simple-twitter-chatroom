@@ -17,6 +17,7 @@ export const GetUserTweetsProvider = ({ children }) => {
   const [userReplies, setUserReplies] = useState([])
   const [userLikes, setUserLikes] = useState([])
 
+
   const handleAvatarClick = async (id) => {
     if (currentMember.id === Number(id)) {
       navigate(`/${id}`)
@@ -26,7 +27,7 @@ export const GetUserTweetsProvider = ({ children }) => {
       setUserInfo(info)
       const tweets = await getUserTweets(id)
       setUserTweets(tweets)
-      navigate(`/other/${id}`)
+      navigate(`/others/${id}`)
       const replies = await getUserReplies(id)
       setUserReplies(replies)
       const likes = await getUserLikes(id)

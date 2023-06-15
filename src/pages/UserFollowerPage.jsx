@@ -7,6 +7,7 @@ import FollowerCollection from '../components/FollowerCollection';
 import { useAuth } from '../context/AuthContext';
 import { getUserFollowersById, getUserFollowingsById, Follow, UnFollow } from '../api/user.follower';
 import { useLocation } from 'react-router-dom'
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 
 const StyledFollowerPageContainer = styled.div`
@@ -21,6 +22,7 @@ const StyledFollowerPageContainer = styled.div`
 `
 const UserFollowerPage = () => {
   const { currentMember } = useAuth()
+  const { userInfo } = useGetUserTweets()
   const [userFollowers, setUserFollowers] = useState([]);
   const [userFollowings, setUserFollowings]  = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -58,31 +60,55 @@ const UserFollowerPage = () => {
   useEffect(() => {
     setIsLoading(true)
     if (pathname.includes('followers')) {
-      const getUserFollowersAsync = async () => {
-      try {
-        const followers = await getUserFollowersById(currentMember.id);
-        setUserFollowers(followers)
-      } catch (error) {
-        console.error(error);
+      if(pathname.includes('others')) {
+        const getUserFollowersAsync = async () => {
+          try {
+            const followers = await getUserFollowersById(userInfo.id);
+            setUserFollowers(followers)
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        getUserFollowersAsync(); 
+      } else {
+        const getUserFollowersAsync = async () => {
+          try {
+            const followers = await getUserFollowersById(currentMember.id);
+            setUserFollowers(followers)
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        getUserFollowersAsync(); 
       }
-    };
-    getUserFollowersAsync(); 
     setIsLoading(false)
     }
 
     if (pathname.includes('followings')) {
-      const getUserFollowingsByIdAsync = async () => {
-        try {
-          const followings = await getUserFollowingsById(currentMember.id)
-          setUserFollowings(followings)
-        } catch (error) {
-          console.error(error)
-        }
+      if(pathname.includes('others')) {
+        const getUserFollowingsAsync = async () => {
+          try {
+            const followings = await getUserFollowersById(userInfo.id);
+            setUserFollowers(followings)
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        getUserFollowingsAsync(); 
+      } else {
+        const getUserFollowingsAsync = async () => {
+          try {
+            const followings = await getUserFollowersById(currentMember.id);
+            setUserFollowers(followings)
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        getUserFollowingsAsync(); 
       }
-      getUserFollowingsByIdAsync()
-      setIsLoading(false)
+    setIsLoading(false)
     }
-  }, [currentMember, pathname]);
+  }, [currentMember, pathname, userInfo]);
 
  
   return (

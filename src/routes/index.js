@@ -79,7 +79,7 @@ const routes = [
     ],
   },
   {
-    path: '/other/:userID',
+    path: '/others/:userID',
     element: <OtherUserPage />,
     children: [
       {
@@ -93,16 +93,8 @@ const routes = [
       {
         path: 'likes',
         element: <TabLikesTweets />,
-      },
+      }
     ],
-  },
-  {
-    path: '/setting',
-    element: <SettingPage />,
-  },
-  {
-    path: '/tweets/:id',
-    element: <ReplyPage />,
   },
   {
     path: '/:id/followers',
@@ -111,6 +103,22 @@ const routes = [
   {
     path: '/:id/followings',
     element: <UserFollowerPage />,
+  },
+  {
+    path: '/others/:id/followers',
+    element: <UserFollowerPage />,
+  },
+  {
+    path: '/others/:id/followings',
+    element: <UserFollowerPage />,
+  },
+  {
+    path: '/setting',
+    element: <SettingPage />,
+  },
+  {
+    path: '/tweets/:id',
+    element: <ReplyPage />,
   },
   {
     path: '/tweets/:id/reply',

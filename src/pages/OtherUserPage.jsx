@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useGetUserTweets } from '../context/GetUserTweets'
 import MainLayout from '../layout/MainLayout'
 import { OtherUserHeader } from '../components/Header'
-import { UserInfoCard } from '../components/common/UserInfoCard'
+import { OtherUserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 
 // import { getUser } from '../api/users'
@@ -36,7 +36,7 @@ export default function OtherUserPage() {
           <OtherUserHeader userInfo={userInfo}/>
         </div>
         <div className='user-info'>
-          <UserInfoCard
+          <OtherUserInfoCard
             username={userInfo.name}
             userid={userInfo.id}
             intro={userInfo.introduction}
