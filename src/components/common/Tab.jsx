@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { useEffect } from 'react'
-import { useNavigate, NavLink, Outlet } from 'react-router-dom'
+import { useNavigate, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { checkPermission } from '../../api/checkPermission'
 import { useAuth } from '../../context/AuthContext'
+import { useGetUserTweets } from '../../context/GetUserTweets'
 // 顏色變量
 const dividerColor = '#E6ECF0'
 const fontDefaultColor = '#657786'
@@ -43,9 +44,12 @@ function ReturnItems() {
     return isActive ? 'tab-botton active' : 'tab-botton'
   }
 const { currentMember } = useAuth()
+const { userInfo }  = useGetUserTweets()
+const pathname = useLocation().pathname
+
   if (
-    window.location.pathname.includes('followers') ||
-    window.location.pathname.includes('followings')
+    pathname.includes('followers') ||
+    pathname.includes('followings')
   ) {
     return (
       <>
@@ -70,25 +74,19 @@ const { currentMember } = useAuth()
     )
   } else {
     return (
-      <>
-        <li>
-          <NavLink className={computedClassName} end to=''>
-            推文
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={computedClassName} to='replies'>
-            回覆
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={computedClassName} to='likes'>
-            喜歡的內容
-          </NavLink>
-        </li>
-      </>
-    )
-  }
+  <>
+    <li>
+      <NavLink className={computedClassName} end to={pathname.includes('other') ? `/other/${userInfo.id}` : `/${currentMember.id}`}>推文</NavLink>
+    </li>
+    <li>
+      <NavLink className={computedClassName} to='replies'>回覆</NavLink>
+    </li>
+    <li>
+      <NavLink className={computedClassName} to='likes'>喜歡的內容</NavLink>
+    </li>
+  </>
+);
+    }
 }
 
 export default function Tab({ handleOpenReplyModal }) {

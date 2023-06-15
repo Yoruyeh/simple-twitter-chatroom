@@ -4,6 +4,7 @@ import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useGetLikes } from '../context/GetLikes';
 import { useGetUserTweets } from '../context/GetUserTweets';
 
+
 const StyledTweetItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
   width: 100%;
@@ -146,7 +147,6 @@ const TweetItem = ({ tweet }) => {
       <StyledAvatar image={tweet.User.avatar} data-id={tweet.userId}
       onClick={(e) => {
         const clickedAvatarId = e.currentTarget.dataset.id
-        console.log(clickedAvatarId)
         handleAvatarClick(clickedAvatarId)
       }}/>
       <div className="tweet-info">

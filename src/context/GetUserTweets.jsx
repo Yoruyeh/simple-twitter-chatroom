@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo, getUserTweets } from '../api/other.users'
+import { useAuth } from './AuthContext';
 // import { getTweets, createTweet } from '../api/tweets'
 
 
@@ -10,6 +11,7 @@ export const useGetUserTweets = () => useContext(GetUserTweetsContext);
 
 export const GetUserTweetsProvider = ({ children }) => {
   const navigate = useNavigate()
+  const { currentMember } = useAuth()
   const [userInfo, setUserInfo] = useState({})
   const [userTweets, setUserTweets] = useState([])
 
@@ -17,7 +19,10 @@ export const GetUserTweetsProvider = ({ children }) => {
   // const [tweetModalValue, setTweetModalValue] = useState('')
 
   const handleAvatarClick = async (id) => {
-    try {
+    if (currentMember.id === Number(id)) {
+      navigate(`/${id}`)
+    } else {
+      try {
       const info = await getUserInfo(id)
       setUserInfo(info)
       const tweets = await getUserTweets(id)
@@ -25,6 +30,7 @@ export const GetUserTweetsProvider = ({ children }) => {
       navigate(`/other/${id}`)
     } catch (error) {
       console.error(error)
+    }
     }
   }
 
