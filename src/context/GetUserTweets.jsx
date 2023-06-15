@@ -14,6 +14,9 @@ export const GetUserTweetsProvider = ({ children }) => {
   const navigate = useNavigate()
   const { currentMember } = useAuth()
   const [currentMemberInfo, setCurrentMemberInfo] = useState({})
+  const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
+  const [currentMemberFollowings, setCurrentMemberFollowings]  = useState([])
+
   const [userInfo, setUserInfo] = useState({})
   const [userTweets, setUserTweets] = useState([])
   const [userReplies, setUserReplies] = useState([])
@@ -57,12 +60,30 @@ export const GetUserTweetsProvider = ({ children }) => {
       }
     }
     getUserInfoAsync()
+    const getUserFollowersByIdAsync = async () => {
+      try {
+        const followers = await getUserFollowersById(currentMember.id);
+        setCurrentMemberFollowers(followers);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUserFollowersByIdAsync()
+    const getUserFollowingsByIdAsync = async () => {
+      try {
+        const followings = await getUserFollowingsById(currentMember.id);
+        setCurrentMemberFollowings(followings);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUserFollowingsByIdAsync()
   }, [currentMember])
 
 
   return (
     <GetUserTweetsContext.Provider 
-    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, userfollowers, userfollowings, setUserFollowers, setUserFollowings, currentMemberInfo}}>
+    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, userfollowers, userfollowings, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings}}>
       {children}
     </GetUserTweetsContext.Provider>
   );

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { UserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 import MainLayout from '../layout/MainLayout'
