@@ -4,6 +4,7 @@ import routes from './routes'
 import { AuthProvider } from './context/AuthContext'
 import { GetTweetsProvider } from './context/GetTweets'
 import { GetSelectedTweetProvider } from './context/GetSelectedTweet'
+import { GetLikesProvider } from './context/GetLikes'
 
 export default function App() {
   const element = useRoutes(routes)
@@ -11,7 +12,9 @@ export default function App() {
     <AuthProvider>
     <GetTweetsProvider>
     <GetSelectedTweetProvider>
+    <GetLikesProvider>
     {element}
+    </GetLikesProvider>
     </GetSelectedTweetProvider>
     </GetTweetsProvider>
     </AuthProvider>

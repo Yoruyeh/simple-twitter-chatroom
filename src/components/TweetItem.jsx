@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
+import { useGetLikes } from '../context/GetLikes';
 
 const StyledTweetItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -79,10 +80,9 @@ const StyledTweetIconContainer = styled.div`
 
 const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
   const { handleReplyIconClickedAtHome } = useGetSelectedTweet()
-  // const { userLikesArr, isLoading, handleUnLikeAtHome, handleLikeAtHome } = useCreateTweet()
+  const { userLikes, handleUnLike, handleLike } = useGetLikes()
 
   return (
-    // !isLoading &&  (
     <StyledTweetIconContainer >
       <div className="tweet-reply-icon" >
         <OutlinedReply data-id={tweet.id} 
@@ -94,23 +94,22 @@ const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
         <span className="tweet-reply-count" >{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" >
-        {/* {userLikesArr.some(item => item.Tweet.id === tweet.id) ? (
+        {userLikes.some(like => like.Tweet.id === tweet.id) ? (
           <FilledLike data-id={tweet.id} className="tweet-like-icon liked" onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleUnLikeAtHome(clickedLikedIconId)
+            handleUnLike(clickedLikedIconId)
           }}/>
         ): (
           <OutlinedLike data-id={tweet.id} className="tweet-like-icon unliked"
           onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleLikeAtHome(clickedLikedIconId)
+            handleLike(clickedLikedIconId)
           }}/>
-        )} */}
+        )}
         <span className="tweet-like-count" >{tweet.likeCount}</span>
       </div>
     </StyledTweetIconContainer>
     )
-  // );
 };
 
 const TweetItem = ({ tweet }) => {
