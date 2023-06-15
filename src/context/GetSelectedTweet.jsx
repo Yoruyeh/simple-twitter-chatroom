@@ -3,6 +3,7 @@ import { getTweets, getTweetById } from '../api/tweets';
 import { getRepliesById, createReply } from '../api/replies';
 import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from './GetTweets';
+import { useAuth } from './AuthContext';
 
 const GetSelectedTweetContext = createContext(() => {});
 
@@ -10,6 +11,7 @@ export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
 
 export const GetSelectedTweetProvider = ({ children }) => {
   const navigate = useNavigate()
+  const { currentMember } = useAuth()
   const { setTweets } = useGetTweets()
   // 點進內容渲染reply page
    const [selectedReplyItem, setSelectedReplyItem] = useState({
@@ -72,6 +74,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
       const tweet = await getTweetById(id);
       setSelectedReplyItem(tweet);
       setIsModalLoading(false);
+      navigate(`/${currentMember.id}/tweets/${id}/reply`);
     } catch (error) {
       console.error(error);
       setIsModalLoading(false);
@@ -84,6 +87,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
       const tweet = await getTweetById(id);
       setSelectedReplyItem(tweet);
       setIsModalLoading(false);
+      navigate(`/replies/tweets/${id}/reply`);
     } catch (error) {
       console.error(error);
       setIsModalLoading(false);
