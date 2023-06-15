@@ -113,6 +113,7 @@ export default function Login() {
     // password不符合
     if (!regexPassword.test(password)) {
       setInput(1, 'danger', '密碼要8-20位數字或字母')
+      return
     }
 
     // 保存返回的 success、authToken 資料
