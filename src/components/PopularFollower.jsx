@@ -129,7 +129,7 @@ const PopularFollowerItem = () => {
           <FollowButton className="unfollowed" data-id={popular.id}
         onClick={(e) => {
           const clickedFollowId = e.currentTarget.dataset.id
-          if(popular.isFollowed === true) {
+          if(popular.isFollowed) {
             handleUnFollowClicked(clickedFollowId)
           } else {
             handleFollowClicked(clickedFollowId)
