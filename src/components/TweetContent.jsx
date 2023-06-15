@@ -103,7 +103,7 @@ const StyledAvatar = styled.div`
 
 const TweetContent = ({ selectedReplyItem, handleOpenReplyModal }) => {
   const { handleReplyIconClicked } = useGetSelectedTweet()
-  const { userLikes, handleUnLike, handleLike } = useGetLikes()
+  const { userLikes, handleUnLikeAtReply, handleLikeAtReply } = useGetLikes()
 
   return (
   <StyledTweetContent key={selectedReplyItem.id}>
@@ -130,14 +130,14 @@ const TweetContent = ({ selectedReplyItem, handleOpenReplyModal }) => {
         <FilledLike className="tweet-content-icon-like liked" data-id={selectedReplyItem.id}
         onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleUnLike(clickedLikedIconId)
+            handleUnLikeAtReply(clickedLikedIconId)
           }}
           />
       ) : (
         <OutlinedLike className="tweet-content-icon-like unliked" data-id={selectedReplyItem.id}
         onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleLike(clickedLikedIconId)
+            handleLikeAtReply(clickedLikedIconId)
           }}
         />
       )}

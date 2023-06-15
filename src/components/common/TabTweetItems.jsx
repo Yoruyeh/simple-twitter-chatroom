@@ -115,7 +115,7 @@ function returnButton(button) {
 export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) {
   const { handleReplyIconClickedAtUser } = useGetSelectedTweet()
   const { handleReplyIconClickedAtOther } = useGetUserTweets()
-  const { userLikes, handleUnLike, handleLike } = useGetLikes()
+  const { userLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
   const pathname = useLocation().pathname
 
 
@@ -158,13 +158,13 @@ export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) 
        {userLikes.some(like => like.Tweet.id === tweet.id) ? (
           <FilledLike data-id={tweet.id} className="tweet-like-icon liked" onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleUnLike(clickedLikedIconId)
+            handleUnLikeAtUser(clickedLikedIconId)
           }}/>
         ): (
           <OutlinedLike data-id={tweet.id} className="tweet-like-icon unliked"
           onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleLike(clickedLikedIconId)
+            handleLikeAtUser(clickedLikedIconId)
           }}/>
         )}
               <span className='item-text'>{tweet.likeCount}</span>

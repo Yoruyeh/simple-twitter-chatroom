@@ -90,7 +90,7 @@ export const GetUserTweetsProvider = ({ children }) => {
 
   return (
     <GetUserTweetsContext.Provider 
-    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings, handleReplyIconClickedAtOther}}>
+    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings, handleReplyIconClickedAtOther, setUserTweets}}>
       {children}
     </GetUserTweetsContext.Provider>
   );
