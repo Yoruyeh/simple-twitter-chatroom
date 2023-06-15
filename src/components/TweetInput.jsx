@@ -26,6 +26,7 @@ const StyledInput = styled.div`
     padding: 28px 24px 10px 83px;
     color: var(--dark-100);
     line-height: 26px;
+    font-size: 18px;
   }
   .modal-reply-input {
     font-size: 18px;

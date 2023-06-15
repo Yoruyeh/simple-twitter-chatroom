@@ -18,7 +18,11 @@ export const GetTweetsProvider = ({ children }) => {
   }
 
   const handleClickTweetInput = async () => {
-    if (tweetInputValue.length === 0) {
+    const wordCount = tweetInputValue.trim()
+    if (wordCount.length === 0) {
+      return
+    }
+    if (wordCount.length > 140) {
       return
     }
     try {

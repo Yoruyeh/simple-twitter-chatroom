@@ -18,7 +18,17 @@ const StyledHomePageContainer = styled.div`
   position: relative;
 
   .tweet-input-container {
+    font-family: 'Noto Sans TC', sans-serif;
     display: flex;
+    position: relative;
+    & p {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      color: var(--danger);
+      font-size: 14px;
+    }
   }
   .tweet-input-area {
     width: 85%;
@@ -63,7 +73,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { tweets, handleClickTweetInput } = useGetTweets()
+  const { tweets, handleClickTweetInput, tweetInputValue } = useGetTweets()
   const { selectedReplyItem, isModalLoading } = useGetSelectedTweet()
 
 
@@ -91,6 +101,7 @@ const HomePage = () => {
               currentMember={currentMember}
             />
           </div>
+          {tweetInputValue.trim().length > 140 && <p>字數不可超過140字</p>}
           <div className="tweet-button">
             <InputButton onClick={handleClickTweetInput}>推文</InputButton>
           </div>
