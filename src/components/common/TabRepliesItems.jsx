@@ -1,5 +1,5 @@
 import { styled } from 'styled-components'
-import { PillButton } from './button.styled'
+// import { PillButton } from './button.styled'
 import { Link } from 'react-router-dom'
 
 const TweetContainer = styled(Link)`
@@ -81,29 +81,15 @@ const TweetContainer = styled(Link)`
   }
 `
 
-function returnReplyId(tweet, replyid) {
-  if (replyid) {
-    return (
-      <div className='replyid-wrapper'>
-        <p>
-          回覆 <span>{`@${tweet.Tweet.userId}`}</span>
-        </p>
-      </div>
-    )
-  } else {
-    return
-  }
-}
+// function returnButton(button) {
+//   if (button) {
+//     return <PillButton>跟隨</PillButton>
+//   } else {
+//     return
+//   }
+// }
 
-function returnButton(button) {
-  if (button) {
-    return <PillButton>跟隨</PillButton>
-  } else {
-    return
-  }
-}
-
-export function TabRepliesItems({ tweet, replyid, button }) {
+export function TabRepliesItems({ tweet }) {
   return (
     <TweetContainer className='d-flex px-0'>
       <div className='user-img-wrapper'>
@@ -116,11 +102,12 @@ export function TabRepliesItems({ tweet, replyid, button }) {
           <span className='tweet-account'>
             @{`${tweet.User.account}・${tweet.diffCreatedAt}`}
           </span>
-          {returnButton(button)}
         </div>
-
-        {returnReplyId(tweet, replyid)}
-
+        <div className='replyid-wrapper'>
+        <p>
+          回覆 <span>{`@${tweet.Tweet.User.account}`}</span>
+        </p>
+      </div>
         <div className='tweet-main'>
           <p className='tweet-text'>{tweet.comment}</p>
         </div>

@@ -1,8 +1,8 @@
 import { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { getUserInfo, getUserTweets } from '../api/other.users'
+import { getUserInfo, getUserTweets, getUserReplies, getUserLikes } from '../api/other.users'
 import { useAuth } from './AuthContext';
-// import { getTweets, createTweet } from '../api/tweets'
+
 
 
 const GetUserTweetsContext = createContext(() => {});
@@ -14,9 +14,8 @@ export const GetUserTweetsProvider = ({ children }) => {
   const { currentMember } = useAuth()
   const [userInfo, setUserInfo] = useState({})
   const [userTweets, setUserTweets] = useState([])
-
-  // const [tweetInputValue, setTweetInputValue] = useState('')
-  // const [tweetModalValue, setTweetModalValue] = useState('')
+  const [userReplies, setUserReplies] = useState([])
+  const [userLikes, setUserLikes] = useState([])
 
   const handleAvatarClick = async (id) => {
     if (currentMember.id === Number(id)) {
@@ -28,6 +27,10 @@ export const GetUserTweetsProvider = ({ children }) => {
       const tweets = await getUserTweets(id)
       setUserTweets(tweets)
       navigate(`/other/${id}`)
+      const replies = await getUserReplies(id)
+      setUserReplies(replies)
+      const likes = await getUserLikes(id)
+      setUserLikes(likes)
     } catch (error) {
       console.error(error)
     }
@@ -35,73 +38,9 @@ export const GetUserTweetsProvider = ({ children }) => {
   }
 
 
-  // const handleTweetInputChange = (value) => {
-  //   setTweetInputValue(value)
-  // }
-
-  // const handleClickTweetInput = async () => {
-  //   const wordCount = tweetInputValue.trim()
-  //   if (wordCount.length === 0) {
-  //     return
-  //   }
-  //   if (wordCount.length > 140) {
-  //     return
-  //   }
-  //   try {
-  //     await createTweet({ 
-  //       description: tweetInputValue 
-  //     })
-  //     const tweets = await getTweets();
-  //     setTweets(tweets)
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  //   setTweetInputValue('')
-  // }
-
-  // const handleTweetModalChange = (value) => {
-  //   setTweetModalValue(value)
-  // }
-
-  // const handleClickTweetModal = async () => {
-  //   const wordCount = tweetModalValue.trim()
-  //   if (wordCount.length === 0) {
-  //     return
-  //   }
-  //   if (wordCount.length > 140) {
-  //     return
-  //   }
-  //   try {
-  //     await createTweet({ 
-  //       description: tweetModalValue 
-  //     })
-  //     const tweets = await getTweets();
-  //     setTweets(tweets)
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  //   setTweetModalValue('')
-  // }
-  
-  
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     const getTweetsAsync = async () => {
-  //     try {
-  //       const tweets = await getTweets();
-  //       setTweets(tweets);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   getTweetsAsync()
-  // }
-  // }, [isAuthenticated]);
-
-
   return (
     <GetUserTweetsContext.Provider 
-    value={{userInfo, userTweets, handleAvatarClick}}>
+    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes}}>
       {children}
     </GetUserTweetsContext.Provider>
   );
