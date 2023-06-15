@@ -36,7 +36,7 @@ const StyledInput = styled.input`
   border-bottom: 2px solid #657786;
   height: 100%;
   background-color: #f5f8fa;
-  
+
   &[disabled] {
     color: #696974;
     border-bottom: 2px solid #d5d5dc;
@@ -65,6 +65,7 @@ const AuthInput = ({
   onChange,
   status,
   errorText,
+  value,
 }) => {
   return (
     <>
@@ -77,6 +78,7 @@ const AuthInput = ({
           placeholder={placeholder}
           status={status}
           disabled={status === 'disabled'}
+          value={value}
         />
         <span className='fontMinimal'>{errorText}</span>
       </StyledContainer>
