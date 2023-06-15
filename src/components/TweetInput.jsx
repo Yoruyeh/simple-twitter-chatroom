@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useCreateTweet } from '../context/CreateTweet';
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
+import { useGetTweets } from '../context/GetTweets';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet'
 
 const StyledInputContainer = styled.div`
   border: none;
@@ -26,6 +26,7 @@ const StyledInput = styled.div`
     padding: 28px 24px 10px 83px;
     color: var(--dark-100);
     line-height: 26px;
+    font-size: 18px;
   }
   .modal-reply-input {
     font-size: 18px;
@@ -57,7 +58,7 @@ const StyledAvatar = styled.div`
 `;
 
 const TweetInput = ({ placeholder, currentMember }) => {
-  const { handleTweetInputChange, tweetInputValue } = useCreateTweet();
+  const { handleTweetInputChange, tweetInputValue } = useGetTweets();
 
   return (
     <>
@@ -77,7 +78,7 @@ const TweetInput = ({ placeholder, currentMember }) => {
 };
 
 const TweetModalInput = ({ placeholder, currentMember }) => {
-  const { handleTweetModalChange, tweetModalValue } = useCreateTweet();
+  const { handleTweetModalChange, tweetModalValue } = useGetTweets();
 
   return (
     <>
@@ -97,7 +98,7 @@ const TweetModalInput = ({ placeholder, currentMember }) => {
 };
 
 const TweetReplyInput = ({ placeholder, currentMember }) => {
-    const { handleReplyInputChange, replyInputValue } = useGetTheTweet();
+    const { handleReplyInputChange, replyInputValue } = useGetSelectedTweet();
 
   return (
     <>

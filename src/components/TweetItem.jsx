@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { useGetTheTweet } from '../context/GetTweetAndReplies'
 import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
-import { useCreateTweet } from '../context/CreateTweet';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet';
+import { useGetLikes } from '../context/GetLikes';
 
 const StyledTweetItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -36,6 +36,27 @@ const StyledTweetItemContainer = styled.div`
     }
   }
 `;
+
+const StyledTweetItemInReplyContainer = styled(StyledTweetItemContainer)`
+  .reply-tweet-info {
+    margin: 20px 30px 6px 82px;
+  }
+
+  .reply-tweet-info-username {
+    font-weight: bold;
+  }
+
+  .reply-tweet-info-account,
+  .reply-tweet-info-time {
+    font-weight: regular;
+    font-size: 14px;
+    color: var(--secondary);
+  }
+  .reply-tweet-content {
+      margin: 6px 30px 6px 82px;
+      line-height: 26px;
+    }
+`
 
 const StyledAvatar = styled.div`
   background-image: url(${(props) => (props.image ? props.image : '')});
@@ -79,11 +100,10 @@ const StyledTweetIconContainer = styled.div`
 `;
 
 const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
-  const { handleReplyIconClickedAtHome } = useGetTheTweet()
-  const { userLikesArr, isLoading, handleUnLikeAtHome, handleLikeAtHome } = useCreateTweet()
+  const { handleReplyIconClickedAtHome } = useGetSelectedTweet()
+  const { userLikes, handleUnLike, handleLike } = useGetLikes()
 
   return (
-    !isLoading &&  (
     <StyledTweetIconContainer >
       <div className="tweet-reply-icon" >
         <OutlinedReply data-id={tweet.id} 
@@ -95,27 +115,26 @@ const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
         <span className="tweet-reply-count" >{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" >
-        {userLikesArr.some(item => item.Tweet.id === tweet.id) ? (
+        {userLikes.some(like => like.Tweet.id === tweet.id) ? (
           <FilledLike data-id={tweet.id} className="tweet-like-icon liked" onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleUnLikeAtHome(clickedLikedIconId)
+            handleUnLike(clickedLikedIconId)
           }}/>
         ): (
           <OutlinedLike data-id={tweet.id} className="tweet-like-icon unliked"
           onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleLikeAtHome(clickedLikedIconId)
+            handleLike(clickedLikedIconId)
           }}/>
         )}
         <span className="tweet-like-count" >{tweet.likeCount}</span>
       </div>
     </StyledTweetIconContainer>
     )
-  );
 };
 
 const TweetItem = ({ tweet }) => {
-  const { handleTweetContentClick } = useGetTheTweet()
+  const { handleTweetContentClick } = useGetSelectedTweet()
 
   return (
     <StyledTweetItemContainer>
@@ -141,19 +160,19 @@ const TweetItem = ({ tweet }) => {
 const TweetItemInReply = ({ selectedReplyItem }) => {
 
   return (
-    <StyledTweetItemContainer key={selectedReplyItem.id}>
+    <StyledTweetItemInReplyContainer key={selectedReplyItem.id}>
       <StyledAvatar image={selectedReplyItem.User.avatar} />
-      <div className="tweet-info">
-        <span className="tweet-info-username">{selectedReplyItem.User.name}</span>
-        <span className="tweet-info-account"> @{selectedReplyItem.User.account}・</span>
-        <span className="tweet-info-time">
+      <div className="reply-tweet-info">
+        <span className="reply-tweet-info-username">{selectedReplyItem.User.name}</span>
+        <span className="reply-tweet-info-account"> @{selectedReplyItem.User.account}・</span>
+        <span className="reply-tweet-info-time">
           {selectedReplyItem.diffCreatedAt}
         </span>
       </div>
-      <div className="tweet-content" data-id={selectedReplyItem.id} >
+      <div className="reply-tweet-content" data-id={selectedReplyItem.id} >
         {selectedReplyItem.description}
         </div>
-    </StyledTweetItemContainer>
+    </StyledTweetItemInReplyContainer>
   );
 };
 

@@ -1,12 +1,14 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MainLayout from '../layout/MainLayout'
 import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
 import ReplyCollection from '../components/ReplyCollection'
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
 import { ReplyModal } from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet';
+import { useNavigate } from 'react-router-dom';
+
 
 const StyledReplyPageContainer = styled.div`
   width: 100%;
@@ -40,19 +42,24 @@ const StyledReplyModalContainer = styled.div`
 `;
 
 const ReplyPage = () => {
-  const { currentMember } = useAuth()
-  const { isTweetLoading } = useGetTheTweet()
-  const { repliesById, isReplyLoading } = useGetTheTweet()
+  const { currentMember, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { selectedTweetItem, selectedReplyItem, isModalLoading } = useGetTheTweet();
+  const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies } = useGetSelectedTweet();
 
   const handleOpenReplyModal = () => {
     setOpenReplyModal(!openReplyModal);
   };
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [navigate, isAuthenticated]);
+
 
   return (
-  !isTweetLoading && !isReplyLoading &&
+  !isReplyPageLoading &&
   (
     <MainLayout>
       <StyledReplyPageContainer>
@@ -60,10 +67,10 @@ const ReplyPage = () => {
           <ReplyHeader />
         </div>
         <div className="tweet-content-container">
-            <TweetContent selectedTweetItem={selectedTweetItem} handleOpenReplyModal={handleOpenReplyModal}/>
+            <TweetContent selectedReplyItem={selectedReplyItem} handleOpenReplyModal={handleOpenReplyModal}/>
         </div>
         <div className="reply-collection">
-          <ReplyCollection repliesById={repliesById}/>
+          <ReplyCollection replies={replies}/>
         </div>
       </StyledReplyPageContainer>
       {openReplyModal && !isModalLoading && (

@@ -63,6 +63,7 @@ const inputs = [
     type: 'text',
     status: '',
     errorText: '',
+    value: '',
   },
   {
     label: '密碼',
@@ -70,6 +71,7 @@ const inputs = [
     type: 'password',
     status: '',
     errorText: '',
+    value: '',
   },
 ]
 
@@ -92,24 +94,17 @@ export default function Login({ openModal }) {
   function handleChange(event) {
     const target = event.target
     if (target.type === 'text') {
+      UpdateInputList((draft) => {
+        draft[0].value = target.value.replace(/\s*/g, '')
+      })
       setInput(0)
       setAccount(target.value)
     } else if (target.type === 'password') {
+      UpdateInputList((draft) => {
+        draft[1].value = target.value.replace(/\s*/g, '')
+      })
       setInput(1)
       setPassword(target.value)
-    }
-  }
-
-  // 禁用所有input
-  function disabledAllInput(boolean) {
-    if (boolean) {
-      for (let i = 0; i < inputs.length; i++) {
-        setInput(i, 'disabled')
-      }
-    } else {
-      for (let i = 0; i < inputs.length; i++) {
-        setInput(i, '')
-      }
     }
   }
 
@@ -120,6 +115,7 @@ export default function Login({ openModal }) {
     // 判斷 account、password 是否符合格式
     const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d).{1,20}$/
     const regexPassword = /^[a-zA-Z0-9]{8,20}$/
+
     // account 不符合
     if (!regexAccount.test(account)) {
       setInput(0, 'danger', '帳號請輸入 1-20 個數字 + 字母 !')
@@ -179,6 +175,7 @@ export default function Login({ openModal }) {
               label={input.label}
               status={input.status}
               errorText={input.errorText}
+              value={input.value}
               onChange={(event) => {
                 handleChange(event)
               }}

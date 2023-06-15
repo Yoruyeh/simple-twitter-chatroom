@@ -4,9 +4,9 @@ import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
 import { TweetItemInReply } from './TweetItem';
 import AuthInput from './AuthInput';
-import { useCreateTweet } from '../context/CreateTweet';
-import { useNavigate } from 'react-router-dom'
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
+import { useGetTweets } from '../context/GetTweets';
+import { useGetSelectedTweet } from '../context/GetSelectedTweet';
+import { useNavigate } from 'react-router-dom';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -44,15 +44,27 @@ const StyledModalHeader = styled.header`
 
 const StyledModalBody = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  .reply-modal-account {
+  .tweet-item-wrapper{
+    height: 50%;
+
+    & p {
+    position: absolute;
+    z-index: 2;
+    top: 45%;
     font-size: 13px;
     color: var(--default);
-    margin-top: 10px;
-    margin-left: 82px;
+    margin: 0 30px 0 82px;
+
     & > span {
       color: var(--main);
     }
+  }
+  }
+  .tweet-input-wrapper {
+    height: 50%;
   }
   .edit-name-count {
     font-size: 12px;
@@ -102,17 +114,17 @@ const StyledReplyModalContainer = styled.div`
   border-radius: 14px;
   border: 1px solid var(--gray1);
   display: grid;
-  grid-template-rows: 56px 1fr min-content 2fr 56px;
+  grid-template-rows: 56px 1fr 56px;
   position: relative;
   z-index: 2;
 
   &::after {
     content: '';
     width: 2px;
-    height: 80px;
+    height: 86px;
     background-color: var(--gray2);
     position: absolute;
-    top: 135px;
+    top: 139px;
     left: 48px;
     z-index: 99;
   }
@@ -176,7 +188,7 @@ const StyledEditAvatar = styled.div`
 `;
 
 const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
-  const { tweetModalValue, handleClickTweetModal } = useCreateTweet();
+  const { tweetModalValue, handleClickTweetModal } = useGetTweets();
   return (
     <>
       <StyledTweetModalContainer>
@@ -209,8 +221,9 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
 };
 
 const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
-  const {replyInputValue, handleClickReplyInput} = useGetTheTweet()
+  const {replyInputValue, handleClickReplyInput} = useGetSelectedTweet()
   const navigate = useNavigate()
+
   return (
     <>
       <StyledReplyModalContainer>
@@ -219,32 +232,29 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
             className="close-button"
             onClick={() => {
               handleOpenReplyModal()
-              navigate('/home')
+              navigate(-1)
             }}
           />
         </StyledModalHeader>
         <StyledModalBody>
-          <TweetItemInReply selectedReplyItem={selectedReplyItem} />
-        </StyledModalBody>
-        <StyledModalBody>
-          <p className="reply-modal-account">
-            回覆給<span>@{selectedReplyItem.User.account}</span>
-          </p>
-        </StyledModalBody>
-        <StyledModalBody>
-          <TweetReplyInput
+          <div className="tweet-item-wrapper">
+            <TweetItemInReply selectedReplyItem={selectedReplyItem} />
+            <p>
+              回覆給<span>@{selectedReplyItem.User.account}</span>
+            </p>
+          </div>
+            <div className="tweet-input-wrapper">  
+            <TweetReplyInput
             placeholder={'推你的回覆'}
-            currentMember={currentMember}
-          />
+            currentMember={currentMember}/>
+            </div>   
         </StyledModalBody>
         <StyledModalFooter>
-          {replyInputValue.length === 0 && <p>內容不可空白</p>}
+          {replyInputValue.trim().length > 140 && <p>字數不可超過140字</p>}
+          {replyInputValue.trim().length === 0 && <p>內容不可空白</p>}
           <InputButton 
           onClick={() => {
             handleClickReplyInput()
-            if (replyInputValue.length === 0) {
-              return
-            }
             handleOpenReplyModal()
             }}>回覆</InputButton>
         </StyledModalFooter>

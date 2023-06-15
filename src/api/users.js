@@ -16,7 +16,7 @@ export async function login({ account, password }) {
     }
   } catch (error) {
     console.error(`Login Failed: ${error}`)
-    return { success: false, error }
+    return { success: false, error: error.response.data }
   }
 }
 

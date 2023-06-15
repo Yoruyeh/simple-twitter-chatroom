@@ -1,24 +1,16 @@
 import { TweetItem, TweetItemIcon } from "./TweetItem";
 
-const TweetCollection = ({ tweets, handleOpenReplyModal, updatedTweets }) => {
+const TweetCollection = ({ tweets, handleOpenReplyModal }) => {
 
   return (
     <div>
-      {updatedTweets.length > 0 ? (
-        updatedTweets.map((tweet) => (
+      {tweets.map((tweet) => (
           <div className="tweet-item-wrapper" key={tweet.id}>
             <TweetItem tweet={tweet}/>
             <TweetItemIcon tweet={tweet} handleOpenReplyModal={handleOpenReplyModal}/>
           </div>
         ))
-      ) : (
-        tweets.map((tweet) => (
-          <div className="tweet-item-wrapper" key={tweet.id}>
-            <TweetItem tweet={tweet}/>
-            <TweetItemIcon tweet={tweet} handleOpenReplyModal={handleOpenReplyModal}/>
-          </div>
-        ))
-      )}
+      }
     </div>
   );
 };
