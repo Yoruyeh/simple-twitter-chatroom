@@ -111,9 +111,10 @@ function returnButton(button) {
   }
 }
 
-export function TabTweetItems({ tweet, replyid, button }) {
-  // const { handleReplyIconClickedAtHome } = useGetSelectedTweet()
+export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) {
+  const { handleReplyIconClickedAtUser } = useGetSelectedTweet()
   const { userLikes, handleUnLike, handleLike } = useGetLikes()
+
   return (
     <TweetContainer className='d-flex px-0'>
       <div className='user-img-wrapper'>
@@ -137,7 +138,12 @@ export function TabTweetItems({ tweet, replyid, button }) {
         <div className='tweet-footer'>
           <div className='icon-wrapper d-flex align-items-center'>
             <div className='item d-flex'>
-              <OutlinedReply />
+        <OutlinedReply data-id={tweet.id} 
+        onClick={(e) => {
+        const clickedReplyIconId = e.currentTarget.dataset.id
+        handleReplyIconClickedAtUser(clickedReplyIconId)
+        handleOpenReplyModal()
+      }} />
               <span className='item-text'>{tweet.replyCount}</span>
             </div>
             <div className='item d-flex'>

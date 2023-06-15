@@ -66,13 +66,24 @@ export const GetSelectedTweetProvider = ({ children }) => {
     }
   };
 
+  const handleReplyIconClickedAtUser = async (id) => {
+    setIsModalLoading(true);
+    try {
+      const tweet = await getTweetById(id);
+      setSelectedReplyItem(tweet);
+      setIsModalLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsModalLoading(false);
+    }
+  };
+
   const handleReplyIconClicked = async (id) => {
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
       setSelectedReplyItem(tweet);
       setIsModalLoading(false);
-      navigate(`/tweets/${id}`);
     } catch (error) {
       console.error(error);
       setIsModalLoading(false);
@@ -108,7 +119,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   return (
     <GetSelectedTweetContext.Provider 
     value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue}}>
+    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser}}>
       {children}
     </GetSelectedTweetContext.Provider>
   );

@@ -4,16 +4,47 @@ import { useNavigate } from 'react-router-dom'
 import { checkPermission } from '../../api/checkPermission'
 import { getUserTweet } from '../../api/users'
 import { TabTweetItems } from './TabTweetItems'
+import { ReplyModal } from '../Modal'
+import { useAuth } from '../../context/AuthContext'
+import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 
 const StyledContainer = styled.ul`
   li {
     margin-bottom: 16px;
   }
 `
+const StyledReplyModalContainer = styled.div`
+  position: fixed;
+  top: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -56px;
+    left: -50%;
+    transform: translateX(-120px);
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+  }
+`;
+
+
 
 export default function TabTweets() {
   const [tweets, setTweets] = useState([])
   const navigate = useNavigate()
+  const { currentMember } = useAuth()
+  const [openReplyModal, setOpenReplyModal] = useState(false);
+  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet();
+
+  const handleOpenReplyModal = () => {
+    setOpenReplyModal(!openReplyModal);
+  };
 
   useEffect(() => {
     let userId = ''
@@ -51,10 +82,22 @@ export default function TabTweets() {
       {[...tweets].reverse().map((tweet) => {
         return (
           <li key={tweet.id}>
-            <TabTweetItems tweet={tweet}></TabTweetItems>
+            <TabTweetItems 
+            tweet={tweet} 
+            handleOpenReplyModal={handleOpenReplyModal}></TabTweetItems>
           </li>
         )
       })}
+      {openReplyModal && !isModalLoading && (
+        <StyledReplyModalContainer>
+          <ReplyModal
+            placeholder={'推你的回覆'}
+            handleOpenReplyModal={handleOpenReplyModal}
+            selectedReplyItem={selectedReplyItem}
+            currentMember={currentMember}
+          />
+        </StyledReplyModalContainer>
+      )}
     </StyledContainer>
   )
 }

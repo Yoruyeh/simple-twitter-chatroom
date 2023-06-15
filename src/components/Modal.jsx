@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
@@ -210,7 +209,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
 
 const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
   const {replyInputValue, handleClickReplyInput} = useGetSelectedTweet()
-  const navigate = useNavigate()
+
   return (
     <>
       <StyledReplyModalContainer>
@@ -219,7 +218,6 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
             className="close-button"
             onClick={() => {
               handleOpenReplyModal()
-              navigate('/home')
             }}
           />
         </StyledModalHeader>
