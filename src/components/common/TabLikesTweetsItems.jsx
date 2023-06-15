@@ -1,6 +1,5 @@
 import { styled } from 'styled-components'
-import { OutlinedReply, OutlinedLike } from '../../assets/icons'
-import { PillButton } from './button.styled'
+import { OutlinedReply, FilledLike } from '../../assets/icons'
 import { Link } from 'react-router-dom'
 
 const TweetContainer = styled(Link)`
@@ -78,33 +77,16 @@ const TweetContainer = styled(Link)`
           transform: translateY(-1px);
         }
       }
+      .liked  {
+        > path {
+        fill: var(--main);
+        }
+      }
     }
   }
 `
 
-function returnReplyId(replyid) {
-  if (replyid) {
-    return (
-      <div className='replyid-wrapper'>
-        <p>
-          回覆 <span>{`@${replyid}`}</span>
-        </p>
-      </div>
-    )
-  } else {
-    return
-  }
-}
-
-function returnButton(button) {
-  if (button) {
-    return <PillButton>跟隨</PillButton>
-  } else {
-    return
-  }
-}
-
-export function TabLikesTweetsItems({ tweet, replyid, button }) {
+export function TabLikesTweetsItems({ tweet }) {
   return (
     <TweetContainer className='d-flex px-0'>
       <div className='user-img-wrapper'>
@@ -121,11 +103,7 @@ export function TabLikesTweetsItems({ tweet, replyid, button }) {
           <span className='tweet-account'>
             @{`${tweet.Tweet.User.account}・${tweet.Tweet.diffCreatedAt}`}
           </span>
-          {returnButton(button)}
         </div>
-
-        {returnReplyId(replyid)}
-
         <div className='tweet-main'>
           <p className='tweet-text'>{tweet.Tweet.description}</p>
         </div>
@@ -136,7 +114,7 @@ export function TabLikesTweetsItems({ tweet, replyid, button }) {
               <span className='item-text'>{tweet.Tweet.replyCount}</span>
             </div>
             <div className='item d-flex'>
-              <OutlinedLike />
+              <FilledLike className='liked' />
               <span className='item-text'>{tweet.Tweet.likeCount}</span>
             </div>
           </div>

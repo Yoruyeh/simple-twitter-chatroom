@@ -81,13 +81,6 @@ const TweetContainer = styled(Link)`
   }
 `
 
-// function returnButton(button) {
-//   if (button) {
-//     return <PillButton>跟隨</PillButton>
-//   } else {
-//     return
-//   }
-// }
 
 export function TabRepliesItems({ tweet }) {
   return (
