@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { checkPermission } from '../../api/checkPermission'
 import { getUserTweet } from '../../api/users'
 import { TabTweetItems } from './TabTweetItems'
 import { ReplyModal } from '../Modal'
 import { useAuth } from '../../context/AuthContext'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
+import { useGetUserTweets } from '../../context/GetUserTweets'
 
 const StyledContainer = styled.ul`
   li {
@@ -34,11 +35,12 @@ const StyledReplyModalContainer = styled.div`
 `;
 
 
-
 export default function TabTweets() {
   const [tweets, setTweets] = useState([])
   const navigate = useNavigate()
+  const pathname = useLocation().pathname
   const { currentMember } = useAuth()
+  const { userTweets } = useGetUserTweets()
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { selectedReplyItem, isModalLoading } = useGetSelectedTweet();
 
@@ -79,15 +81,25 @@ export default function TabTweets() {
 
   return (
     <StyledContainer>
-      {[...tweets].reverse().map((tweet) => {
-        return (
+      {pathname.includes('other') ? (
+        [...userTweets].reverse().map((tweet) => (
           <li key={tweet.id}>
             <TabTweetItems 
-            tweet={tweet} 
-            handleOpenReplyModal={handleOpenReplyModal}></TabTweetItems>
+              tweet={tweet} 
+              handleOpenReplyModal={handleOpenReplyModal} 
+            />
           </li>
-        )
-      })}
+        ))
+      ) : (
+        [...tweets].reverse().map((tweet) => (
+          <li key={tweet.id}>
+            <TabTweetItems 
+              tweet={tweet} 
+              handleOpenReplyModal={handleOpenReplyModal} 
+            />
+          </li>
+        ))
+      )}
       {openReplyModal && !isModalLoading && (
         <StyledReplyModalContainer>
           <ReplyModal

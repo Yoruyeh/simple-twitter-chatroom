@@ -13,6 +13,7 @@ import TabLikesTweets from '../components/common/TabLikesTweets'
 import TabTweets from '../components/common/TabTweets'
 import AdminList from '../components/AdminList'
 import AdminPage from '../pages/AdminPage'
+import OtherUserPage from '../pages/OtherUserPage'
 
 
 // 路由表
@@ -62,6 +63,24 @@ const routes = [
   {
     path: '/:userID',
     element: <UserPage />,
+    children: [
+      {
+        index: true,
+        element: <TabTweets />,
+      },
+      {
+        path: 'replies',
+        element: <TabRepliesTweets />,
+      },
+      {
+        path: 'likes',
+        element: <TabLikesTweets />,
+      },
+    ],
+  },
+  {
+    path: '/other/:userID',
+    element: <OtherUserPage />,
     children: [
       {
         index: true,

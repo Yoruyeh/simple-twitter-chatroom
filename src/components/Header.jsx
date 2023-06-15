@@ -103,4 +103,26 @@ const UserHeader = () => {
   );
 };
 
-export { MainHeader, SettingHeader, ReplyHeader, UserHeader};
+const OtherUserHeader = ({ userInfo }) => {
+  const navigate = useNavigate()
+  const pathname = useLocation().pathname
+
+  return (
+  <>
+    <StyledUserHeader>
+      {pathname.includes('followers') || pathname.includes('followings') ? (
+        <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate(`/${userInfo.id}`)}/>
+      ) : (
+        <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate('/home')}/>
+      )}
+      
+      <h5>{userInfo.name}</h5>
+      <StyledText>{userInfo.tweetAmount} 推文</StyledText>
+    </StyledUserHeader>
+  </>
+  );
+};
+
+export { MainHeader, SettingHeader, ReplyHeader, UserHeader, OtherUserHeader};
