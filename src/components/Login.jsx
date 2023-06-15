@@ -100,24 +100,12 @@ export default function Login() {
     }
   }
 
-  // 禁用所有input
-  function disabledAllInput(boolean) {
-    if (boolean) {
-      for (let i = 0; i < inputs.length; i++) {
-        setInput(i, 'disabled')
-      }
-    } else {
-      for (let i = 0; i < inputs.length; i++) {
-        setInput(i, '')
-      }
-    }
-  }
-
   // Button事件
   async function handleClick() {
     // 判斷 account、password 是否符合格式
     const regexAccount = /^[a-zA-Z0-9]{1,20}$/
     const regexPassword = /^[a-zA-Z0-9]{8,20}$/
+
     // account 不符合
     if (!regexAccount.test(account)) {
       setInput(0, 'danger', '帳號需要1-20位數字或字母')
@@ -125,23 +113,25 @@ export default function Login() {
     // password不符合
     if (!regexPassword.test(password)) {
       setInput(1, 'danger', '密碼要8-20位數字或字母')
-      // 比對完成跳出程序
-      return
     }
 
-    // 請求時禁用input
-    disabledAllInput(true)
     // 保存返回的 success、authToken 資料
-    const { success, token } = await login({ account, password })
+    const { success, token, error } = await login({ account, password })
     // 取得成功，將 authToken 存進用戶的 localStorage，
     // 跳轉到 homePage
     if (success) {
       localStorage.setItem('token', token)
       navigate('/home')
+    } else if (error) {
+      if (error.message.includes('使用者')) {
+        setInput(0, 'danger', '帳號不存在')
+        setInput(1, '')
+        return
+      } else {
+        setInput(1, 'danger', '密碼不相符')
+        return
+      }
     }
-
-    // 成功處理結束啟用input
-    disabledAllInput()
   }
 
   return (
