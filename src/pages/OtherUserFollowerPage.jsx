@@ -3,9 +3,10 @@ import MainLayout from '../layout/MainLayout'
 import Tab from '../components/common/Tab'
 import { OtherUserHeader } from '../components/Header';
 import FollowerCollection from '../components/FollowerCollection';
-import { getUserFollowersById, getUserFollowingsById, Follow, UnFollow } from '../api/user.follower';
+import { Follow, UnFollow } from '../api/user.follower';
 import { useLocation } from 'react-router-dom'
 import { useGetUserTweets } from '../context/GetUserTweets';
+import { useAuth } from '../context/AuthContext';
 
 
 const StyledFollowerPageContainer = styled.div`
@@ -19,22 +20,18 @@ const StyledFollowerPageContainer = styled.div`
   }
 `
 const OtherUserFollowerPage = () => {
-  const { userInfo, userFollowers, userFollowings, setUserFollowers, setUserFollowings } = useGetUserTweets()
-  // const [isLoading, setIsLoading] = useState(true)
+  const { currentMember } = useAuth()
+  const { userInfo, userFollowers, userFollowings } = useGetUserTweets()
   const pathname = useLocation().pathname
 
   const handleFollowClicked = async (id) => {
-    if (userInfo.id === id) {
+    if (currentMember.id === id) {
       return
     }
     try {
       await Follow({ 
         id: id 
       })
-      const followers = await getUserFollowersById(userInfo.id);
-      setUserFollowers(followers)
-      const followings = await getUserFollowingsById(userInfo.id)
-      setUserFollowings(followings)
     } catch (error) {
       console.error(error)
     }
@@ -43,10 +40,6 @@ const OtherUserFollowerPage = () => {
   const handleUnFollowClicked = async (id) => {
     try {
       await UnFollow(id)
-      const followers = await getUserFollowersById(userInfo.id);
-      setUserFollowers(followers)
-      const followings = await getUserFollowingsById(userInfo.id)
-      setUserFollowings(followings)
     } catch (error) {
       console.error(error)
     }

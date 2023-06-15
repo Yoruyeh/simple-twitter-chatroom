@@ -36,16 +36,7 @@ export default function OtherUserPage() {
           <OtherUserHeader userInfo={userInfo}/>
         </div>
         <div className='user-info'>
-          <OtherUserInfoCard
-            username={userInfo.name}
-            useraccount={userInfo.account}
-            intro={userInfo.introduction}
-            following={userInfo.following}
-            followers={userInfo.follower}
-            cover={userInfo.cover}
-            avatar={userInfo.avatar}
-            userId = {userInfo.id}
-          />
+          <OtherUserInfoCard userInfo={userInfo}/>
         </div>
         <div className='user-tab'>
           <Tab></Tab>

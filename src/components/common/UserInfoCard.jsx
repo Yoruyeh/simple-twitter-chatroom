@@ -221,22 +221,12 @@ export function UserInfoCard({
   )
 }
 
-export function OtherUserInfoCard({
-  other = true,
-  username,
-  useraccount,
-  intro,
-  following,
-  follower,
-  cover,
-  avatar,
-  userId
-}) {
+export function OtherUserInfoCard({ other = true, userInfo}) {
   return (
     <Container>
-      <StyledImgWrapper cover={cover}>
+      <StyledImgWrapper cover={userInfo.cover}>
         <div className='img'></div>
-        <StyledAvatarWrapper avatar={avatar}>
+        <StyledAvatarWrapper avatar={userInfo.avatar}>
           <div className='avatar'></div>
         </StyledAvatarWrapper>
       </StyledImgWrapper>
@@ -246,14 +236,14 @@ export function OtherUserInfoCard({
       </StyledActionWrapper>
 
       <StyledInfoWrapper>
-        <h5 className='username'>{username}</h5>
-        <span className='userid'>@{useraccount}</span>
-        <p className='userintro'>{intro}</p>
-        <NavLink to={`/others/${userId}/followings`}>
-          {following} <span>個追隨中</span>
+        <h5 className='username'>{userInfo.name}</h5>
+        <span className='userid'>@{userInfo.account}</span>
+        <p className='userintro'>{userInfo.introduction}</p>
+        <NavLink to={`/others/${userInfo.id}/followings`}>
+          {userInfo.following} <span>個追隨中</span>
         </NavLink>
-        <NavLink to={`/others/${userId}/followers`}>
-          {follower} <span>位跟隨者</span>
+        <NavLink to={`/others/${userInfo.id}/followers`}>
+          {userInfo.follower} <span>位跟隨者</span>
         </NavLink>
       </StyledInfoWrapper>
     </Container>
