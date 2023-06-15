@@ -1,15 +1,16 @@
+import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import MainLayout from '../layout/MainLayout';
 import { MainHeader } from '../components/Header';
 import { TweetInput } from '../components/TweetInput';
 import TweetCollection from '../components/TweetCollection';
 import { InputButton } from '../components/common/button.styled';
-import { useGetTheTweet } from '../context/GetTweetAndReplies';
 import { ReplyModal } from '../components/Modal';
-import { useCreateTweet } from '../context/CreateTweet';
 import { useAuth } from '../context/AuthContext';
+import { useGetTweets } from '../context/GetTweets'
+import { useGetSelectedTweet } from '../context/GetSelectedTweet'
+
 
 const StyledHomePageContainer = styled.div`
   width: 100%;
@@ -61,12 +62,12 @@ const StyledReplyModalContainer = styled.div`
 `;
 
 const HomePage = () => {
-  const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { selectedReplyItem, isModalLoading } = useGetTheTweet();
-  const { tweets, handleClickTweetInput } = useCreateTweet();
-  const { updatedTweets } = useGetTheTweet()
-  const { isAuthenticated, currentMember } = useAuth();
   const navigate = useNavigate();
+  const { isAuthenticated, currentMember } = useAuth();
+  const [openReplyModal, setOpenReplyModal] = useState(false);
+  const { tweets, handleClickTweetInput } = useGetTweets()
+  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet()
+
 
   const handleOpenReplyModal = () => {
     setOpenReplyModal(!openReplyModal);
@@ -100,7 +101,6 @@ const HomePage = () => {
           <TweetCollection
             tweets={tweets}
             handleOpenReplyModal={handleOpenReplyModal}
-            updatedTweets={updatedTweets}
           />
         </div>
       </StyledHomePageContainer>

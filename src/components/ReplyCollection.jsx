@@ -1,11 +1,9 @@
 import ReplyItem from './ReplyItem'
 
-const ReplyCollection = ({ repliesById }) => {
-
-
+const ReplyCollection = ({ replies }) => {
   return (
     <>
-      {repliesById.map((reply) => {
+      {replies.map((reply) => {
         return (
           <div className="reply-item-wrapper" key={reply.replyId}>
             <ReplyItem reply={reply}/>
