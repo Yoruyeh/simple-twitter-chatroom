@@ -7,6 +7,8 @@ import { Follow, UnFollow } from '../api/user.follower';
 import { useLocation } from 'react-router-dom'
 import { useGetUserTweets } from '../context/GetUserTweets';
 import { useAuth } from '../context/AuthContext';
+import { useEffect, useState } from 'react';
+import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower';
 
 
 const StyledFollowerPageContainer = styled.div`
@@ -21,7 +23,10 @@ const StyledFollowerPageContainer = styled.div`
 `
 const OtherUserFollowerPage = () => {
   const { currentMember } = useAuth()
-  const { userInfo, userFollowers, userFollowings } = useGetUserTweets()
+  const { userInfo } = useGetUserTweets()
+  const [userfollowers, setUserFollowers] = useState([])
+  const [userfollowings, setUserFollowings] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const pathname = useLocation().pathname
 
   const handleFollowClicked = async (id) => {
@@ -45,8 +50,31 @@ const OtherUserFollowerPage = () => {
     }
   }
 
- 
+  useEffect(() => {
+    setIsLoading(true)
+    const getUserFollowersByIdAsync = async () => {
+      try {
+        const followers = await getUserFollowersById(userInfo.id);
+        setUserFollowers(followers);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUserFollowersByIdAsync()
+    const getUserFollowingsByIdAsync = async () => {
+      try {
+        const followings = await getUserFollowingsById(userInfo.id);
+        setUserFollowings(followings);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUserFollowingsByIdAsync()
+    setIsLoading(false)
+  }, [userInfo])
+
   return (
+    !isLoading && (
     <MainLayout>
       <StyledFollowerPageContainer>
       <div className="header">
@@ -57,14 +85,15 @@ const OtherUserFollowerPage = () => {
       </div>
       <div className="user-follower-collection">
         {pathname.includes('followers') ? (
-          <FollowerCollection userFollows={userFollowers} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
+          <FollowerCollection userFollows={userfollowers} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
         ) : (
-          <FollowerCollection userFollows={userFollowings} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
+          <FollowerCollection userFollows={userfollowings} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
         )}
       </div>
       </StyledFollowerPageContainer>
     </MainLayout>
     )
+  )
 }
 
 export default OtherUserFollowerPage

@@ -21,8 +21,6 @@ export const GetUserTweetsProvider = ({ children }) => {
   const [userTweets, setUserTweets] = useState([])
   const [userReplies, setUserReplies] = useState([])
   const [userLikes, setUserLikes] = useState([])
-  const [userfollowers, setUserFollowers] = useState([])
-  const [userfollowings, setUserFollowings] = useState([])
 
 
   const handleAvatarClick = async (id) => {
@@ -40,11 +38,6 @@ export const GetUserTweetsProvider = ({ children }) => {
       setUserReplies(replies)
       const likes = await getUserLikes(id)
       setUserLikes(likes)
-      const followers = await getUserFollowersById(id)
-      console.log(followers)
-      setUserFollowers(followers)
-      const followings = await getUserFollowingsById(id)
-      setUserFollowings(followings)
     } catch (error) {
       console.error(error)
     }
@@ -83,7 +76,7 @@ export const GetUserTweetsProvider = ({ children }) => {
 
   return (
     <GetUserTweetsContext.Provider 
-    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, userfollowers, userfollowings, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings}}>
+    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings}}>
       {children}
     </GetUserTweetsContext.Provider>
   );
