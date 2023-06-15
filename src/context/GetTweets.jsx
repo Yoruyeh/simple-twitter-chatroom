@@ -42,7 +42,11 @@ export const GetTweetsProvider = ({ children }) => {
   }
 
   const handleClickTweetModal = async () => {
-    if(tweetModalValue.length === 0 || tweetModalValue.length > 140) {
+    const wordCount = tweetModalValue.trim()
+    if (wordCount.length === 0) {
+      return
+    }
+    if (wordCount.length > 140) {
       return
     }
     try {

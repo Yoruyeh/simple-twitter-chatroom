@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MainLayout from '../layout/MainLayout'
 import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
@@ -7,6 +7,7 @@ import ReplyCollection from '../components/ReplyCollection'
 import { ReplyModal } from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
+import { useNavigate } from 'react-router-dom';
 
 
 const StyledReplyPageContainer = styled.div`
@@ -41,13 +42,20 @@ const StyledReplyModalContainer = styled.div`
 `;
 
 const ReplyPage = () => {
-  const { currentMember } = useAuth()
+  const { currentMember, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies } = useGetSelectedTweet();
 
   const handleOpenReplyModal = () => {
     setOpenReplyModal(!openReplyModal);
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [navigate, isAuthenticated]);
 
 
   return (
