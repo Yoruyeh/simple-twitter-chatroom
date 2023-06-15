@@ -1,8 +1,6 @@
 import styled from 'styled-components'
-import { useEffect } from 'react'
-import { useNavigate, NavLink, Outlet } from 'react-router-dom'
-import { checkPermission } from '../../api/checkPermission'
-import { useAuth } from '../../context/AuthContext'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { useGetUserTweets } from '../../context/GetUserTweets'
 // 顏色變量
 const dividerColor = '#E6ECF0'
 const fontDefaultColor = '#657786'
@@ -38,31 +36,30 @@ const StyledContainer = styled.div`
 `
 
 // 根據條件返回相應的內容
-function ReturnItems({ handleOpenReplyModal }) {
-  const navigate = useNavigate()
+function ReturnItems() {
   function computedClassName({ isActive }) {
     return isActive ? 'tab-botton active' : 'tab-botton'
   }
-const { currentMember } = useAuth()
+const { currentMemberInfo, userInfo }  = useGetUserTweets()
+const pathname = useLocation().pathname
+
   if (
-    window.location.pathname.includes('followers') ||
-    window.location.pathname.includes('followings')
+    pathname.includes('followers') ||
+    pathname.includes('followings')
   ) {
     return (
       <>
         <li>
           <NavLink
             className={computedClassName}
-            onClick={() => navigate(`/${currentMember.id}/followers`)}
-          >
+            to={pathname.includes('others') ? `/others/${userInfo.id}/followers` : `/${currentMemberInfo.id}/followers`}>
             追蹤者
           </NavLink>
         </li>
         <li>
           <NavLink
             className={computedClassName}
-            onClick={() => navigate(`/${currentMember.id}/followings`)}
-          >
+            to={pathname.includes('others') ? `/others/${userInfo.id}/followings` : `/${currentMemberInfo.id}/followings`}>
             正在追蹤
           </NavLink>
         </li>
@@ -73,52 +70,22 @@ const { currentMember } = useAuth()
     )
   } else {
     return (
-      <>
-        <li>
-          <NavLink className={computedClassName} end to=''>
-            推文
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={computedClassName} to='replies'>
-            回覆
-          </NavLink>
-        </li>
-        <li>
-          <NavLink className={computedClassName} to='likes'>
-            喜歡的內容
-          </NavLink>
-        </li>
-      </>
-    )
-  }
+  <>
+    <li>
+      <NavLink className={computedClassName} end to={pathname.includes('others') ? `/others/${userInfo.id}` : `/${currentMemberInfo.id}`}>推文</NavLink>
+    </li>
+    <li>
+      <NavLink className={computedClassName} to='replies'>回覆</NavLink>
+    </li>
+    <li>
+      <NavLink className={computedClassName} to='likes'>喜歡的內容</NavLink>
+    </li>
+  </>
+);
+    }
 }
 
 export default function Tab({ handleOpenReplyModal }) {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    // 檢查 token 是否有效，取得結果
-    const result = async function checkTokenIsValid() {
-      // 在本地瀏覽器取得 token
-      const token = localStorage.getItem('token')
-      // token 不存在，跳轉到 login
-      if (!token) {
-        return
-      }
-
-      // 驗證 token 是否有效
-      const result = await checkPermission(token)
-      if (!result) {
-        return
-      }
-      return true
-    }
-    // 驗證失敗，跳轉 login頁面
-    if (!result) {
-      navigate('/login')
-    }
-  }, [navigate])
 
   return (
     <>

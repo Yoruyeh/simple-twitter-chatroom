@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { checkPermission } from '../../api/checkPermission'
 import { getUserReplied } from '../../api/users'
 import { TabRepliesItems } from './TabRepliesItems'
+import { useGetUserTweets } from '../../context/GetUserTweets'
 
 const StyledContainer = styled.ul`
   li {
@@ -14,6 +15,8 @@ const StyledContainer = styled.ul`
 export default function TabRepliesTweets() {
   const [tweets, setTweets] = useState([])
   const navigate = useNavigate()
+  const pathname = useLocation().pathname
+  const { userReplies } = useGetUserTweets()
 
   useEffect(() => {
     let userId = ''
@@ -48,13 +51,21 @@ export default function TabRepliesTweets() {
 
   return (
     <StyledContainer>
-      {tweets.map((tweet) => {
-        return (
-          <li key={tweet.id}>
-            <TabRepliesItems tweet={tweet} replyid></TabRepliesItems>
-          </li>
-        )
-      })}
+    {pathname.includes('others') ? 
+      userReplies.map((tweet) => (
+        <li key={tweet.id}>
+          <TabRepliesItems tweet={tweet} replyid/>
+        </li>
+      ))
+    : 
+      tweets.map((tweet) => (
+        <li key={tweet.id}>
+          <TabRepliesItems tweet={tweet} replyid/>
+        </li>
+      ))
+    }
     </StyledContainer>
   )
 }
+
+

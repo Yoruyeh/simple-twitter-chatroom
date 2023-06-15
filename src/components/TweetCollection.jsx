@@ -4,7 +4,7 @@ const TweetCollection = ({ tweets, handleOpenReplyModal }) => {
 
   return (
     <div>
-      {tweets.map((tweet) => (
+      {tweets && tweets.map((tweet) => (
           <div className="tweet-item-wrapper" key={tweet.id}>
             <TweetItem tweet={tweet}/>
             <TweetItemIcon tweet={tweet} handleOpenReplyModal={handleOpenReplyModal}/>

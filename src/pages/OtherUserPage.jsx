@@ -1,22 +1,26 @@
 import styled from 'styled-components'
+import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { UserInfoCard } from '../components/common/UserInfoCard'
-import Tab from '../components/common/Tab'
-import MainLayout from '../layout/MainLayout'
-import { UserHeader } from '../components/Header'
-import { useAuth } from '../context/AuthContext'
 import { useGetUserTweets } from '../context/GetUserTweets'
+import MainLayout from '../layout/MainLayout'
+import { OtherUserHeader } from '../components/Header'
+import { OtherUserInfoCard } from '../components/common/UserInfoCard'
+import Tab from '../components/common/Tab'
+
+// import { getUser } from '../api/users'
+// import { checkPermission } from '../api/checkPermission'
+
 
 const StyledContainer = styled.div`
   .user-info {
     margin-bottom: 16px;
   }
 `
-export default function UserPage() {
+export default function OtherUserPage() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
-  const { currentMemberInfo } = useGetUserTweets()
+  const { userInfo } = useGetUserTweets()
 
 
  useEffect(() => {
@@ -25,15 +29,14 @@ export default function UserPage() {
     }
   }, [navigate, isAuthenticated]);
 
-  
   return (
     <MainLayout>
       <StyledContainer className='container-fuild'>
         <div className='header'>
-          <UserHeader />
+          <OtherUserHeader userInfo={userInfo}/>
         </div>
         <div className='user-info'>
-          <UserInfoCard currentMemberInfo={currentMemberInfo}/>
+          <OtherUserInfoCard userInfo={userInfo}/>
         </div>
         <div className='user-tab'>
           <Tab></Tab>

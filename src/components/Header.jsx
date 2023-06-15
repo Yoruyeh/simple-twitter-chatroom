@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { OutlinedBack } from '../assets/icons';
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom'
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 const StyledMainHeader = styled.header`
   font-family: 'Noto Sans TC';
@@ -73,7 +73,7 @@ const ReplyHeader = () => {
   <>
     <StyledReplyHeader>
       <OutlinedBack className='header-icon-back' 
-      onClick={() => navigate('/home')}/>
+      onClick={() => navigate(-1)}/>
       <h4>推文</h4>
     </StyledReplyHeader>
   </>
@@ -82,25 +82,33 @@ const ReplyHeader = () => {
 
 const UserHeader = () => {
   const navigate = useNavigate()
-  const pathname = useLocation().pathname
-  const { currentMember } = useAuth()
+  const { currentMemberInfo } = useGetUserTweets()
 
   return (
   <>
     <StyledUserHeader>
-      {pathname.includes('followers') || pathname.includes('followings') ? (
-        <OutlinedBack className='header-icon-back' 
-      onClick={() => navigate(`/${currentMember.id}`)}/>
-      ) : (
-        <OutlinedBack className='header-icon-back' 
-      onClick={() => navigate('/home')}/>
-      )}
-      
-      <h5>{currentMember.name}</h5>
-      <StyledText>25 推文</StyledText>
+      <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate(-1)}/>
+      <h5>{currentMemberInfo.name}</h5>
+      <StyledText>{currentMemberInfo.tweetAmount} 推文</StyledText>
     </StyledUserHeader>
   </>
   );
 };
 
-export { MainHeader, SettingHeader, ReplyHeader, UserHeader};
+const OtherUserHeader = ({ userInfo }) => {
+  const navigate = useNavigate()
+
+  return (
+  <>
+    <StyledUserHeader>
+        <OutlinedBack className='header-icon-back' 
+      onClick={() => navigate(-1)}/>
+      <h5>{userInfo.name}</h5>
+      <StyledText>{userInfo.tweetAmount} 推文</StyledText>
+    </StyledUserHeader>
+  </>
+  );
+};
+
+export { MainHeader, SettingHeader, ReplyHeader, UserHeader, OtherUserHeader};

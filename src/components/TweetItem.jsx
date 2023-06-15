@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { OutlinedLike, OutlinedReply, FilledLike } from '../assets/icons';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useGetLikes } from '../context/GetLikes';
+import { useGetUserTweets } from '../context/GetUserTweets';
+
 
 const StyledTweetItemContainer = styled.div`
   font-family: 'Noto Sans TC', sans-serif;
@@ -67,6 +69,9 @@ const StyledAvatar = styled.div`
   position: absolute;
   top: 16px;
   left: 24px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledTweetIconContainer = styled.div`
@@ -135,10 +140,16 @@ const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
 
 const TweetItem = ({ tweet }) => {
   const { handleTweetContentClick } = useGetSelectedTweet()
+  const { handleAvatarClick } = useGetUserTweets()
 
   return (
     <StyledTweetItemContainer>
-      <StyledAvatar image={tweet.User.avatar} />
+      <StyledAvatar image={tweet.User.avatar} data-id={tweet.userId}
+      onClick={(e) => {
+        const clickedAvatarId = e.currentTarget.dataset.id
+        console.log(clickedAvatarId)
+        handleAvatarClick(clickedAvatarId)
+      }}/>
       <div className="tweet-info">
         <span className="tweet-info-username">{tweet.User.name}</span>
         <span className="tweet-info-account"> @{tweet.User.account}・</span>

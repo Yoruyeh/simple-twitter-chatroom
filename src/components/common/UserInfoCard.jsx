@@ -182,21 +182,12 @@ function ReturnActions(other) {
   }
 }
 
-export function UserInfoCard({
-  other = true,
-  username,
-  userid,
-  intro,
-  following,
-  followers,
-  cover,
-  avatar,
-}) {
+export function UserInfoCard({ other = false, currentMemberInfo}) {
   return (
     <Container>
-      <StyledImgWrapper cover={cover}>
+      <StyledImgWrapper cover={currentMemberInfo.cover}>
         <div className='img'></div>
-        <StyledAvatarWrapper avatar={avatar}>
+        <StyledAvatarWrapper avatar={currentMemberInfo.avatar}>
           <div className='avatar'></div>
         </StyledAvatarWrapper>
       </StyledImgWrapper>
@@ -206,14 +197,43 @@ export function UserInfoCard({
       </StyledActionWrapper>
 
       <StyledInfoWrapper>
-        <h5 className='username'>{username}</h5>
-        <span className='userid'>@{userid}</span>
-        <p className='userintro'>{intro}</p>
-        <NavLink to={`/${userid}/followings`}>
-          {following} <span>個追隨中</span>
+        <h5 className='username'>{currentMemberInfo.name}</h5>
+        <span className='userid'>@{currentMemberInfo.account}</span>
+        <p className='userintro'>{currentMemberInfo.introduction}</p>
+        <NavLink to={`/${currentMemberInfo.id}/followings`}>
+          {currentMemberInfo.following} <span>個追隨中</span>
         </NavLink>
-        <NavLink to={`/${userid}/followers`}>
-          {followers} <span>位跟隨者</span>
+        <NavLink to={`/${currentMemberInfo.id}/followers`}>
+          {currentMemberInfo.follower} <span>位跟隨者</span>
+        </NavLink>
+      </StyledInfoWrapper>
+    </Container>
+  )
+}
+
+export function OtherUserInfoCard({ other = true, userInfo}) {
+  return (
+    <Container>
+      <StyledImgWrapper cover={userInfo.cover}>
+        <div className='img'></div>
+        <StyledAvatarWrapper avatar={userInfo.avatar}>
+          <div className='avatar'></div>
+        </StyledAvatarWrapper>
+      </StyledImgWrapper>
+
+      <StyledActionWrapper className='col-12 d-flex justify-content-end'>
+        {ReturnActions(other)}
+      </StyledActionWrapper>
+
+      <StyledInfoWrapper>
+        <h5 className='username'>{userInfo.name}</h5>
+        <span className='userid'>@{userInfo.account}</span>
+        <p className='userintro'>{userInfo.introduction}</p>
+        <NavLink to={`/others/${userInfo.id}/followings`}>
+          {userInfo.following} <span>個追隨中</span>
+        </NavLink>
+        <NavLink to={`/others/${userInfo.id}/followers`}>
+          {userInfo.follower} <span>位跟隨者</span>
         </NavLink>
       </StyledInfoWrapper>
     </Container>
