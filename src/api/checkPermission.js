@@ -11,8 +11,9 @@ export async function checkPermission(token) {
       },
     })
     // return 取得資料
-    return data
+    return { success: true, data }
   } catch (error) {
-    console.error('Check Permission Failed:', error)
+    console.error('Check Permission Failed:', error.response.data.message)
+    return { success: false, error }
   }
 }
