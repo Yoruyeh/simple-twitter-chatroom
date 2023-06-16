@@ -39,6 +39,8 @@ export const GetSelectedTweetProvider = ({ children }) => {
   const [isModalLoading, setIsModalLoading] = useState(false)
   // 回覆的input控制
   const [replyInputValue, setReplyInputValue] = useState('')
+  const [openAlert, setOpenAlert] = useState(false)
+  const [alertType, setAlertType] = useState(null)
 
   const handleTweetContentClick = async (id) => {
     setIsReplyPageLoading(true);
@@ -102,6 +104,8 @@ export const GetSelectedTweetProvider = ({ children }) => {
     if (replyInputValue.length === 0) {
       return;
     }
+    setOpenAlert(true)
+    setAlertType('success')
     try {
       await createReply(selectedReplyItem.id, {
         comment: replyInputValue,
@@ -112,6 +116,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
       setSelectedReplyItem(tweet)
       const replies = await getRepliesById(selectedReplyItem.id);
       setReplies(replies);
+      setOpenAlert(false)
       navigate(`/tweets/${selectedReplyItem.id}`)
     } catch (error) {
       console.error(error);
@@ -123,7 +128,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   return (
     <GetSelectedTweetContext.Provider 
     value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading}}>
+    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading, openAlert, alertType}}>
       {children}
     </GetSelectedTweetContext.Provider>
   );

@@ -10,6 +10,7 @@ import { ReplyModal } from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
 import { useGetTweets } from '../context/GetTweets'
 import { useGetSelectedTweet } from '../context/GetSelectedTweet'
+import Alert from '../components/Alert'
 
 
 const StyledHomePageContainer = styled.div`
@@ -69,12 +70,20 @@ const StyledReplyModalContainer = styled.div`
   }
 `;
 
+const StyledAlertContainer = styled.div`
+  background-color: var(--dark-0);
+  position: fixed;
+  top: 56px;
+  left: 35%;
+  z-index: 1;
+`
+
 const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { tweets, handleClickTweetInput, tweetInputValue } = useGetTweets()
-  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet()
+  const { selectedReplyItem, isModalLoading, openAlert, alertType } = useGetSelectedTweet()
 
 
   const handleOpenReplyModal = () => {
@@ -122,6 +131,11 @@ const HomePage = () => {
             currentMember={currentMember}
           />
         </StyledReplyModalContainer>
+      )}
+      {openAlert && (
+        <StyledAlertContainer>
+          <Alert alertType={alertType}/>
+        </StyledAlertContainer>
       )}
     </MainLayout>
   );
