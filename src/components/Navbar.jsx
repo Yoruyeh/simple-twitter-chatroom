@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Logo,
   OutlinedHome, FilledHome,
@@ -9,6 +9,7 @@ import {
 } from '../assets/icons';
 import { NavbarButton } from "./common/button.styled"
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext';
 
 const StyledNavbar = styled.nav`
   width: 100%;
@@ -71,6 +72,10 @@ const StyledText = styled.p`
   margin-left: 2px;
 `;
 
+
+const Navbar = ({ handleOpenTweetModal }) => {
+  const { currentMember } = useAuth()
+
 const DefaultNavItems = [
   {
     id: "1",
@@ -85,7 +90,7 @@ const DefaultNavItems = [
   {
     id: "2",
     text: "個人資料",
-    link: "/:userID", 
+    link: `/${currentMember.id}`, 
     isVisited: false,
     icons: {
       outlined: <OutlinedUser />,
@@ -113,15 +118,38 @@ const DefaultNavItems = [
     }
   }
 ]
-
-const Navbar = ({ handleOpenTweetModal }) => {
   const [navItems, setNavItems] = useState(DefaultNavItems)
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleClick = (id) => {
-     setNavItems((prevItems) => {
+  setIsLoading(true)
+  setNavItems((prevItems) => {
+    return prevItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          isVisited: true,
+        }
+      } else {
+        return {
+          ...item,
+          isVisited: false,
+        }
+      }
+    })
+  })
+  // 在 localStorage 中保存狀態
+  localStorage.setItem('activeNavItem', id);
+  setIsLoading(false)
+}
+
+useEffect(() => {
+  const activeNavItem = localStorage.getItem('activeNavItem');
+  if (activeNavItem) {
+    setNavItems(prevItems => {
       return prevItems.map((item) => {
-        if (item.id === id) {
+        if (item.id === activeNavItem) {
           return {
             ...item,
             isVisited: true,
@@ -135,6 +163,8 @@ const Navbar = ({ handleOpenTweetModal }) => {
       })
     })
   }
+}, []);
+
 
   return (
     <StyledNavbar>
@@ -143,11 +173,11 @@ const Navbar = ({ handleOpenTweetModal }) => {
       </StyledLogo>
       <StyledNavList>
         {navItems.map(item => {
-          return (
+          return (!isLoading && (
             <StyledNavItem key={item.id} 
-            onClick={(e) => {
-              handleClick(item.id)
-              navigate(item.link)
+              onClick={() => {
+                handleClick(item.id)
+                navigate(item.link)
               }} >
                 <StyledLogo className={item.isVisited ? 'clicked' : ''}>
                   {item.isVisited ? (
@@ -157,15 +187,16 @@ const Navbar = ({ handleOpenTweetModal }) => {
                   )}
                 </StyledLogo>
                 <StyledText className={item.isVisited ? 'clicked' : ''}>
-                  {item.text}</StyledText>
+                  {item.text}
+                </StyledText>
             </StyledNavItem>
-          )
+          ))
         })}
-        </StyledNavList>
-        <NavbarButton className='nav-tweet-button' onClick={handleOpenTweetModal}>推文</NavbarButton>
+      </StyledNavList>
+      <NavbarButton className='nav-tweet-button' onClick={handleOpenTweetModal}>推文</NavbarButton>
     </StyledNavbar>
   );
-};
+}
 
 export default Navbar;
 
