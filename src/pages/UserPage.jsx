@@ -14,7 +14,7 @@ const StyledContainer = styled.div`
   }
 `
 export default function UserPage() {
-  const { isAuthenticated, logout } = useAuth()
+  const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const { currentMemberInfo } = useGetUserTweets()
 
@@ -22,10 +22,8 @@ export default function UserPage() {
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
-      localStorage.removeItem('activeNavItem')
-      logout()
     }
-  }, [navigate, isAuthenticated, logout]);
+  }, [navigate, isAuthenticated]);
 
   
   return (
