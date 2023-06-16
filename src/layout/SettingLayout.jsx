@@ -1,5 +1,8 @@
-import styled from 'styled-components'
-import Navbar from '../components/Navbar'
+import styled from 'styled-components';
+import Navbar from '../components/Navbar';
+import { useGetTweets } from '../context/GetTweets';
+import { useAuth } from '../context/AuthContext';
+import { TweetModal } from '../components/Modal';
 
 const StyledSettingLayoutContainer = styled.div`
   .row {
@@ -11,7 +14,7 @@ const StyledSettingLayoutContainer = styled.div`
     position: relative;
     border-right: 1px solid var(--gray1);
   }
-  .side-container{
+  .side-container {
     border-left: 1px solid var(--gray1);
   }
   .header {
@@ -25,20 +28,49 @@ const StyledSettingLayoutContainer = styled.div`
   @media screen and (min-width: 1200px) {
     max-width: 1140px;
   }
-`
+`;
+
+const StyledTweetModalContainer = styled.div`
+  position: fixed;
+  top: 56px;
+  left: 28%;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+  }
+`;
 
 const SettingLayout = ({ children }) => {
+  const { currentMember } = useAuth();
+  const { handleOpenTweetModal, openTweetModal } = useGetTweets();
   return (
-    <StyledSettingLayoutContainer className='container-fluid px-0'>
-      <div className='row mx-0'>
-        <div className='col-2 px-0 navbar-container'>
-          <Navbar />
+    <StyledSettingLayoutContainer className="container-fluid px-0">
+      <div className="row mx-0">
+        <div className="col-2 px-0 navbar-container">
+          <Navbar handleOpenTweetModal={handleOpenTweetModal} />
         </div>
-        <div className='col-7 main-container px-0'>{children}</div>
-        <div className='col-3 px-0 side-container'></div>
+        <div className="col-7 main-container px-0">{children}</div>
+        <div className="col-3 px-0 side-container"></div>
       </div>
+      {openTweetModal && (
+        <StyledTweetModalContainer>
+          <TweetModal
+            placeholder={'有什麼新鮮事？'}
+            handleOpenTweetModal={handleOpenTweetModal}
+            currentMember={currentMember}
+          />
+        </StyledTweetModalContainer>
+      )}
     </StyledSettingLayoutContainer>
-  )
-}
+  );
+};
 
-export default SettingLayout
+export default SettingLayout;

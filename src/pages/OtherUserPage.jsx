@@ -15,16 +15,18 @@ const StyledContainer = styled.div`
   }
 `
 export default function OtherUserPage() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const { userInfo } = useGetUserTweets()
 
 
- useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
+      localStorage.removeItem('activeNavItem')
+      logout()
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, logout]);
 
   return (
     <MainLayout>

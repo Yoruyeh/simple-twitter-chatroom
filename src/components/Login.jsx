@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useImmer } from 'use-immer'
 import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -12,7 +12,8 @@ import { AuthContainer, AuthInputContainer } from './common/auth.styled'
 // input 元件
 import AuthInput from './AuthInput'
 // api
-import { login } from '../api/users'
+// import { login } from '../api/users'
+import { useAuth } from '../context/AuthContext'
 
 // auth container
 const StyledContainer = styled(AuthContainer)`
@@ -81,6 +82,7 @@ export default function Login({ openModal }) {
   const [password, setPassword] = useState('') // 密碼 value
   const [inputList, UpdateInputList] = useImmer(inputs)
   const navigate = useNavigate()
+  const { login, isAuthenticated } = useAuth()
 
   // 設置 input狀態 函數
   function setInput(num, status, errorText) {
@@ -140,19 +142,17 @@ export default function Login({ openModal }) {
       isValid = false
     }
 
-    if (isValid) {
-      // 請求開始，禁用input
-      disabledAllInput(true)
-      // 保存返回的 success、authToken 資料
-      const { success, token, error } = await login({ account, password })
-      // 取得成功，將 authToken 存進用戶的 localStorage，
-      // 跳轉到 homePage
-      if (success) {
-        openModal('登入成功', 'success')
-        localStorage.setItem('token', token)
-        setTimeout(() => {
-          navigate('/home')
-        }, 1000)
+
+    // 保存返回的 success、authToken 資料
+    const { success, error } = await login({ account, password })
+    // 取得成功，將 authToken 存進用戶的 localStorage，
+    // 跳轉到 homePage
+    if (success) {
+      return
+    } else if (error) {
+      if (error.message.includes('使用者')) {
+        setInput(0, 'danger', '帳號不存在')
+        setInput(1, '')
         return
       } else {
         if (error.response.data.message.includes('使用者')) {
@@ -173,6 +173,12 @@ export default function Login({ openModal }) {
       }
     }
   }
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      navigate('/home')
+    }
+  }, [isAuthenticated, navigate])
 
   return (
     <StyledContainer>

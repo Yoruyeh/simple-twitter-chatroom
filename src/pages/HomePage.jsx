@@ -79,16 +79,17 @@ const StyledAlertContainer = styled.div`
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, currentMember } = useAuth();
+  const { isAuthenticated, currentMember, logout } = useAuth();
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
-
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
+      localStorage.removeItem('activeNavItem')
+      logout()
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, logout]);
 
   return (
     isAuthenticated &&
