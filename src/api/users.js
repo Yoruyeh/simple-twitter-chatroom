@@ -20,6 +20,44 @@ export async function login({ account, password }) {
   }
 }
 
+// settin 頁面
+export async function settingPage({
+  token,
+  userid,
+  name,
+  account,
+  email,
+  password,
+}) {
+  try {
+    const { data } = await axios.put(
+      `${usersURL}/${userid}/setting`,
+      {
+        account,
+        name,
+        email,
+        password,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    return { success: true, message: data.message }
+  } catch (error) {
+    let message = ''
+    console.error(`Setting Profile Filed: ${error.response.data.message}`)
+    if (error.response.data.message.includes('信箱')) {
+      message = '信箱已被註冊過 !'
+    } else if (error.response.data.message.includes('帳號')) {
+      message = '帳號已被註冊過 !'
+    }
+    return { success: false, message }
+  }
+}
+
 // 拿到相對應 user info資料
 export async function getUser(token, userId) {
   try {
