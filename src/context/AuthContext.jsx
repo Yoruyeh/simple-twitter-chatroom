@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-// import { login } from '../api/users'
+import { login } from '../api/users'
 import { checkPermission } from '../api/checkPermission'
 import jwt_decode from "jwt-decode"
 
@@ -76,22 +76,22 @@ export const AuthProvider = ({ children }) => {
         //   }
         //   return success;
         // },
-        // login: async (data) => {
-        //   const { success, token } = await login({
-        //     account: data.account,
-        //     password: data.password,
-        //   });
-        //   const tempPayload = jwt.decode(token);
-        //   if (tempPayload) {
-        //     setPayload(tempPayload);
-        //     setIsAuthenticated(true);
-        //     localStorage.setItem('token', token);
-        //   } else {
-        //     setPayload(null);
-        //     setIsAuthenticated(false);
-        //   }
-        //   return success;
-        // },
+        login: async (data) => {
+          const { success, token } = await login({
+            account: data.account,
+            password: data.password,
+          });
+          const tempPayload = jwt_decode(token);
+          if (tempPayload) {
+            setPayload(tempPayload);
+            setIsAuthenticated(true);
+            localStorage.setItem('token', token);
+          } else {
+            setPayload(null);
+            setIsAuthenticated(false);
+          }
+          return success;
+        },
         logout: () => {
           localStorage.removeItem('token');
           setPayload(null);

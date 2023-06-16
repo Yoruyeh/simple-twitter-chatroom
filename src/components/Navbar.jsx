@@ -74,9 +74,9 @@ const StyledText = styled.p`
 
 
 const Navbar = ({ handleOpenTweetModal }) => {
-  const { currentMember } = useAuth()
+  const { currentMember, isAuthenticated } = useAuth()
 
-const DefaultNavItems = [
+  const DefaultNavItems = [
   {
     id: "1",
     text: "首頁",
@@ -145,7 +145,8 @@ const DefaultNavItems = [
 }
 
 useEffect(() => {
-  const activeNavItem = localStorage.getItem('activeNavItem');
+  if (isAuthenticated) {
+    const activeNavItem = localStorage.getItem('activeNavItem');
   if (activeNavItem) {
     setNavItems(prevItems => {
       return prevItems.map((item) => {
@@ -163,7 +164,8 @@ useEffect(() => {
       })
     })
   }
-}, []);
+  }
+}, [isAuthenticated]);
 
 
   return (

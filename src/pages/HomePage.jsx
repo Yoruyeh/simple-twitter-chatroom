@@ -83,10 +83,11 @@ const HomePage = () => {
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
 
-
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
+      localStorage.removeItem('activeNavItem')
+      logout()
     }
   }, [navigate, isAuthenticated, logout]);
 

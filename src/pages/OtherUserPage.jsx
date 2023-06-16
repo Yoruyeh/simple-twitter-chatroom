@@ -20,9 +20,11 @@ export default function OtherUserPage() {
   const { userInfo } = useGetUserTweets()
 
 
- useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
+      localStorage.removeItem('activeNavItem')
+      logout()
     }
   }, [navigate, isAuthenticated, logout]);
 
