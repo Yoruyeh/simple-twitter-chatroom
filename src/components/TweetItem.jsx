@@ -115,7 +115,6 @@ const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
         onClick={(e) => {
         const clickedReplyIconId = e.currentTarget.dataset.id
         handleReplyIconClickedAtHome(clickedReplyIconId)
-        handleOpenReplyModal()
       }} />
         <span className="tweet-reply-count" >{tweet.replyCount}</span>
       </div>

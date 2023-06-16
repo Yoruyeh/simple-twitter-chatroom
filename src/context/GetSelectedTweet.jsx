@@ -39,6 +39,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   const [isModalLoading, setIsModalLoading] = useState(false)
   // 回覆的input控制
   const [replyInputValue, setReplyInputValue] = useState('')
+  const [openReplyModal, setOpenReplyModal] = useState(false);
   const { setOpenAlert, setAlertType } = useGetTweets()
 
   const handleTweetContentClick = async (id) => {
@@ -57,6 +58,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   };
 
   const handleReplyIconClickedAtHome = async (id) => {
+    setOpenReplyModal(true)
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -70,6 +72,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   };
 
   const handleReplyIconClickedAtUser = async (id) => {
+    setOpenReplyModal(true)
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -83,6 +86,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   };
 
   const handleReplyIconClicked = async (id) => {
+    setOpenReplyModal(true)
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -95,14 +99,29 @@ export const GetSelectedTweetProvider = ({ children }) => {
     }
   };
 
+  const handleOpenReplyModal = () => {
+    setOpenReplyModal(!openReplyModal);
+  };
+
   const handleReplyInputChange = (value) => {
     setReplyInputValue(value);
   };
 
   const handleClickReplyInput = async () => {
-    if (replyInputValue.length === 0) {
-      return;
+    setOpenReplyModal(true);
+    const wordCount = replyInputValue.trim()
+    if (wordCount.length === 0) {
+      setOpenReplyModal(true);
+      return
     }
+    
+
+    if (wordCount.length > 140) {
+      setOpenReplyModal(true);
+      return
+    }
+    
+    setOpenReplyModal(false)
     setOpenAlert(true)
     setAlertType('success')
     try {
@@ -127,7 +146,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   return (
     <GetSelectedTweetContext.Provider 
     value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading}}>
+    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading, handleOpenReplyModal, openReplyModal}}>
       {children}
     </GetSelectedTweetContext.Provider>
   );

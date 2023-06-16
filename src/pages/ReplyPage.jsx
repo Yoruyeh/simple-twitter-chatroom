@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import MainLayout from '../layout/MainLayout'
 import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
@@ -52,14 +52,9 @@ const StyledAlertContainer = styled.div`
 
 const ReplyPage = () => {
   const { currentMember, isAuthenticated } = useAuth()
-  const navigate = useNavigate()
-  const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies } = useGetSelectedTweet();
+  const navigate = useNavigate();
+  const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType } = useGetTweets()
-
-  const handleOpenReplyModal = () => {
-    setOpenReplyModal(!openReplyModal);
-  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -77,7 +72,7 @@ const ReplyPage = () => {
           <ReplyHeader />
         </div>
         <div className="tweet-content-container">
-            <TweetContent selectedReplyItem={selectedReplyItem} handleOpenReplyModal={handleOpenReplyModal}/>
+            <TweetContent selectedReplyItem={selectedReplyItem} />
         </div>
         <div className="reply-collection">
           <ReplyCollection replies={replies}/>

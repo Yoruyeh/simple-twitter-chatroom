@@ -13,7 +13,7 @@ export const useGetUserTweets = () => useContext(GetUserTweetsContext);
 
 export const GetUserTweetsProvider = ({ children }) => {
   const navigate = useNavigate()
-  const { setSelectedReplyItem, setIsModalLoading } = useGetSelectedTweet()
+  const { setSelectedReplyItem, setIsModalLoading, setOpenReplyModal } = useGetSelectedTweet()
   const { currentMember } = useAuth()
   const [currentMemberInfo, setCurrentMemberInfo] = useState({})
   const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
@@ -45,17 +45,20 @@ export const GetUserTweetsProvider = ({ children }) => {
   }
 
   const handleReplyIconClickedAtOther = async (id) => {
+    setOpenReplyModal(true)
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
       setSelectedReplyItem(tweet);
       setIsModalLoading(false);
+      setOpenReplyModal(false)
       navigate(`/others/${userInfo.id}/tweets/${id}/reply`);
     } catch (error) {
       console.error(error);
       setIsModalLoading(false);
     }
   };
+
 
   useEffect(() => {
     const getUserInfoAsync = async () => {

@@ -112,7 +112,7 @@ function returnButton(button) {
   }
 }
 
-export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) {
+export function TabTweetItems({ tweet, replyid, button }) {
   const { handleReplyIconClickedAtUser } = useGetSelectedTweet()
   const { handleReplyIconClickedAtOther } = useGetUserTweets()
   const { userLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
@@ -150,7 +150,6 @@ export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) 
         } else {
           handleReplyIconClickedAtUser(clickedReplyIconId)
         }
-          handleOpenReplyModal()
       }} />
               <span className='item-text'>{tweet.replyCount}</span>
             </div>

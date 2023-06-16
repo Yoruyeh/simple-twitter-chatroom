@@ -205,6 +205,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
           />
         </StyledModalBody>
         <StyledModalFooter>
+          {tweetModalValue.trim().length === 0 && <p>內容不可空白</p>}
           {tweetModalValue.length > 140 && <p>字數不可超過140字</p>}
           <InputButton
             onClick={() => {
@@ -255,7 +256,6 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
           <InputButton 
           onClick={() => {
             handleClickReplyInput()
-            handleOpenReplyModal()
             }}>回覆</InputButton>
         </StyledModalFooter>
       </StyledReplyModalContainer>

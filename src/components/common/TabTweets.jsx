@@ -49,13 +49,8 @@ export default function TabTweets() {
   const pathname = useLocation().pathname
   const { currentMember } = useAuth()
   const { userTweets } = useGetUserTweets()
-  const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet();
+  const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType } = useGetTweets()
-
-  const handleOpenReplyModal = () => {
-    setOpenReplyModal(!openReplyModal);
-  };
 
   useEffect(() => {
     let userId = ''
@@ -95,7 +90,6 @@ export default function TabTweets() {
           <li key={tweet.id}>
             <TabTweetItems 
               tweet={tweet} 
-              handleOpenReplyModal={handleOpenReplyModal} 
             />
           </li>
         ))
@@ -104,7 +98,6 @@ export default function TabTweets() {
           <li key={tweet.id}>
             <TabTweetItems 
               tweet={tweet} 
-              handleOpenReplyModal={handleOpenReplyModal} 
             />
           </li>
         ))

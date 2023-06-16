@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../layout/MainLayout';
 import { MainHeader } from '../components/Header';
@@ -80,14 +80,9 @@ const StyledAlertContainer = styled.div`
 const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
-  const [openReplyModal, setOpenReplyModal] = useState(false);
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
-  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet()
+  const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
 
-
-  const handleOpenReplyModal = () => {
-    setOpenReplyModal(!openReplyModal);
-  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -117,7 +112,6 @@ const HomePage = () => {
         <div className="tweet-collection">
           <TweetCollection
             tweets={tweets}
-            handleOpenReplyModal={handleOpenReplyModal}
           />
         </div>
       </StyledHomePageContainer>
@@ -125,9 +119,9 @@ const HomePage = () => {
         <StyledReplyModalContainer>
           <ReplyModal
             placeholder={'推你的回覆'}
-            handleOpenReplyModal={handleOpenReplyModal}
             selectedReplyItem={selectedReplyItem}
             currentMember={currentMember}
+            handleOpenReplyModal={handleOpenReplyModal}
           />
         </StyledReplyModalContainer>
       )}
