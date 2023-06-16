@@ -92,11 +92,11 @@ export const AuthProvider = ({ children }) => {
         //   }
         //   return success;
         // },
-        // logout: () => {
-        //   localStorage.removeItem('authToken');
-        //   setPayload(null);
-        //   setIsAuthenticated(false);
-        // },
+        logout: () => {
+          localStorage.removeItem('token');
+          setPayload(null);
+          setIsAuthenticated(false);
+        },
       }}
     >
       {children}

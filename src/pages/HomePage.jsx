@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../layout/MainLayout';
 import { MainHeader } from '../components/Header';
@@ -10,6 +10,7 @@ import { ReplyModal } from '../components/Modal';
 import { useAuth } from '../context/AuthContext';
 import { useGetTweets } from '../context/GetTweets'
 import { useGetSelectedTweet } from '../context/GetSelectedTweet'
+import Alert from '../components/Alert'
 
 
 const StyledHomePageContainer = styled.div`
@@ -69,17 +70,19 @@ const StyledReplyModalContainer = styled.div`
   }
 `;
 
+const StyledAlertContainer = styled.div`
+  position: fixed;
+  top: 56px;
+  left: 35%;
+  z-index: 1;
+`
+
 const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
-  const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { tweets, handleClickTweetInput, tweetInputValue } = useGetTweets()
-  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet()
+  const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
+  const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
 
-
-  const handleOpenReplyModal = () => {
-    setOpenReplyModal(!openReplyModal);
-  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -109,7 +112,6 @@ const HomePage = () => {
         <div className="tweet-collection">
           <TweetCollection
             tweets={tweets}
-            handleOpenReplyModal={handleOpenReplyModal}
           />
         </div>
       </StyledHomePageContainer>
@@ -117,11 +119,16 @@ const HomePage = () => {
         <StyledReplyModalContainer>
           <ReplyModal
             placeholder={'推你的回覆'}
-            handleOpenReplyModal={handleOpenReplyModal}
             selectedReplyItem={selectedReplyItem}
             currentMember={currentMember}
+            handleOpenReplyModal={handleOpenReplyModal}
           />
         </StyledReplyModalContainer>
+      )}
+      {openAlert && (
+        <StyledAlertContainer>
+          <Alert alertType={alertType}/>
+        </StyledAlertContainer>
       )}
     </MainLayout>
   );

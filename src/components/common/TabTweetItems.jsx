@@ -1,9 +1,10 @@
 import { styled } from 'styled-components'
 import { OutlinedReply, OutlinedLike, FilledLike } from '../../assets/icons'
 import { PillButton } from './button.styled'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetLikes } from '../../context/GetLikes'
+import { useGetUserTweets } from '../../context/GetUserTweets'
 
 const TweetContainer = styled(Link)`
   color: var(--dark-100);
@@ -111,9 +112,12 @@ function returnButton(button) {
   }
 }
 
-export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) {
+export function TabTweetItems({ tweet, replyid, button }) {
   const { handleReplyIconClickedAtUser } = useGetSelectedTweet()
-  const { userLikes, handleUnLike, handleLike } = useGetLikes()
+  const { handleReplyIconClickedAtOther } = useGetUserTweets()
+  const { userLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
+  const pathname = useLocation().pathname
+
 
   return (
     <TweetContainer className='d-flex px-0'>
@@ -141,8 +145,11 @@ export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) 
         <OutlinedReply data-id={tweet.id} 
         onClick={(e) => {
         const clickedReplyIconId = e.currentTarget.dataset.id
-        handleReplyIconClickedAtUser(clickedReplyIconId)
-        handleOpenReplyModal()
+        if (pathname.includes('others')) {
+          handleReplyIconClickedAtOther(clickedReplyIconId)
+        } else {
+          handleReplyIconClickedAtUser(clickedReplyIconId)
+        }
       }} />
               <span className='item-text'>{tweet.replyCount}</span>
             </div>
@@ -150,13 +157,13 @@ export function TabTweetItems({ tweet, replyid, button, handleOpenReplyModal }) 
        {userLikes.some(like => like.Tweet.id === tweet.id) ? (
           <FilledLike data-id={tweet.id} className="tweet-like-icon liked" onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleUnLike(clickedLikedIconId)
+            handleUnLikeAtUser(clickedLikedIconId)
           }}/>
         ): (
           <OutlinedLike data-id={tweet.id} className="tweet-like-icon unliked"
           onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleLike(clickedLikedIconId)
+            handleLikeAtUser(clickedLikedIconId)
           }}/>
         )}
               <span className='item-text'>{tweet.likeCount}</span>

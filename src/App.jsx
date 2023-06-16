@@ -13,11 +13,11 @@ export default function App() {
     <AuthProvider>
       <GetTweetsProvider>
         <GetSelectedTweetProvider>
-          <GetLikesProvider>
             <GetUserTweetsProvider>
+              <GetLikesProvider>
                  {element}
+                 </GetLikesProvider>
             </GetUserTweetsProvider>
-           </GetLikesProvider>
         </GetSelectedTweetProvider>
       </GetTweetsProvider>
     </AuthProvider>

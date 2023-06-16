@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import {
@@ -7,6 +6,7 @@ import {
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
 import { useAuth } from '../context/AuthContext'
+import { useGetTweets } from '../context/GetTweets'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -73,12 +73,10 @@ const StyledTweetModalContainer = styled.div`
 `
 
 const MainLayout = ({ children }) => {
-  const [openTweetModal, setOpenTweetModal] = useState(false)
-  const { currentMember } = useAuth()
 
-  const handleOpenTweetModal = () => {
-    setOpenTweetModal(!openTweetModal)
-  }
+  const { currentMember } = useAuth()
+  const { handleOpenTweetModal, openTweetModal } = useGetTweets()
+
   return (
       <StyledMainLayoutContainer className='container-fluid px-0'>
         <div className='row mx-0'>

@@ -106,7 +106,7 @@ const StyledTweetIconContainer = styled.div`
 
 const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
   const { handleReplyIconClickedAtHome } = useGetSelectedTweet()
-  const { userLikes, handleUnLike, handleLike } = useGetLikes()
+  const { userLikes, handleUnLikeAtHome, handleLikeAtHome } = useGetLikes()
 
   return (
     <StyledTweetIconContainer >
@@ -115,21 +115,20 @@ const TweetItemIcon = ({ tweet, handleOpenReplyModal }) => {
         onClick={(e) => {
         const clickedReplyIconId = e.currentTarget.dataset.id
         handleReplyIconClickedAtHome(clickedReplyIconId)
-        handleOpenReplyModal()
       }} />
         <span className="tweet-reply-count" >{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon" >
-        {userLikes.some(like => like.Tweet.id === tweet.id) ? (
+        {userLikes.some(like => like.TweetId === tweet.id) ? (
           <FilledLike data-id={tweet.id} className="tweet-like-icon liked" onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleUnLike(clickedLikedIconId)
+            handleUnLikeAtHome(clickedLikedIconId)
           }}/>
         ): (
           <OutlinedLike data-id={tweet.id} className="tweet-like-icon unliked"
           onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
-            handleLike(clickedLikedIconId)
+            handleLikeAtHome(clickedLikedIconId)
           }}/>
         )}
         <span className="tweet-like-count" >{tweet.likeCount}</span>

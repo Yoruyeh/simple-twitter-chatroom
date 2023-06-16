@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NotiBgSuccess, NotiBgDanger, NotiBgWarning, NotiBgInfo, NotiIconSuccess, NotiIconDanger, NotiIconWarning, NotiIconInfo } from '../assets/icons';
 
 const StyledAlertContainer = styled.div`
+  background-color: var(--dark-0);
   width: 394px;
   height: 96px;
   border-radius: 8px;
@@ -34,9 +34,9 @@ const StyledAlertIconWrapper = styled.div`
     width: 53px;
     height: 53px;
     border-radius: 50%;
-    background-color: var(--white);
+    background-color: var(--dark-0);
     position: absolute;
-    z-index: 0;
+    z-index: 3;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -44,17 +44,16 @@ const StyledAlertIconWrapper = styled.div`
 
   .icon {
     position: absolute;
-    z-index: 1;
+    z-index: 4;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 `
 
-const Alert = () => {
-  const [alertType, setAlertType] = useState(null);
+const Alert = ({ alertType }) => {
 
-  const renderText = () => {
+  const renderText = (alertType) => {
     switch (alertType) {
       case 'success':
         return <p>推文發送成功</p>
@@ -68,7 +67,7 @@ const Alert = () => {
         return <p>通知訊息</p>;
     }
   }
-  const renderIcon = () => {
+  const renderIcon = (alertType) => {
     switch (alertType) {
       case 'success':
         return (<>
@@ -99,17 +98,14 @@ const Alert = () => {
     }
   };
 
-  useEffect(() => {
-    setAlertType('success')
-  }, [])
 
   return (
     <StyledAlertContainer>
       <StyledAlertContent>
-        {renderText()}
+        {renderText(alertType)}
       </StyledAlertContent>
       <StyledAlertIconWrapper>
-        {renderIcon()}
+        {renderIcon(alertType)}
       </StyledAlertIconWrapper>
   </StyledAlertContainer>
   )

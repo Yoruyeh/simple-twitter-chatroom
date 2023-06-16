@@ -58,7 +58,7 @@ const StyledAvatar = styled.div`
 `;
 
 const TweetInput = ({ placeholder, currentMember }) => {
-  const { handleTweetInputChange, tweetInputValue } = useGetTweets();
+  const { handleTweetInputChange, tweetInputValue, setTweetInputValue } = useGetTweets();
 
   return (
     <>
@@ -70,6 +70,7 @@ const TweetInput = ({ placeholder, currentMember }) => {
             placeholder={placeholder}
             value={tweetInputValue}
             onChange={(e) => handleTweetInputChange(e.target.value)}
+            onBlur={() => setTweetInputValue('')}
           />
         </StyledInput>
       </StyledInputContainer>
