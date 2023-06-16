@@ -15,7 +15,7 @@ const StyledContainer = styled.div`
   }
 `
 export default function OtherUserPage() {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const { userInfo } = useGetUserTweets()
 
@@ -24,7 +24,7 @@ export default function OtherUserPage() {
     if (!isAuthenticated) {
       navigate('/login');
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, logout]);
 
   return (
     <MainLayout>

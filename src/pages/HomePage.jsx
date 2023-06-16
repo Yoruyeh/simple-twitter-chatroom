@@ -79,7 +79,7 @@ const StyledAlertContainer = styled.div`
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, currentMember } = useAuth();
+  const { isAuthenticated, currentMember, logout } = useAuth();
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
 
@@ -88,7 +88,7 @@ const HomePage = () => {
     if (!isAuthenticated) {
       navigate('/login');
     }
-  }, [navigate, isAuthenticated]);
+  }, [navigate, isAuthenticated, logout]);
 
   return (
     isAuthenticated &&
