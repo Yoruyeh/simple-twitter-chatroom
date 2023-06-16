@@ -85,23 +85,23 @@ export default function TabTweets() {
 
   return (
     <StyledContainer>
-      {pathname.includes('others') ? (
-        [...userTweets].reverse().map((tweet) => (
-          <li key={tweet.id}>
-            <TabTweetItems 
-              tweet={tweet} 
-            />
-          </li>
-        ))
-      ) : (
-        [...tweets].reverse().map((tweet) => (
-          <li key={tweet.id}>
-            <TabTweetItems 
-              tweet={tweet} 
-            />
-          </li>
-        ))
-      )}
+    {userTweets && pathname.includes('others') ? (
+      [...userTweets].reverse().map((tweet) => (
+        <li key={tweet.id}>
+          <TabTweetItems 
+            tweet={tweet} 
+          />
+        </li>
+      ))
+    ) : (
+      tweets && [...tweets].reverse().map((tweet) => (
+        <li key={tweet.id}>
+          <TabTweetItems 
+            tweet={tweet} 
+          />
+        </li>
+      ))
+    )}
       {openReplyModal && !isModalLoading && (
         <StyledReplyModalContainer>
           <ReplyModal

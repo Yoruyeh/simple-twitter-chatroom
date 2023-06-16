@@ -96,7 +96,11 @@ export const GetLikesProvider = ({ children }) => {
       const getLikesAsync = async () => {
       try {
         const likes = await getLikes(currentMember.id);
-        setUserLikes(likes);
+        if (likes) {
+          setUserLikes(likes);
+        } else {
+          return
+        }
       } catch (error) {
         console.error(error);
       }

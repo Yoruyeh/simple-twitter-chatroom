@@ -79,7 +79,11 @@ export const GetUserTweetsProvider = ({ children }) => {
       const getUserFollowersByIdAsync = async () => {
         try {
           const followers = await getUserFollowersById(currentMember.id);
-          setCurrentMemberFollowers(followers);
+          if(followers) {
+            setCurrentMemberFollowers(followers);
+          } else {
+            return
+          }
         } catch (error) {
           console.error(error);
         }
@@ -88,7 +92,11 @@ export const GetUserTweetsProvider = ({ children }) => {
       const getUserFollowingsByIdAsync = async () => {
         try {
           const followings = await getUserFollowingsById(currentMember.id);
-          setCurrentMemberFollowings(followings);
+          if(followings) {
+            setCurrentMemberFollowings(followings);
+          } else {
+            return
+          }
         } catch (error) {
           console.error(error);
         }

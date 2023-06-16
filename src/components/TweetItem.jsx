@@ -120,7 +120,7 @@ const TweetItemIcon = ({ tweet }) => {
         <span className="tweet-reply-count">{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon">
-        {userLikes.some((like) => like.TweetId === tweet.id) ? (
+        {userLikes && userLikes.some((like) => like.TweetId === tweet.id) ? (
           <FilledLike
             data-id={tweet.id}
             className="tweet-like-icon liked"
