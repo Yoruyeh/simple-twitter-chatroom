@@ -61,10 +61,18 @@ const StyledFollowerInfo = styled.div`
   .popular-follower-name {
     line-height: 26px;
   }
+
   .popular-follower-account {
     color: var(--dark-70);
     font-weight: 500;
   }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50px;
+  }
+
 `;
 
 const PopularFollowerItem = () => {
@@ -119,8 +127,8 @@ const PopularFollowerItem = () => {
         <StyledFollowerInfo>
           <StyledFollowerAvatar image={popular.avatar}/>
           <div className="popular-info-wrapper">
-            <h6 className="popular-follower-name">{popular.name}</h6>
-            <div className="popular-follower-account fontSecondary">
+            <h6 className="popular-follower-name ellipsis">{popular.name}</h6>
+            <div className="popular-follower-account fontSecondary ellipsis">
               @{popular.account}</div>
           </div>
         </StyledFollowerInfo>
