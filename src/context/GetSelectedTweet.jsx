@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react';
 import { getTweets, getTweetById } from '../api/tweets';
 import { getRepliesById, createReply } from '../api/replies';
 import { useNavigate } from 'react-router-dom';
@@ -10,11 +10,11 @@ const GetSelectedTweetContext = createContext(() => {});
 export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
 
 export const GetSelectedTweetProvider = ({ children }) => {
-  const navigate = useNavigate()
-  const { currentMember } = useAuth()
-  const { setTweets } = useGetTweets()
+  const navigate = useNavigate();
+  const { currentMember } = useAuth();
+  const { setTweets } = useGetTweets();
   // 點進內容渲染reply page
-   const [selectedReplyItem, setSelectedReplyItem] = useState({
+  const [selectedReplyItem, setSelectedReplyItem] = useState({
     id: 14,
     userId: 14,
     description:
@@ -32,23 +32,23 @@ export const GetSelectedTweetProvider = ({ children }) => {
       avatar: 'https://loremflickr.com/320/240/man/?random=0.23200002093710648',
       cover: 'https://loremflickr.com/1440/480/city/?random=14.084527578970008',
     },
-  })
-  const [replies, setReplies] = useState([])
-  const [isReplyPageLoading, setIsReplyPageLoading] = useState(false)
+  });
+  const [replies, setReplies] = useState([]);
+  const [isReplyPageLoading, setIsReplyPageLoading] = useState(false);
   // 點icon渲然該推文內容及input modal
-  const [isModalLoading, setIsModalLoading] = useState(false)
+  const [isModalLoading, setIsModalLoading] = useState(false);
   // 回覆的input控制
-  const [replyInputValue, setReplyInputValue] = useState('')
+  const [replyInputValue, setReplyInputValue] = useState('');
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { setOpenAlert, setAlertType } = useGetTweets()
+  const { setOpenAlert, setAlertType } = useGetTweets();
 
   const handleTweetContentClick = async (id) => {
     setIsReplyPageLoading(true);
     try {
-      const tweet = await getTweetById(id)
-      setSelectedReplyItem(tweet)
-      const replysById = await getRepliesById(id)
-      setReplies(replysById)
+      const tweet = await getTweetById(id);
+      setSelectedReplyItem(tweet);
+      const replysById = await getRepliesById(id);
+      setReplies(replysById);
       setIsReplyPageLoading(false);
       navigate(`/tweets/${id}`);
     } catch (error) {
@@ -58,7 +58,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   };
 
   const handleReplyIconClickedAtHome = async (id) => {
-    setOpenReplyModal(true)
+    setOpenReplyModal(true);
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -72,7 +72,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   };
 
   const handleReplyIconClickedAtUser = async (id) => {
-    setOpenReplyModal(true)
+    setOpenReplyModal(true);
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -86,7 +86,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   };
 
   const handleReplyIconClicked = async (id) => {
-    setOpenReplyModal(true)
+    setOpenReplyModal(true);
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
@@ -109,45 +109,61 @@ export const GetSelectedTweetProvider = ({ children }) => {
 
   const handleClickReplyInput = async () => {
     setOpenReplyModal(true);
-    const wordCount = replyInputValue.trim()
+    const wordCount = replyInputValue.trim();
     if (wordCount.length === 0) {
       setOpenReplyModal(true);
-      return
+      return;
     }
-    
 
     if (wordCount.length > 140) {
       setOpenReplyModal(true);
-      return
+      return;
     }
-    
-    setOpenReplyModal(false)
-    setOpenAlert(true)
-    setAlertType('success')
+
+    setOpenReplyModal(false);
+    setOpenAlert(true);
+    setAlertType('success');
     try {
       await createReply(selectedReplyItem.id, {
         comment: replyInputValue,
       });
-      const tweets = await getTweets()
-      setTweets(tweets)
-      const tweet = await getTweetById(selectedReplyItem.id)
-      setSelectedReplyItem(tweet)
+      const tweets = await getTweets();
+      setTweets(tweets);
+      const tweet = await getTweetById(selectedReplyItem.id);
+      setSelectedReplyItem(tweet);
       const replies = await getRepliesById(selectedReplyItem.id);
       setReplies(replies);
-      setOpenAlert(false)
-      navigate(`/tweets/${selectedReplyItem.id}`)
+      setOpenAlert(false);
+      navigate(`/tweets/${selectedReplyItem.id}`);
     } catch (error) {
       console.error(error);
     }
     setReplyInputValue('');
   };
 
-
   return (
-    <GetSelectedTweetContext.Provider 
-    value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading, handleOpenReplyModal, openReplyModal, setReplyInputValue}}>
+    <GetSelectedTweetContext.Provider
+      value={{
+        isReplyPageLoading,
+        handleTweetContentClick,
+        handleReplyIconClickedAtHome,
+        selectedReplyItem,
+        setSelectedReplyItem,
+        isModalLoading,
+        replies,
+        handleReplyIconClicked,
+        handleReplyInputChange,
+        handleClickReplyInput,
+        replyInputValue,
+        handleReplyIconClickedAtUser,
+        setIsModalLoading,
+        handleOpenReplyModal,
+        openReplyModal,
+        setReplyInputValue,
+        setOpenReplyModal,
+      }}
+    >
       {children}
     </GetSelectedTweetContext.Provider>
   );
-}
+};
