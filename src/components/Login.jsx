@@ -76,7 +76,7 @@ const inputs = [
 ]
 
 // Login元件
-export default function Login() {
+export default function Login({ openModal }) {
   const [account, setAccount] = useState('') // 帳號 value
   const [password, setPassword] = useState('') // 密碼 value
   const [inputList, UpdateInputList] = useImmer(inputs)
@@ -108,37 +108,68 @@ export default function Login() {
     }
   }
 
+  // 禁用所有input
+  function disabledAllInput(boolean) {
+    if (boolean) {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, 'disabled')
+      }
+    } else {
+      for (let i = 0; i < inputs.length; i++) {
+        setInput(i, '')
+      }
+    }
+  }
+
   // Button事件
   async function handleClick() {
+    let isValid = true
+
     // 判斷 account、password 是否符合格式
-    const regexAccount = /^[a-zA-Z0-9]{1,20}$/
+    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d).{1,20}$/
     const regexPassword = /^[a-zA-Z0-9]{8,20}$/
 
     // account 不符合
     if (!regexAccount.test(account)) {
-      setInput(0, 'danger', '帳號需要1-20位數字或字母')
+      setInput(0, 'danger', '帳號請輸入 1-20 個數字 + 字母 !')
+      isValid = false
     }
     // password不符合
     if (!regexPassword.test(password)) {
-      setInput(1, 'danger', '密碼要8-20位數字或字母')
-      return
+      setInput(1, 'danger', '密碼請輸入 8-20 個字 !')
+      isValid = false
     }
 
-    // 保存返回的 success、authToken 資料
-    const { success, token, error } = await login({ account, password })
-    // 取得成功，將 authToken 存進用戶的 localStorage，
-    // 跳轉到 homePage
-    if (success) {
-      localStorage.setItem('token', token)
-      navigate('/home')
-    } else if (error) {
-      if (error.message.includes('使用者')) {
-        setInput(0, 'danger', '帳號不存在')
-        setInput(1, '')
+    if (isValid) {
+      // 請求開始，禁用input
+      disabledAllInput(true)
+      // 保存返回的 success、authToken 資料
+      const { success, token, error } = await login({ account, password })
+      // 取得成功，將 authToken 存進用戶的 localStorage，
+      // 跳轉到 homePage
+      if (success) {
+        openModal('登入成功', 'success')
+        localStorage.setItem('token', token)
+        setTimeout(() => {
+          navigate('/home')
+        }, 1000)
         return
       } else {
-        setInput(1, 'danger', '密碼不相符')
-        return
+        if (error.response.data.message.includes('使用者')) {
+          openModal('使用者不存在', 'danger')
+          setInput(0, 'danger', '使用者不存在 !')
+          setInput(1)
+          isValid = false
+        } else if (error.response.data.message.includes('密碼')) {
+          openModal('密碼不相符', 'danger')
+          setInput(1, 'danger', '密碼不相符 !')
+          setInput(0)
+          isValid = false
+        }
+      }
+      if (isValid) {
+        // 請求結束，啟用input
+        disabledAllInput()
       }
     }
   }
@@ -165,7 +196,13 @@ export default function Login() {
           )
         })}
       </StyledInputContainer>
-      <AuthButton onClick={handleClick}>登入</AuthButton>
+      <AuthButton
+        onClick={() => {
+          handleClick()
+        }}
+      >
+        登入
+      </AuthButton>
       <StyledLink className='d-flex justify-content-end'>
         <li>
           <NavLink to='/register'>註冊</NavLink>
