@@ -74,7 +74,7 @@ const StyledText = styled.p`
 
 
 const Navbar = ({ handleOpenTweetModal }) => {
-  const { currentMember, isAuthenticated } = useAuth()
+  const { currentMember, isAuthenticated, logout } = useAuth()
 
   const DefaultNavItems = [
   {
@@ -110,7 +110,7 @@ const Navbar = ({ handleOpenTweetModal }) => {
   {
     id: "4",
     text: "登出",
-    link: "/login", 
+    link: "", 
     isVisited: false,
     icons: {
       outlined: <OutlinedLogout />,
@@ -143,6 +143,11 @@ const Navbar = ({ handleOpenTweetModal }) => {
   localStorage.setItem('activeNavItem', id);
   setIsLoading(false)
 }
+  const handleLogoutClick = () => {
+    navigate('/login')
+    logout()
+    localStorage.removeItem('activeNavItem')
+  }
 
 useEffect(() => {
   if (isAuthenticated) {
@@ -178,8 +183,12 @@ useEffect(() => {
           return (!isLoading && (
             <StyledNavItem key={item.id} 
               onClick={() => {
-                handleClick(item.id)
-                navigate(item.link)
+                if(item.id === "4") {
+                  handleLogoutClick()
+                } else {
+                  handleClick(item.id)
+                  navigate(item.link)
+                }
               }} >
                 <StyledLogo className={item.isVisited ? 'clicked' : ''}>
                   {item.isVisited ? (
