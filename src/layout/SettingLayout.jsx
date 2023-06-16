@@ -33,14 +33,16 @@ const StyledSettingLayoutContainer = styled.div`
 const StyledTweetModalContainer = styled.div`
   position: fixed;
   top: 56px;
-  left: 28%;
+  left: 50vw;
+  transform: translateX(-50%);
   z-index: 1;
 
   &::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
+    top: -56px;
+    left: -50vw;
+    transform: translateX(300px);
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
