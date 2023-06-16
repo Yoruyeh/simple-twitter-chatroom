@@ -66,6 +66,7 @@ const inputs = [
     type: 'text',
     status: '',
     errorText: '',
+    value: '',
   },
   {
     label: '名稱',
@@ -73,13 +74,15 @@ const inputs = [
     type: 'text',
     status: '',
     errorText: '',
+    value: '',
   },
   {
     label: 'Email',
     placeholder: '請輸入 Email',
-    type: 'email',
+    type: 'text',
     status: '',
     errorText: '',
+    value: '',
   },
   {
     label: '密碼',
@@ -87,6 +90,7 @@ const inputs = [
     type: 'password',
     status: '',
     errorText: '',
+    value: '',
   },
   {
     label: '密碼確認',
@@ -94,10 +98,11 @@ const inputs = [
     type: 'password',
     status: '',
     errorText: '',
+    value: '',
   },
 ]
 
-export default function Regist() {
+export default function Regist({ openModal }) {
   const [account, setAccount] = useState('') // 帳號 value
   const [username, setUsername] = useState('') // 使用者名稱 value
   const [email, setEmail] = useState('') // Email value
@@ -117,18 +122,33 @@ export default function Regist() {
   function handleChange(event) {
     const target = event.target
     if (target.placeholder === '請輸入帳號') {
+      UpdateInputList((draft) => {
+        draft[0].value = target.value.replace(/\s*/g, '')
+      })
       setInput(0)
       setAccount(target.value)
     } else if (target.placeholder === '請輸入使用者名稱') {
+      UpdateInputList((draft) => {
+        draft[1].value = target.value
+      })
       setInput(1)
       setUsername(target.value)
     } else if (target.placeholder === '請輸入 Email') {
+      UpdateInputList((draft) => {
+        draft[2].value = target.value.replace(/\s*/g, '')
+      })
       setInput(2)
       setEmail(target.value)
     } else if (target.placeholder === '請設定密碼') {
+      UpdateInputList((draft) => {
+        draft[3].value = target.value.replace(/\s*/g, '')
+      })
       setInput(3)
       setPassword(target.value)
     } else if (target.placeholder === '請再次輸入密碼') {
+      UpdateInputList((draft) => {
+        draft[4].value = target.value.replace(/\s*/g, '')
+      })
       setInput(4)
       setCheckPassword(target.value)
     }
@@ -146,54 +166,84 @@ export default function Regist() {
       }
     }
   }
+
   // Button事件
   async function handleClick() {
+    let isValid = true
+
     // 判斷 input value 是否符合格式
-    const regexAccount = /^[a-zA-Z0-9]{1,20}$/
+    const regexAccount = /^(?=.*[a-zA-Z])(?=.*\d).{1,20}$/
     const regexUsername = /^.{1,50}$/
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const regexPassword = /^[a-zA-Z0-9]{8,20}$/
     // account 不符合
     if (!regexAccount.test(account)) {
-      setInput(0, 'danger', '您輸入的帳號不正確 !')
+      setInput(0, 'danger', '帳號請輸入 1-20 個數字 + 字母 !')
+      isValid = false
     }
     // username 不符合
     if (!regexUsername.test(username)) {
-      setInput(1, 'danger', '您輸入的使用者名稱不正確 !')
+      setInput(1, 'danger', '使用者名稱請輸入 1-50 個字 !')
+      isValid = false
     }
     // email 不符合
     if (!regexEmail.test(email)) {
-      setInput(2, 'danger', '您輸入的 Email 不正確 !')
+      setInput(2, 'danger', '您輸入的 Email 格式不正確 !')
+      isValid = false
     }
     // 密碼確認 不符合 (此行不能放最後比對)
     if (password !== checkPassword) {
-      setInput(4, 'danger', '確認密碼與第一次輸入時不相同')
+      setInput(4, 'danger', '確認密碼與第一次輸入時不相同 !')
+      isValid = false
     }
     // password 不符合
     if (!regexPassword.test(password)) {
-      setInput(3, 'danger', '密碼需要8-20位數字或字母')
-      return
+      setInput(3, 'danger', '密碼請輸入 8-20 個字 !')
+      isValid = false
     }
 
-    // 禁用所有按鈕
-    disabledAllInput(true)
-    // 判斷是否註冊成功
-    const { success, error } = await registerAccount(
-      username,
-      account,
-      email,
-      password,
-      checkPassword
-    )
-    // 成功，跳轉到 login
-    if (success) {
-      navigate('/login')
-      return
+    if (isValid) {
+      // 請求開始、禁用input
+      disabledAllInput(true)
+      const { success, error } = await registerAccount(
+        username,
+        account,
+        email,
+        password,
+        checkPassword
+      )
+      // 判斷是否註冊成功
+      // 成功，跳轉到 login
+      if (success) {
+        openModal('註冊成功', 'success')
+        setTimeout(() => {
+          navigate('/login')
+        }, 1000)
+      } else {
+        if (error.response.data.message.includes('email')) {
+          openModal('Email 已註冊過', 'danger')
+          setInput(2, 'danger', 'Email 已註冊過 !')
+          setInput(0)
+          setInput(1)
+          setInput(3)
+          setInput(4)
+          isValid = false
+        } else if (error.response.data.message.includes('account')) {
+          openModal('帳號已註冊過', 'danger')
+          setInput(0, 'danger', '帳號已註冊過 !')
+          setInput(1)
+          setInput(2)
+          setInput(3)
+          setInput(4)
+          isValid = false
+        }
+      }
     }
-    // 失敗
-    console.error(`註冊失敗: ${error}`)
-    // 啟用所有按鈕
-    disabledAllInput()
+
+    if (isValid) {
+      // 請求結束、啟用input
+      disabledAllInput(true)
+    }
   }
 
   return (
@@ -213,6 +263,7 @@ export default function Regist() {
               label={input.label}
               status={input.status}
               errorText={input.errorText}
+              value={input.value}
               onChange={(event) => {
                 handleChange(event)
               }}
