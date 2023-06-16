@@ -8,7 +8,7 @@ import {
   OutlinedLogout
 } from '../assets/icons';
 import { NavbarButton } from "./common/button.styled"
-import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const StyledNavbar = styled.nav`
   width: 100%;
@@ -36,33 +36,24 @@ const StyledNavItem = styled.li`
   font-weight: 700;
   margin: 10px 6px;
   min-width: 178px;
+  display: flex;
+  align-items: center;
 
   &:last-child {
     position: absolute;
     bottom: 0;
   }
 
-  & a {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-
-    &:link {
-      color: var(--dark-90);
+  .clicked {
+    color: var(--main);
+    & svg > path {
+      fill: var(--main);
+      stroke: var(--main);
     }
-
-    &:visited {
-      color: var(--dark-90);
-    }
-
-    &.clicked:visited {
-      color: var(--main);
-      & svg > path {
-        fill: var(--main);
-        stroke: var(--main);
-    }
+  }
 
     &:hover {
+      cursor: pointer;
       color: var(--main);
       & svg > path {
         fill: var(--main);
@@ -125,9 +116,10 @@ const DefaultNavItems = [
 
 const Navbar = ({ handleOpenTweetModal }) => {
   const [navItems, setNavItems] = useState(DefaultNavItems)
+  const navigate = useNavigate()
 
   const handleClick = (id) => {
-    setNavItems((prevItems) => {
+     setNavItems((prevItems) => {
       return prevItems.map((item) => {
         if (item.id === id) {
           return {
@@ -152,17 +144,20 @@ const Navbar = ({ handleOpenTweetModal }) => {
       <StyledNavList>
         {navItems.map(item => {
           return (
-            <StyledNavItem key={item.id} onClick={() => handleClick(item.id)} >
-              <NavLink to={item.link} className={item.isVisited ? 'clicked' : ''}>
-                <StyledLogo>
+            <StyledNavItem key={item.id} 
+            onClick={(e) => {
+              handleClick(item.id)
+              navigate(item.link)
+              }} >
+                <StyledLogo className={item.isVisited ? 'clicked' : ''}>
                   {item.isVisited ? (
                     item.icons.filled
                   ) : (
                     item.icons.outlined
                   )}
                 </StyledLogo>
-                <StyledText>{item.text}</StyledText>
-              </NavLink>
+                <StyledText className={item.isVisited ? 'clicked' : ''}>
+                  {item.text}</StyledText>
             </StyledNavItem>
           )
         })}
