@@ -51,14 +51,14 @@ export default function TabLikesTweets() {
 
   return (
     <StyledContainer>
-     {pathname.includes('others') ? 
+     {userLikes && pathname.includes('others') ? 
       userLikes.map((tweet) => (
         <li key={tweet.Tweet.id}>
             <TabLikesTweetsItems tweet={tweet}></TabLikesTweetsItems>
           </li>
       ))
     : 
-      tweets.map((tweet) => (
+      tweets && tweets.map((tweet) => (
         <li key={tweet.Tweet.id}>
             <TabLikesTweetsItems tweet={tweet}></TabLikesTweetsItems>
           </li>

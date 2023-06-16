@@ -146,7 +146,26 @@ function ReturnActions( ) {
     }
   }
 
-  return (
+  if (currentMemberFollowings.isEmpty) {
+    return (
+       <>
+      <IconButton>
+        <OutlinedMessage />
+      </IconButton>
+      <IconButton
+        onClick={(e) => handleClick(e)}
+        className='notiButton'
+        noti={noti.toString()}>
+        {noti ? <FilledNoti /> : <OutlinedNoti />}
+      </IconButton>
+        <FollowButton className="unfollowed" 
+        onClick={() => {
+          handleFollowClicked(userInfo.id)
+        }}> 跟隨 </FollowButton>
+    </>
+    )
+  } else {
+    return (
     <>
       <IconButton>
         <OutlinedMessage />
@@ -168,9 +187,8 @@ function ReturnActions( ) {
           handleFollowClicked(userInfo.id)
         }}> 跟隨 </FollowButton>
       )}
-    </>
-)
-
+    </>)
+  }
 }
 
 export function UserInfoCard({ currentMemberInfo }) {

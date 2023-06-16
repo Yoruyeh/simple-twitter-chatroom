@@ -17,16 +17,14 @@ const StyledSettingContainer = styled.div`
 const StyledMain = styled.div``
 
 export default function SettingPage() {
-  const { isAuthenticated, logout } = useAuth()
+  const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
    useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
-      localStorage.removeItem('activeNavItem')
-      logout()
     }
-  }, [navigate, isAuthenticated, logout]);
+  }, [navigate, isAuthenticated]);
 
   return (
     <SettingLayout>

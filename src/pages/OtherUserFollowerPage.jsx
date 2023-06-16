@@ -84,10 +84,10 @@ const OtherUserFollowerPage = () => {
         <Tab />
       </div>
       <div className="user-follower-collection">
-        {pathname.includes('followers') ? (
+        {userfollowers && pathname.includes('followers') ? (
           <FollowerCollection userFollows={userfollowers} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
         ) : (
-          <FollowerCollection userFollows={userfollowings} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
+          userfollowings && <FollowerCollection userFollows={userfollowings} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
         )}
       </div>
       </StyledFollowerPageContainer>
