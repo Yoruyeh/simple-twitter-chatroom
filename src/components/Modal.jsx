@@ -188,14 +188,17 @@ const StyledEditAvatar = styled.div`
 `;
 
 const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
-  const { tweetModalValue, handleClickTweetModal } = useGetTweets();
+  const { tweetModalValue, handleClickTweetModal, setTweetModalValue } = useGetTweets();
   return (
     <>
       <StyledTweetModalContainer>
         <StyledModalHeader>
           <OutlinedClose
             className="close-button"
-            onClick={handleOpenTweetModal}
+            onClick={() => {
+            handleOpenTweetModal()
+            setTweetModalValue('')
+            }}
           />
         </StyledModalHeader>
         <StyledModalBody>
@@ -210,7 +213,6 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
           <InputButton
             onClick={() => {
               handleClickTweetModal();
-              handleOpenTweetModal();
             }}
           >
             推文
@@ -222,7 +224,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
 };
 
 const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
-  const {replyInputValue, handleClickReplyInput} = useGetSelectedTweet()
+  const {replyInputValue, handleClickReplyInput, setReplyInputValue} = useGetSelectedTweet()
   const navigate = useNavigate()
 
   return (
@@ -234,6 +236,7 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
             onClick={() => {
               handleOpenReplyModal()
               navigate(-1)
+              setReplyInputValue('')
             }}
           />
         </StyledModalHeader>

@@ -12,11 +12,16 @@ export const GetTweetsProvider = ({ children }) => {
   const [tweets, setTweets] = useState([])
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
+  const [openTweetModal, setOpenTweetModal] = useState(false)
   const [openAlert, setOpenAlert] = useState(false)
   const [alertType, setAlertType] = useState(null)
 
   const handleTweetInputChange = (value) => {
     setTweetInputValue(value)
+  }
+
+  const handleOpenTweetModal = () => {
+    setOpenTweetModal(!openTweetModal)
   }
 
   const handleClickTweetInput = async () => {
@@ -47,6 +52,7 @@ export const GetTweetsProvider = ({ children }) => {
   }
 
   const handleClickTweetModal = async () => {
+    setOpenTweetModal(true)
     const wordCount = tweetModalValue.trim()
     if (wordCount.length === 0) {
       return
@@ -54,6 +60,7 @@ export const GetTweetsProvider = ({ children }) => {
     if (wordCount.length > 140) {
       return
     }
+    setOpenTweetModal(false)
     setOpenAlert(true)
     setAlertType('success')
     try {
@@ -87,7 +94,7 @@ export const GetTweetsProvider = ({ children }) => {
 
   return (
     <GetTweetsContext.Provider 
-    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType}}>
+    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue}}>
       {children}
     </GetTweetsContext.Provider>
   );
