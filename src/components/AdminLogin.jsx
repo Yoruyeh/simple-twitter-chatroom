@@ -126,9 +126,15 @@ export default function AdminLogin() {
   function handleChange(event) {
     const target = event.target
     if (target.type === 'text') {
+      UpdateInputList((draft) => {
+        draft[0].value = target.value.replace(/\s*/g, '')
+      })
       setInput(0)
       setAccount(target.value)
     } else if (target.type === 'password') {
+      UpdateInputList((draft) => {
+        draft[1].value = target.value.replace(/\s*/g, '')
+      })
       setInput(1)
       setPassword(target.value)
     }
@@ -213,6 +219,7 @@ export default function AdminLogin() {
                 label={input.label}
                 status={input.status}
                 errorText={input.errorText}
+                value={input.value}
                 onChange={(event) => {
                   handleChange(event)
                 }}
