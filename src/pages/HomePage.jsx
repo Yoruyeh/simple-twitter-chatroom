@@ -82,8 +82,8 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { isAuthenticated, currentMember } = useAuth();
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { tweets, handleClickTweetInput, tweetInputValue } = useGetTweets()
-  const { selectedReplyItem, isModalLoading, openAlert, alertType } = useGetSelectedTweet()
+  const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
+  const { selectedReplyItem, isModalLoading } = useGetSelectedTweet()
 
 
   const handleOpenReplyModal = () => {

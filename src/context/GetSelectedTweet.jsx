@@ -39,8 +39,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   const [isModalLoading, setIsModalLoading] = useState(false)
   // 回覆的input控制
   const [replyInputValue, setReplyInputValue] = useState('')
-  const [openAlert, setOpenAlert] = useState(false)
-  const [alertType, setAlertType] = useState(null)
+  const { setOpenAlert, setAlertType } = useGetTweets()
 
   const handleTweetContentClick = async (id) => {
     setIsReplyPageLoading(true);
@@ -128,7 +127,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   return (
     <GetSelectedTweetContext.Provider 
     value={{isReplyPageLoading, handleTweetContentClick, 
-    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading, openAlert, alertType}}>
+    handleReplyIconClickedAtHome, selectedReplyItem, setSelectedReplyItem, isModalLoading, replies, handleReplyIconClicked, handleReplyInputChange, handleClickReplyInput, replyInputValue, handleReplyIconClickedAtUser, setIsModalLoading}}>
       {children}
     </GetSelectedTweetContext.Provider>
   );
