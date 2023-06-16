@@ -1,57 +1,63 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserInfo, getUserTweets, getUserReplies, getUserLikes } from '../api/other.users'
+import {
+  getUserInfo,
+  getUserTweets,
+  getUserReplies,
+  getUserLikes,
+} from '../api/other.users';
 import { useAuth } from './AuthContext';
-import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower';
-import { getTweetById } from '../api/tweets'
+import {
+  getUserFollowersById,
+  getUserFollowingsById,
+} from '../api/user.follower';
+import { getTweetById } from '../api/tweets';
 import { useGetSelectedTweet } from './GetSelectedTweet';
-
 
 const GetUserTweetsContext = createContext(() => {});
 
 export const useGetUserTweets = () => useContext(GetUserTweetsContext);
 
 export const GetUserTweetsProvider = ({ children }) => {
-  const navigate = useNavigate()
-  const { setSelectedReplyItem, setIsModalLoading, setOpenReplyModal } = useGetSelectedTweet()
-  const { currentMember, isAuthenticated } = useAuth()
-  const [currentMemberInfo, setCurrentMemberInfo] = useState({})
+  const navigate = useNavigate();
+  const { setSelectedReplyItem, setIsModalLoading, setOpenReplyModal } =
+    useGetSelectedTweet();
+  const { currentMember, isAuthenticated } = useAuth();
+  const [currentMemberInfo, setCurrentMemberInfo] = useState({});
   const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
-  const [currentMemberFollowings, setCurrentMemberFollowings]  = useState([])
-  const [userInfo, setUserInfo] = useState({})
-  const [userTweets, setUserTweets] = useState([])
-  const [userReplies, setUserReplies] = useState([])
-  const [userLikes, setUserLikes] = useState([])
-
+  const [currentMemberFollowings, setCurrentMemberFollowings] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
+  const [userTweets, setUserTweets] = useState([]);
+  const [userReplies, setUserReplies] = useState([]);
+  const [userLikes, setUserLikes] = useState([]);
 
   const handleAvatarClick = async (id) => {
     try {
-      const info = await getUserInfo(id)
-      setUserInfo(info)
-      const tweets = await getUserTweets(id)
-      setUserTweets(tweets)
-       if (currentMember.id === Number(id)) {
-        navigate(`/${id}`)
+      const info = await getUserInfo(id);
+      setUserInfo(info);
+      const tweets = await getUserTweets(id);
+      setUserTweets(tweets);
+      if (currentMember.id === Number(id)) {
+        navigate(`/${id}`);
       } else {
-        navigate(`/others/${id}`)
+        navigate(`/others/${id}`);
       }
-      const replies = await getUserReplies(id)
-      setUserReplies(replies)
-      const likes = await getUserLikes(id)
-      setUserLikes(likes)
+      const replies = await getUserReplies(id);
+      setUserReplies(replies);
+      const likes = await getUserLikes(id);
+      setUserLikes(likes);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleReplyIconClickedAtOther = async (id) => {
-    setOpenReplyModal(true)
+    setOpenReplyModal(true);
     setIsModalLoading(true);
     try {
       const tweet = await getTweetById(id);
       setSelectedReplyItem(tweet);
       setIsModalLoading(false);
-      setOpenReplyModal(false)
       navigate(`/others/${userInfo.id}/tweets/${id}/reply`);
     } catch (error) {
       console.error(error);
@@ -59,43 +65,55 @@ export const GetUserTweetsProvider = ({ children }) => {
     }
   };
 
-
   useEffect(() => {
     if (isAuthenticated) {
       const getUserInfoAsync = async () => {
-      try {
-        const info = await getUserInfo(currentMember.id);
-        setCurrentMemberInfo(info);
-      } catch (error) {
-        console.error(error);
-      }
+        try {
+          const info = await getUserInfo(currentMember.id);
+          setCurrentMemberInfo(info);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserInfoAsync();
+      const getUserFollowersByIdAsync = async () => {
+        try {
+          const followers = await getUserFollowersById(currentMember.id);
+          setCurrentMemberFollowers(followers);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserFollowersByIdAsync();
+      const getUserFollowingsByIdAsync = async () => {
+        try {
+          const followings = await getUserFollowingsById(currentMember.id);
+          setCurrentMemberFollowings(followings);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserFollowingsByIdAsync();
     }
-    getUserInfoAsync()
-    const getUserFollowersByIdAsync = async () => {
-      try {
-        const followers = await getUserFollowersById(currentMember.id);
-        setCurrentMemberFollowers(followers);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUserFollowersByIdAsync()
-    const getUserFollowingsByIdAsync = async () => {
-      try {
-        const followings = await getUserFollowingsById(currentMember.id);
-        setCurrentMemberFollowings(followings);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUserFollowingsByIdAsync()
-    }
-  }, [currentMember, isAuthenticated])
-
+  }, [currentMember, isAuthenticated]);
 
   return (
-    <GetUserTweetsContext.Provider 
-    value={{userInfo, userTweets, handleAvatarClick, userReplies, userLikes, currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings, handleReplyIconClickedAtOther, setUserTweets}}>
+    <GetUserTweetsContext.Provider
+      value={{
+        userInfo,
+        userTweets,
+        handleAvatarClick,
+        userReplies,
+        userLikes,
+        currentMemberInfo,
+        currentMemberFollowers,
+        setCurrentMemberFollowers,
+        currentMemberFollowings,
+        setCurrentMemberFollowings,
+        handleReplyIconClickedAtOther,
+        setUserTweets,
+      }}
+    >
       {children}
     </GetUserTweetsContext.Provider>
   );

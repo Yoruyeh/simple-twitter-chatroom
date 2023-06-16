@@ -1,16 +1,15 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { login } from '../api/users'
-import { checkPermission } from '../api/checkPermission'
-import jwt_decode from "jwt-decode"
+import { login } from '../api/users';
+import { checkPermission } from '../api/checkPermission';
+import jwt_decode from 'jwt-decode';
 
 const defaultAuthContext = {
   isAuthenticated: false,
   currentMember: null,
   // register: null,
-  // login: null,
-  // logout: null,
+  login: null,
+  logout: null,
 };
-
 
 const AuthContext = createContext(defaultAuthContext);
 
@@ -20,13 +19,13 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState({
     id: 14,
-    name: "user1",
-    email: "user1@example.com",
-    account: "user1",
-    role: "user",
-    avatar: "https://loremflickr.com/320/240/man/?random=18.718352068923494",
-    cover: "https://loremflickr.com/1440/480/city/?random=67.32648393466276",
-    introduction: "hi"
+    name: 'user1',
+    email: 'user1@example.com',
+    account: 'user1',
+    role: 'user',
+    avatar: 'https://loremflickr.com/320/240/man/?random=18.718352068923494',
+    cover: 'https://loremflickr.com/1440/480/city/?random=67.32648393466276',
+    introduction: 'hi',
   });
 
   useEffect(() => {
@@ -36,22 +35,22 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setPayload(null);
         return;
-      } 
-      try {
-      const result = await checkPermission(token);
-      if (result) {
-        setIsAuthenticated(true);
-        const tempPayload = jwt_decode(token);
-        setPayload(tempPayload);
-      } else {
-        setIsAuthenticated(false);
-        setPayload(null);
       }
-    } catch (error) {
-      console.error(error);;
-    }
-  };
-  checkTokenIsValid();
+      try {
+        const result = await checkPermission(token);
+        if (result) {
+          setIsAuthenticated(true);
+          const tempPayload = jwt_decode(token);
+          setPayload(tempPayload);
+        } else {
+          setIsAuthenticated(false);
+          setPayload(null);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    checkTokenIsValid();
   }, []);
 
   return (
