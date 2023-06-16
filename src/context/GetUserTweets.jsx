@@ -14,7 +14,7 @@ export const useGetUserTweets = () => useContext(GetUserTweetsContext);
 export const GetUserTweetsProvider = ({ children }) => {
   const navigate = useNavigate()
   const { setSelectedReplyItem, setIsModalLoading, setOpenReplyModal } = useGetSelectedTweet()
-  const { currentMember } = useAuth()
+  const { currentMember, isAuthenticated } = useAuth()
   const [currentMemberInfo, setCurrentMemberInfo] = useState({})
   const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
   const [currentMemberFollowings, setCurrentMemberFollowings]  = useState([])
@@ -61,7 +61,8 @@ export const GetUserTweetsProvider = ({ children }) => {
 
 
   useEffect(() => {
-    const getUserInfoAsync = async () => {
+    if (isAuthenticated) {
+      const getUserInfoAsync = async () => {
       try {
         const info = await getUserInfo(currentMember.id);
         setCurrentMemberInfo(info);
@@ -88,7 +89,8 @@ export const GetUserTweetsProvider = ({ children }) => {
       }
     }
     getUserFollowingsByIdAsync()
-  }, [currentMember])
+    }
+  }, [currentMember, isAuthenticated])
 
 
   return (
