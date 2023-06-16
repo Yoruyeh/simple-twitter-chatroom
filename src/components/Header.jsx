@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { OutlinedBack } from '../assets/icons';
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useGetUserTweets } from '../context/GetUserTweets';
 
 const StyledMainHeader = styled.header`
@@ -81,14 +81,21 @@ const ReplyHeader = () => {
 };
 
 const UserHeader = () => {
-  const navigate = useNavigate()
-  const { currentMemberInfo } = useGetUserTweets()
+const navigate = useNavigate()
+const { currentMemberInfo } = useGetUserTweets()
+const pathname = useLocation().pathname
 
   return (
   <>
     <StyledUserHeader>
       <OutlinedBack className='header-icon-back' 
-      onClick={() => navigate(-1)}/>
+      onClick={() => {
+        if (pathname.includes('followers') || pathname.includes('followings')) {
+          navigate(`/${currentMemberInfo.id}`)
+        } else {
+          navigate('/home')
+        }
+      }}/>
       <h5>{currentMemberInfo.name}</h5>
       <StyledText>{currentMemberInfo.tweetAmount} 推文</StyledText>
     </StyledUserHeader>
@@ -98,12 +105,18 @@ const UserHeader = () => {
 
 const OtherUserHeader = ({ userInfo }) => {
   const navigate = useNavigate()
+  const pathname = useLocation().pathname
 
   return (
   <>
     <StyledUserHeader>
         <OutlinedBack className='header-icon-back' 
-      onClick={() => navigate(-1)}/>
+      onClick={() => {
+        if (pathname.includes('followers') || pathname.includes('followings')) {
+          navigate(`/others/${userInfo.id}`)
+        } else {
+          navigate(`/home`)}
+      }}/>
       <h5>{userInfo.name}</h5>
       <StyledText>{userInfo.tweetAmount} 推文</StyledText>
     </StyledUserHeader>

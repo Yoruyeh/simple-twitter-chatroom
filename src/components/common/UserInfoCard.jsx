@@ -2,7 +2,9 @@ import { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { OutlinedNoti, OutlinedMessage, FilledNoti } from '../../assets/icons'
-import { PillButton } from './button.styled'
+import { PillButton, FollowButton } from './button.styled'
+import { useGetUserTweets } from '../../context/GetUserTweets'
+import { Follow, UnFollow, getUserFollowingsById } from '../../api/user.follower'
 
 // container
 const Container = styled.div`
@@ -70,15 +72,6 @@ const IconButton = styled.button`
     }
   }
 `
-const FollowButton = styled(PillButton)`
-  // follow 狀態樣式
-  ${({ follow }) =>
-    follow === 'true' &&
-    css`
-      background-color: var(--main);
-      color: #fff;
-    `}// 取消追隨hover狀態
-`
 
 // 使用者 Info 區域
 const StyledInfoWrapper = styled.div`
@@ -115,74 +108,72 @@ const StyledInfoWrapper = styled.div`
 `
 
 // 根據條件返回 Button
-function ReturnActions(other) {
-  // Button狀態
+function ReturnActions( ) {
   const [noti, setNoti] = useState(false)
-  const [follow, setFollow] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
+  function handleClick() {
+    setNoti(!noti)
+  }
 
-  //   button 點擊事件
-  function handleClick(e) {
-    const target = e.target
-    if (target.className.includes('notiButton')) {
-      setNoti(!noti)
+  const {currentMemberInfo, currentMemberFollowings, setCurrentMemberFollowings, userInfo} = useGetUserTweets()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleFollowClicked = async (id) => {
+    setIsLoading(true)
+    if (currentMemberInfo.id === id) {
+      return
     }
-    if (target.className.includes('followButton')) {
-      if (target.innerText === '跟隨') {
-        e.target.innerText = '正在跟隨'
-      } else if (target.innerText === '取消跟隨') {
-        e.target.innerText = '跟隨'
-      }
-      setFollow(!follow)
-    }
-  }
-  // button hover事件
-  const handleMouseEnter = (e) => {
-    setIsHovered(true)
-    if (e.target.innerText === '正在跟隨' && e.target.type === 'submit') {
-      e.target.innerText = '取消跟隨'
-    }
-  }
-  const handleMouseLeave = (e) => {
-    setIsHovered(false)
-    if (e.target.innerText === '取消跟隨' && e.target.type === 'submit') {
-      e.target.innerText = '正在跟隨'
+    try {
+      await Follow({ 
+        id: id 
+      })
+      const followings = await getUserFollowingsById(currentMemberInfo.id)
+      setCurrentMemberFollowings(followings)
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error)
     }
   }
 
-  if (other) {
-    // other 頁面返回的 button
-    return (
-      <>
-        <IconButton onClick={(e) => handleClick(e)}>
-          <OutlinedMessage />
-        </IconButton>
-        <IconButton
-          onClick={(e) => handleClick(e)}
-          className='notiButton'
-          noti={noti.toString()}
-        >
-          {noti ? <FilledNoti /> : <OutlinedNoti />}
-        </IconButton>
-        <FollowButton
-          onClick={(e) => handleClick(e)}
-          onMouseEnter={(e) => handleMouseEnter(e)}
-          onMouseLeave={(e) => handleMouseLeave(e)}
-          className='followButton'
-          follow={follow.toString()}
-          hover={isHovered.toString()}
-        >
-          跟隨
-        </FollowButton>
-      </>
-    )
-  } else {
-    // 個人頁面返回的 button
-    return <PillButton>編輯個人資料</PillButton>
+  const handleUnFollowClicked = async (id) => {
+    setIsLoading(true)
+    try {
+      await UnFollow(id)
+      const followings = await getUserFollowingsById(currentMemberInfo.id)
+      setCurrentMemberFollowings(followings)
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error)
+    }
   }
+
+  return (
+    <>
+      <IconButton>
+        <OutlinedMessage />
+      </IconButton>
+      <IconButton
+        onClick={(e) => handleClick(e)}
+        className='notiButton'
+        noti={noti.toString()}>
+        {noti ? <FilledNoti /> : <OutlinedNoti />}
+      </IconButton>
+      { !isLoading && currentMemberFollowings.some(item => item.followingId === userInfo.id) ? (
+        <FollowButton 
+        onClick={() => {
+          handleUnFollowClicked(userInfo.id)
+        }}> 正在跟隨 </FollowButton>
+      ) : (
+        <FollowButton className="unfollowed" 
+        onClick={() => {
+          handleFollowClicked(userInfo.id)
+        }}> 跟隨 </FollowButton>
+      )}
+    </>
+)
+
 }
 
-export function UserInfoCard({ other = false, currentMemberInfo}) {
+export function UserInfoCard({ currentMemberInfo }) {
   return (
     <Container>
       <StyledImgWrapper cover={currentMemberInfo.cover}>
@@ -193,7 +184,7 @@ export function UserInfoCard({ other = false, currentMemberInfo}) {
       </StyledImgWrapper>
 
       <StyledActionWrapper className='col-12 d-flex justify-content-end'>
-        {ReturnActions(other)}
+        <PillButton>編輯個人資料</PillButton>
       </StyledActionWrapper>
 
       <StyledInfoWrapper>
@@ -211,7 +202,7 @@ export function UserInfoCard({ other = false, currentMemberInfo}) {
   )
 }
 
-export function OtherUserInfoCard({ other = true, userInfo}) {
+export function OtherUserInfoCard({ userInfo }) {
   return (
     <Container>
       <StyledImgWrapper cover={userInfo.cover}>
@@ -222,7 +213,7 @@ export function OtherUserInfoCard({ other = true, userInfo}) {
       </StyledImgWrapper>
 
       <StyledActionWrapper className='col-12 d-flex justify-content-end'>
-        {ReturnActions(other)}
+        {ReturnActions()}
       </StyledActionWrapper>
 
       <StyledInfoWrapper>
