@@ -94,7 +94,7 @@ export const GetTweetsProvider = ({ children }) => {
 
   return (
     <GetTweetsContext.Provider 
-    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue}}>
+    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue, setTweetInputValue}}>
       {children}
     </GetTweetsContext.Provider>
   );
