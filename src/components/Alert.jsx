@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { NotiBgSuccess, NotiBgDanger, NotiBgWarning, NotiBgInfo, NotiIconSuccess, NotiIconDanger, NotiIconWarning, NotiIconInfo } from '../assets/icons';
 
 const StyledAlertContainer = styled.div`
+  background-color: var(--dark-0);
   width: 394px;
   height: 96px;
   border-radius: 8px;

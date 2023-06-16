@@ -8,9 +8,6 @@ import { OtherUserHeader } from '../components/Header'
 import { OtherUserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 
-// import { getUser } from '../api/users'
-// import { checkPermission } from '../api/checkPermission'
-
 
 const StyledContainer = styled.div`
   .user-info {

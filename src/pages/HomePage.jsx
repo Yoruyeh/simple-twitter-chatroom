@@ -71,7 +71,6 @@ const StyledReplyModalContainer = styled.div`
 `;
 
 const StyledAlertContainer = styled.div`
-  background-color: var(--dark-0);
   position: fixed;
   top: 56px;
   left: 35%;

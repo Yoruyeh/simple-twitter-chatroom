@@ -6,8 +6,10 @@ import { getUserTweet } from '../../api/users'
 import { TabTweetItems } from './TabTweetItems'
 import { ReplyModal } from '../Modal'
 import { useAuth } from '../../context/AuthContext'
+import { useGetTweets } from '../../context/GetTweets'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetUserTweets } from '../../context/GetUserTweets'
+import Alert from '../Alert'
 
 const StyledContainer = styled.ul`
   li {
@@ -34,6 +36,12 @@ const StyledReplyModalContainer = styled.div`
   }
 `;
 
+const StyledAlertContainer = styled.div`
+  position: fixed;
+  top: 56px;
+  left: 35%;
+  z-index: 1;
+`
 
 export default function TabTweets() {
   const [tweets, setTweets] = useState([])
@@ -43,6 +51,7 @@ export default function TabTweets() {
   const { userTweets } = useGetUserTweets()
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { selectedReplyItem, isModalLoading } = useGetSelectedTweet();
+  const { openAlert, alertType } = useGetTweets()
 
   const handleOpenReplyModal = () => {
     setOpenReplyModal(!openReplyModal);
@@ -109,6 +118,11 @@ export default function TabTweets() {
             currentMember={currentMember}
           />
         </StyledReplyModalContainer>
+      )}
+      {openAlert && (
+        <StyledAlertContainer>
+          <Alert alertType={alertType}/>
+        </StyledAlertContainer>
       )}
     </StyledContainer>
   )
