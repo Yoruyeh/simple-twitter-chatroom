@@ -90,7 +90,7 @@ const Navbar = ({ handleOpenTweetModal }) => {
   {
     id: "2",
     text: "個人資料",
-    link: `/${currentMember.id}`, 
+    link: currentMember ? `/${currentMember.id}` : '/login',
     isVisited: false,
     icons: {
       outlined: <OutlinedUser />,
@@ -105,16 +105,6 @@ const Navbar = ({ handleOpenTweetModal }) => {
     icons: {
       outlined: <OutlinedCog />,
       filled: <FilledCog />
-    }
-  },
-  {
-    id: "4",
-    text: "登出",
-    link: "", 
-    isVisited: false,
-    icons: {
-      outlined: <OutlinedLogout />,
-      filled: <OutlinedLogout />,
     }
   }
 ]
@@ -143,11 +133,6 @@ const Navbar = ({ handleOpenTweetModal }) => {
   localStorage.setItem('activeNavItem', id);
   setIsLoading(false)
 }
-  const handleLogoutClick = () => {
-    navigate('/login')
-    logout()
-    localStorage.removeItem('activeNavItem')
-  }
 
 useEffect(() => {
   if (isAuthenticated) {
@@ -183,12 +168,8 @@ useEffect(() => {
           return (!isLoading && (
             <StyledNavItem key={item.id} 
               onClick={() => {
-                if(item.id === "4") {
-                  handleLogoutClick()
-                } else {
                   handleClick(item.id)
                   navigate(item.link)
-                }
               }} >
                 <StyledLogo className={item.isVisited ? 'clicked' : ''}>
                   {item.isVisited ? (
@@ -203,6 +184,17 @@ useEffect(() => {
             </StyledNavItem>
           ))
         })}
+
+        <StyledNavItem onClick={() => {
+          navigate('/login')
+          logout()
+          localStorage.removeItem('activeNavItem')
+          }} >
+                <StyledLogo>
+                  <OutlinedLogout />
+                </StyledLogo>
+                <StyledText>登出</StyledText>
+            </StyledNavItem>
       </StyledNavList>
       <NavbarButton className='nav-tweet-button' onClick={handleOpenTweetModal}>推文</NavbarButton>
     </StyledNavbar>
