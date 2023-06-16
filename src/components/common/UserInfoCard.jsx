@@ -109,28 +109,10 @@ const StyledInfoWrapper = styled.div`
 
 // 根據條件返回 Button
 function ReturnActions( ) {
-  // // Button狀態
   const [noti, setNoti] = useState(false)
-  // const [follow, setFollow] = useState(false)
-  // const [isHovered, setIsHovered] = useState(false)
-
-  //   button 點擊事件
   function handleClick() {
     setNoti(!noti)
   }
-  // // button hover事件
-  // const handleMouseEnter = (e) => {
-  //   setIsHovered(true)
-  //   if (e.target.innerText === '正在跟隨' && e.target.type === 'submit') {
-  //     e.target.innerText = '取消跟隨'
-  //   }
-  // }
-  // const handleMouseLeave = (e) => {
-  //   setIsHovered(false)
-  //   if (e.target.innerText === '取消跟隨' && e.target.type === 'submit') {
-  //     e.target.innerText = '正在跟隨'
-  //   }
-  // }
 
   const {currentMemberInfo, currentMemberFollowings, setCurrentMemberFollowings, userInfo} = useGetUserTweets()
   const [isLoading, setIsLoading] = useState(false)
