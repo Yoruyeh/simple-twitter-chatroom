@@ -34,6 +34,8 @@ const StyledInput = styled.input`
   height: 100%;
   background-color: #f5f8fa;
   padding: 2px 17px;
+  font-family: 'Noto Sans TC';
+  font-size: 16px;
 
   &[disabled] {
     color: #696974;
@@ -56,7 +58,7 @@ const StyledInput = styled.input`
       : `border-bottom: 2px solid var(--default)`};
 `
 const StyledTextArea = styled.textarea`
-  outline: 1px solid red;
+  font-family: 'Noto Sans TC';
   text-align: start;
   font-size: 16px;
   color: var(--dark-100);

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react'
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
@@ -7,6 +8,7 @@ import { AuthInput, TextAreaInput } from './AuthInput';
 import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -271,6 +273,10 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
 };
 
 const EditModal = () => {
+  const { currentMember } = useAuth()
+  const [editNameValue, setEditNameValue] = useState(currentMember.name)
+  const [editIntroValue, setEditIntroValue] = useState(currentMember.introduction)
+
   return (
     <>
       <StyledEditModalContainer>
@@ -281,9 +287,7 @@ const EditModal = () => {
         </StyledModalHeader>
         <StyledModalBody>
           <StyledEditCover
-            image={
-              'https://images.unsplash.com/photo-1685948595028-3c5023244556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80'
-            }
+            image={currentMember.cover}
           >
             <OutlinedAddPhoto className="add-cover-button" />
             <OutlinedClose className="delete-cover-button" />
@@ -291,16 +295,14 @@ const EditModal = () => {
         </StyledModalBody>
         <StyledModalBody>
           <StyledPersonalInfoForm>
-          <AuthInput label='名稱'/>
-          <p className="edit-name-count">8/50</p>
-          <TextAreaInput label='自我介紹'/>
-          <p className="edit-intro-count">0/160</p>
+          <AuthInput label='名稱' value={editNameValue}/>
+          <p className="edit-name-count">{editNameValue.length}/50</p>
+          <TextAreaInput label='自我介紹' value={editIntroValue}/>
+          <p className="edit-intro-count">{editIntroValue.length}/160</p>
           </StyledPersonalInfoForm>
         </StyledModalBody>
         <StyledEditAvatar
-          image={
-            'https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=601&q=80'
-          }
+          image={currentMember.avatar}
         >
           <OutlinedAddPhoto className="add-avatar-button" />
         </StyledEditAvatar>
