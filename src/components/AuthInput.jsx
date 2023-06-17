@@ -126,13 +126,14 @@ const TextAreaInput = ({
   status,
   errorText,
   value,
+  defaultValue
 }) => {
   return (
     <>
       <StyledContainer className="textarea">
         <StyledLabel>{label}</StyledLabel>
         <StyledTextArea
-          // onChange={(event) => onChange(event)}
+          onChange={(event) => onChange(event)}
           placeholder={placeholder}
           status={status}
           disabled={status === 'disabled'}

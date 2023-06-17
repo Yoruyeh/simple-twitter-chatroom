@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
@@ -9,6 +9,9 @@ import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { editPersonalInfo } from '../api/setting'
+import { getUserInfo } from '../api/other.users'
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 const StyledModalHeader = styled.header`
   width: 100%;
@@ -134,16 +137,27 @@ const StyledEditModalContainer = styled.div`
 const StyledEditCover = styled.div`
   width: 100%;
   height: 100%;
-  background-image: url(${({ image }) => (image ? image : '')});
-  background-size: cover;
   position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .add-cover-button {
     position: absolute;
     top: 50%;
     left: 45%;
     transform: translate(-50%, -50%);
-    & > path {
+    z-index: 5;
+
+    & svg > path {
       fill: var(--dark-0);
+      z-index: 4;
+    }
+    :hover {
+      cursor: pointer;
     }
   }
   .delete-cover-button {
@@ -151,8 +165,14 @@ const StyledEditCover = styled.div`
     top: 50%;
     left: 55%;
     transform: translate(-50%, -50%);
-    & > path {
+    z-index: 5;
+
+    & svg > path {
+      z-index: 4;
       fill: var(--dark-0);
+    }
+    :hover {
+      cursor: pointer;
     }
   }
 `;
@@ -162,18 +182,28 @@ const StyledEditAvatar = styled.div`
   height: 140px;
   border-radius: 50%;
   border: 4px solid var(--dark-0);
-  background-image: url(${({ image }) => (image ? image : '')});
-  background-size: cover;
   position: absolute;
   top: 181px;
   left: 16px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
   .add-avatar-button {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    & > path {
+    z-index: 5;
+    & svg > path {
       fill: var(--dark-0);
+      z-index: 4;
+    }
+    :hover {
+      cursor: pointer;
     }
   }
 `;
@@ -272,43 +302,125 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
   );
 };
 
-const EditModal = () => {
+const EditModal = ({ handleOpenEditModal }) => {
   const { currentMember } = useAuth()
+  const { setCurrentMemberInfo } = useGetUserTweets()
+  const coverInputRef = useRef(null)
+  const avatarInputRef = useRef(null)
   const [editNameValue, setEditNameValue] = useState(currentMember.name)
   const [editIntroValue, setEditIntroValue] = useState(currentMember.introduction)
+  const [cover, setCover] = useState('')
+  const [avatar, setAvatar] = useState('')
+
+  // 加入這一行來觸發隱藏的 input 的點擊事件
+  const handleUploadCover = () => {
+    coverInputRef.current.click(); 
+  };
+
+  const handleUploadAvatar = () => {
+    avatarInputRef.current.click(); 
+  };
+
+  const handleCoverChange = (e) => {
+    const file = e.target.files[0]
+    const imageURL = URL.createObjectURL(file)
+    setCover({ name: file.name, url: imageURL })
+  }
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0]
+    const imageURL = URL.createObjectURL(file)
+    setAvatar({ name: file.name, url: imageURL })
+  }
+
+  const handleNameChange = (value) => {
+    setEditNameValue(value)
+  }
+
+  const handleIntroChange = (value) => {
+    setEditIntroValue(value)
+  }
+
+//   const handleRemoveImage = (e) => {
+//     URL.revokeObjectURL(image.url)
+//     setCover(null)
+//     if (inputRef.current) {
+//       inputRef.current.value = ""
+//   }
+// }
+
+ const handleSaveClick = async () => {
+    const userData = {
+      name: editNameValue ? editNameValue : currentMember.name,
+      introduction: editIntroValue ? editIntroValue : currentMember.introduction,
+      avatar: avatar.url ? avatar.url : currentMember.avatar,
+      cover: cover.url ? cover.url : currentMember.cover,
+    }
+    try {
+      await editPersonalInfo(currentMember.id, {
+        userData
+      });
+      const newInfo = await getUserInfo(currentMember.id);
+      setCurrentMemberInfo(newInfo);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
 
   return (
     <>
       <StyledEditModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button" />
+          <OutlinedClose className="close-button" 
+          onClick={() => {
+            handleOpenEditModal()
+          }}/>
           <h5>編輯個人資料</h5>
-          <InputButton className="save-button">儲存</InputButton>
+          <InputButton className="save-button" 
+          onClick={() => {
+            handleSaveClick()
+            handleOpenEditModal()
+          }}
+          >
+            儲存</InputButton>
         </StyledModalHeader>
         <StyledModalBody>
-          <StyledEditCover
-            image={currentMember.cover}
-          >
-            <OutlinedAddPhoto className="add-cover-button" />
-            <OutlinedClose className="delete-cover-button" />
+          <StyledEditCover>
+            <input type="file" id="cover-input" accept="image/*" style={{display: "none"}} 
+            ref={coverInputRef} onChange={handleCoverChange}/>
+          <img
+            alt="user-cover"
+            src={cover ? cover.url : currentMember.cover}/>
+            <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
+            <span className="delete-cover-button"><OutlinedClose/></span>
           </StyledEditCover>
         </StyledModalBody>
         <StyledModalBody>
           <StyledPersonalInfoForm>
-          <AuthInput label='名稱' value={editNameValue}/>
-          <p className="edit-name-count">{editNameValue.length}/50</p>
-          <TextAreaInput label='自我介紹' value={editIntroValue}/>
-          <p className="edit-intro-count">{editIntroValue.length}/160</p>
+          <AuthInput label='名稱' 
+          value={editNameValue ? editNameValue : currentMember.name} 
+          onChange={(e) => {
+            handleNameChange(e.target.value)}}/>
+          <p className="edit-name-count">{editNameValue ? editNameValue.length : 0}/50</p>
+          <TextAreaInput label='自我介紹'
+          onChange={(e) => {
+            handleIntroChange(e.target.value)}}
+            value={editIntroValue} />
+          <p className="edit-intro-count">{editIntroValue ? editIntroValue.length : 0}/160</p>
           </StyledPersonalInfoForm>
         </StyledModalBody>
-        <StyledEditAvatar
-          image={currentMember.avatar}
-        >
-          <OutlinedAddPhoto className="add-avatar-button" />
+        <StyledEditAvatar>
+          <input type="file" id="avatar-input" accept="image/*" style={{display: "none"}} 
+          ref={avatarInputRef} onChange={handleAvatarChange}/>
+          <img
+            alt="user-avatar"
+            src={avatar ? avatar.url : currentMember.avatar}/>
+          <span className="add-avatar-button" onClick={handleUploadAvatar}><OutlinedAddPhoto /></span>
         </StyledEditAvatar>
       </StyledEditModalContainer>
     </>
   );
 };
 
-export { TweetModal, ReplyModal, EditModal };
+export { TweetModal, ReplyModal, EditModal }

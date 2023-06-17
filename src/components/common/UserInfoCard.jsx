@@ -191,7 +191,7 @@ function ReturnActions( ) {
   }
 }
 
-export function UserInfoCard({ currentMemberInfo }) {
+export function UserInfoCard({ currentMemberInfo, handleOpenEditModal }) {
   return (
     <Container>
       <StyledImgWrapper cover={currentMemberInfo.cover}>
@@ -202,7 +202,7 @@ export function UserInfoCard({ currentMemberInfo }) {
       </StyledImgWrapper>
 
       <StyledActionWrapper className='col-12 d-flex justify-content-end'>
-        <PillButton>編輯個人資料</PillButton>
+        <PillButton onClick={() => handleOpenEditModal()}>編輯個人資料</PillButton>
       </StyledActionWrapper>
 
       <StyledInfoWrapper>

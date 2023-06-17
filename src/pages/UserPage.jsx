@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { UserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 import MainLayout from '../layout/MainLayout'
@@ -38,7 +38,11 @@ export default function UserPage() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const { currentMemberInfo } = useGetUserTweets()
+  const [openEditModal, setOpenEditModal] = useState(false)
 
+  const handleOpenEditModal = () => {
+    setOpenEditModal(!openEditModal)
+  }
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -54,15 +58,17 @@ export default function UserPage() {
           <UserHeader />
         </div>
         <div className='user-info'>
-          <UserInfoCard currentMemberInfo={currentMemberInfo}/>
+          <UserInfoCard currentMemberInfo={currentMemberInfo} handleOpenEditModal={handleOpenEditModal}/>
         </div>
         <div className='user-tab'>
           <Tab></Tab>
         </div>
       </StyledContainer>
+      {openEditModal && 
       <StyledEditModalContainer>
-            <EditModal />
+            <EditModal handleOpenEditModal={handleOpenEditModal}/>
       </StyledEditModalContainer>
+      } 
     </MainLayout>
   )
 }

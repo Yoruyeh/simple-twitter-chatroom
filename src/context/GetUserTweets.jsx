@@ -120,6 +120,7 @@ export const GetUserTweetsProvider = ({ children }) => {
         setCurrentMemberFollowings,
         handleReplyIconClickedAtOther,
         setUserTweets,
+        setCurrentMemberInfo
       }}
     >
       {children}

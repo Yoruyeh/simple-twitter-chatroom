@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export const editAccountInfo = async ({ id, payload }) => {
+export const editAccountInfo = async (id, payload) => {
   const { userData } = payload
   try {
     const res = await axiosInstance.put(`${baseUrl}/users/${id}/setting`, {
@@ -31,11 +31,11 @@ export const editAccountInfo = async ({ id, payload }) => {
   }
 };
 
-export const editPersonalInfo = async ({ id, payload }) => {
+export const editPersonalInfo = async (id, payload) => {
   const { userData } = payload
   try {
     const res = await axiosInstance.put(`${baseUrl}/users/${id}`, {
-      userData
+      ...userData
     });
     return res.data;
   } catch (error) {
