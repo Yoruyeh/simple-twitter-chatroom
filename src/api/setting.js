@@ -30,3 +30,15 @@ export const editAccountInfo = async ({ id, payload }) => {
     console.error('[Edit Account failed]: ', error);
   }
 };
+
+export const editPersonalInfo = async ({ id, payload }) => {
+  const { userData } = payload
+  try {
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, {
+      userData
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Edit Personal failed]: ', error);
+  }
+};
