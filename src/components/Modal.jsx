@@ -9,7 +9,7 @@ import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { editPersonalInfo } from '../api/setting'
+import { editPersonalInfo, uploadAvatar } from '../api/setting'
 import { getUserInfo } from '../api/other.users'
 import { useGetUserTweets } from '../context/GetUserTweets';
 
@@ -327,15 +327,31 @@ const EditModal = ({ handleOpenEditModal }) => {
     setCover({ name: file.name, url: imageURL })
   }
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0]
-    const imageURL = URL.createObjectURL(file)
-    setAvatar({ name: file.name, url: imageURL })
-  }
+  // const handleAvatarChange = async (e) => {
+  //   const file = e.target.files[0]
+  //   const imageURL = URL.createObjectURL(file)
+  //   setAvatar({ name: file.name, url: imageURL })
+  // };
 
-  const handleNameChange = (value) => {
-    setEditNameValue(value)
-  }
+
+const handleAvatarChange = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('avatar', file); 
+
+    try {
+        const response = await uploadAvatar(currentMember.id, formData)
+        console.log('res: ', response.data)
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+
+
+const handleNameChange = (value) => {
+  setEditNameValue(value)
+}
 
   const handleIntroChange = (value) => {
     setEditIntroValue(value)
@@ -387,7 +403,7 @@ const EditModal = ({ handleOpenEditModal }) => {
         </StyledModalHeader>
         <StyledModalBody>
           <StyledEditCover>
-            <input type="file" id="cover-input" accept="image/*" style={{display: "none"}} 
+            <input type="file" id="cover-input" accept="image/*" style={{display: "none"}} name="cover"
             ref={coverInputRef} onChange={handleCoverChange}/>
           <img
             alt="user-cover"
@@ -411,7 +427,7 @@ const EditModal = ({ handleOpenEditModal }) => {
           </StyledPersonalInfoForm>
         </StyledModalBody>
         <StyledEditAvatar>
-          <input type="file" id="avatar-input" accept="image/*" style={{display: "none"}} 
+          <input type="file" id="avatar-input" accept="image/*" style={{display: "none"}} name="avatar"
           ref={avatarInputRef} onChange={handleAvatarChange}/>
           <img
             alt="user-avatar"

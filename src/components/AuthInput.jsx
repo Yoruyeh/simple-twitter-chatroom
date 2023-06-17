@@ -99,6 +99,7 @@ const AuthInput = ({
   status,
   errorText,
   value,
+  name
 }) => {
   return (
     <>
@@ -112,6 +113,7 @@ const AuthInput = ({
           status={status}
           disabled={status === 'disabled'}
           value={value}
+          name={name}
         />
         <span className='fontMinimal'>{errorText}</span>
       </StyledContainer>
@@ -126,7 +128,7 @@ const TextAreaInput = ({
   status,
   errorText,
   value,
-  defaultValue
+  name
 }) => {
   return (
     <>
@@ -138,6 +140,7 @@ const TextAreaInput = ({
           status={status}
           disabled={status === 'disabled'}
           value={value}
+          name={name}
         />
         <span className='fontMinimal'>{errorText}</span>
       </StyledContainer>
