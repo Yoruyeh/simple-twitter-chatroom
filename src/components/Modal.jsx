@@ -9,7 +9,7 @@ import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { editPersonalInfo, uploadAvatar } from '../api/setting'
+import { editPersonalInfo, uploadFile } from '../api/setting'
 import { getUserInfo } from '../api/other.users'
 import { useGetUserTweets } from '../context/GetUserTweets';
 
@@ -311,6 +311,8 @@ const EditModal = ({ handleOpenEditModal }) => {
   const [editIntroValue, setEditIntroValue] = useState(currentMember.introduction)
   const [cover, setCover] = useState('')
   const [avatar, setAvatar] = useState('')
+  const [realAvatarUrl, setRealAvatarUrl] = useState('')
+  const [realCoverUrl, setRealCoverUrl] = useState('')
 
   // 加入這一行來觸發隱藏的 input 的點擊事件
   const handleUploadCover = () => {
@@ -321,27 +323,32 @@ const EditModal = ({ handleOpenEditModal }) => {
     avatarInputRef.current.click(); 
   };
 
-  const handleCoverChange = (e) => {
-    const file = e.target.files[0]
+  const handleCoverChange = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('cover', file); 
     const imageURL = URL.createObjectURL(file)
-    setCover({ name: file.name, url: imageURL })
-  }
+    setCover(imageURL)
 
-  // const handleAvatarChange = async (e) => {
-  //   const file = e.target.files[0]
-  //   const imageURL = URL.createObjectURL(file)
-  //   setAvatar({ name: file.name, url: imageURL })
-  // };
+    try {
+        const response = await uploadFile(currentMember.id, formData)
+        setRealCoverUrl(response.updatedUser.cover)
+    } catch (err) {
+        console.error(err);
+    }
+  }
 
 
 const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('avatar', file); 
+    const imageURL = URL.createObjectURL(file)
+    setAvatar(imageURL)
 
     try {
-        const response = await uploadAvatar(currentMember.id, formData)
-        console.log('res: ', response.data)
+        const response = await uploadFile(currentMember.id, formData)
+        setRealAvatarUrl(response.updatedUser.avatar)
     } catch (err) {
         console.error(err);
     }
@@ -367,10 +374,10 @@ const handleNameChange = (value) => {
 
  const handleSaveClick = async () => {
     const userData = {
-      name: editNameValue ? editNameValue : currentMember.name,
-      introduction: editIntroValue ? editIntroValue : currentMember.introduction,
-      avatar: avatar.url ? avatar.url : currentMember.avatar,
-      cover: cover.url ? cover.url : currentMember.cover,
+      name: editNameValue,
+      introduction: editIntroValue,
+      avatar: realAvatarUrl,
+      cover: realCoverUrl,
     }
     try {
       await editPersonalInfo(currentMember.id, {
@@ -407,7 +414,7 @@ const handleNameChange = (value) => {
             ref={coverInputRef} onChange={handleCoverChange}/>
           <img
             alt="user-cover"
-            src={cover ? cover.url : currentMember.cover}/>
+            src={cover ? cover : currentMember.cover}/>
             <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
             <span className="delete-cover-button"><OutlinedClose/></span>
           </StyledEditCover>
@@ -431,7 +438,7 @@ const handleNameChange = (value) => {
           ref={avatarInputRef} onChange={handleAvatarChange}/>
           <img
             alt="user-avatar"
-            src={avatar ? avatar.url : currentMember.avatar}/>
+            src={avatar ? avatar : currentMember.avatar}/>
           <span className="add-avatar-button" onClick={handleUploadAvatar}><OutlinedAddPhoto /></span>
         </StyledEditAvatar>
       </StyledEditModalContainer>

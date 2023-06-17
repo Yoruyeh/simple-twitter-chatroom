@@ -43,29 +43,15 @@ export const editPersonalInfo = async (id, payload) => {
   }
 };
 
-// export const uploadAvatar = async (id, formData) => {
-//   try {
-//     const res = await axiosInstance.put(`${baseUrl}/users/${id}`, formData, {
-//       headers: {
-//         'Content-Type': 'multipart/form-data',
-//       },
-//     })
-//     return res.data;
-//   } catch (error) {
-//     console.error('[Upload Avatar failed]: ', error);
-//   }
-// };
 
-export const uploadAvatar = async (id, formData) => {
+export const uploadFile = async (id, formData) => {
   try {
-    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, {
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      body: formData
-    })
-      console.log('from api:', res.data)
-      return res.data;
+    });
+    return res.data;
   } catch (error) {
     console.error('[Upload Avatar failed]: ', error);
   }
