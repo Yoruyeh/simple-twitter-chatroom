@@ -16,9 +16,16 @@ import AdminPage from '../pages/AdminPage'
 import OtherUserPage from '../pages/OtherUserPage'
 import OtherUserFollowerPage from '../pages/OtherUserFollowerPage'
 
-
 // 路由表
 const routes = [
+  {
+    path: `/`,
+    element: <Navigate to={`/login`} />,
+  },
+  {
+    path: `/simple-twitter`,
+    element: <Navigate to={`/login`} />,
+  },
   {
     path: `/login`,
     element: <LoginPage />,
@@ -48,14 +55,6 @@ const routes = [
         element: <AdminCard />,
       },
     ],
-  },
-  {
-    path: `/simple-twitter`,
-    element: <Navigate to={`/login`} />,
-  },
-  {
-    path: `/`,
-    element: <Navigate to={`/login`} />,
   },
   {
     path: '/home',
@@ -94,7 +93,7 @@ const routes = [
       {
         path: 'likes',
         element: <TabLikesTweets />,
-      }
+      },
     ],
   },
   {
@@ -137,7 +136,7 @@ const routes = [
         path: 'tweets/:id/reply',
         element: <TabTweets />,
       },
-    ]
+    ],
   },
   {
     path: '/others/:id',
@@ -147,7 +146,7 @@ const routes = [
         path: 'tweets/:id/reply',
         element: <TabTweets />,
       },
-    ]
+    ],
   },
 ]
 
