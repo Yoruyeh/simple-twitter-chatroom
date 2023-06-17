@@ -37,7 +37,7 @@ export default function AdminList() {
     if (token) {
       AsyncadminGetTweets(token)
     }
-  }, [])
+  }, [navigate])
 
   async function handleClick(event) {
     const tweetID = event.target.getAttribute('data-id')

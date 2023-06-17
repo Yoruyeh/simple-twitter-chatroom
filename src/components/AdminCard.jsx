@@ -35,7 +35,7 @@ export default function AdminCard() {
     } else {
       navigate('/admin/login')
     }
-  }, [])
+  }, [navigate])
 
   return (
     <StyledContainer>
