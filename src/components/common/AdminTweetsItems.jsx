@@ -33,12 +33,22 @@ const TweetContainer = styled(Link)`
         transform: translateY(1px);
       }
 
-      .close-icon {
+      .close-icon-wrapper {
         position: absolute;
         right: 1px;
+
+        .close-icon {
+          pointer-events: none;
+        }
+        &:hover {
+          .close-icon {
+            path {
+              fill: var(--main);
+            }
+          }
+        }
       }
     }
-
     .tweet-main {
       margin-bottom: 8px;
       .tweet-text {
@@ -50,7 +60,7 @@ const TweetContainer = styled(Link)`
   }
 `
 
-export default function AdminTweetsItems({ tweet, replyid, button }) {
+export default function AdminTweetsItems({ tweet, button, handleClick }) {
   return (
     <TweetContainer className='d-flex px-0'>
       <div className='user-img-wrapper'>
@@ -63,8 +73,14 @@ export default function AdminTweetsItems({ tweet, replyid, button }) {
           <span className='tweet-account'>
             @{`${tweet.User.account}・${tweet.diffCreatedAt}`}
           </span>
-          <span className='close-icon'>
-            <OutlinedClose />
+          <span
+            data-id={tweet.id}
+            className='close-icon-wrapper'
+            onClick={(event) => {
+              handleClick(event)
+            }}
+          >
+            <OutlinedClose className='close-icon' />
           </span>
         </div>
 

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { adminGetUsers } from '../api/admin'
 import AdminUserCard from './common/AdminUserCard'
+import { useNavigate } from 'react-router-dom'
 
 const StyledContainer = styled.div``
 const StyledHeader = styled.header`
@@ -15,19 +16,26 @@ const StyledMain = styled.main`
 
 export default function AdminCard() {
   const [users, setUsers] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken')
 
     async function AsyncAdminGetUsers(token) {
-      const data = await adminGetUsers(token)
-      setUsers(data)
+      const { status, data } = await adminGetUsers(token)
+      if (status === 200) {
+        setUsers(data)
+      } else if (status === 401) {
+        navigate('/admin/login')
+      }
     }
 
     if (token) {
       AsyncAdminGetUsers(token)
+    } else {
+      navigate('/admin/login')
     }
-  }, []) // 空依賴數組確保只在組件掛載時執行
+  }, [])
 
   return (
     <StyledContainer>
