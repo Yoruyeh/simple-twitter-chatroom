@@ -10,6 +10,7 @@ import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from '../context/GetTweets';
 import Alert from '../components/Alert';
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 
 const StyledReplyPageContainer = styled.div`
@@ -51,7 +52,8 @@ const StyledAlertContainer = styled.div`
 `
 
 const ReplyPage = () => {
-  const { currentMember, isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth()
+  const { currentMemberInfo } = useGetUserTweets()
   const navigate = useNavigate();
   const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType } = useGetTweets()
@@ -84,7 +86,7 @@ const ReplyPage = () => {
             placeholder={'推你的回覆'}
             handleOpenReplyModal={handleOpenReplyModal}
             selectedReplyItem={selectedReplyItem}
-            currentMember={currentMember}
+            currentMemberInfo={currentMemberInfo}
           />
         </StyledReplyModalContainer>
       )}

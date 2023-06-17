@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import { useGetTweets } from '../context/GetTweets';
-import { useAuth } from '../context/AuthContext';
 import { TweetModal } from '../components/Modal';
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 const StyledSettingLayoutContainer = styled.div`
   .row {
@@ -51,7 +51,7 @@ const StyledTweetModalContainer = styled.div`
 `;
 
 const SettingLayout = ({ children }) => {
-  const { currentMember } = useAuth();
+  const { currentMemberInfo } = useGetUserTweets();
   const { handleOpenTweetModal, openTweetModal } = useGetTweets();
   return (
     <StyledSettingLayoutContainer className="container-fluid px-0">
@@ -67,7 +67,7 @@ const SettingLayout = ({ children }) => {
           <TweetModal
             placeholder={'有什麼新鮮事？'}
             handleOpenTweetModal={handleOpenTweetModal}
-            currentMember={currentMember}
+            currentMemberInfo={currentMemberInfo}
           />
         </StyledTweetModalContainer>
       )}

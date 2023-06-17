@@ -57,13 +57,13 @@ const StyledAvatar = styled.div`
   left: 24px;
 `;
 
-const TweetInput = ({ placeholder, currentMember }) => {
+const TweetInput = ({ placeholder, currentMemberInfo }) => {
   const { handleTweetInputChange, tweetInputValue } = useGetTweets();
 
   return (
     <>
       <StyledInputContainer>
-        <StyledAvatar image={currentMember.avatar} />
+        <StyledAvatar image={currentMemberInfo.avatar} />
         <StyledInput>
           <textarea
             className="tweet-input"
@@ -77,13 +77,13 @@ const TweetInput = ({ placeholder, currentMember }) => {
   );
 };
 
-const TweetModalInput = ({ placeholder, currentMember }) => {
+const TweetModalInput = ({ placeholder, currentMemberInfo }) => {
   const { handleTweetModalChange, tweetModalValue } = useGetTweets();
 
   return (
     <>
       <StyledInputContainer>
-        <StyledAvatar image={currentMember.avatar} />
+        <StyledAvatar image={currentMemberInfo.avatar} />
         <StyledInput>
           <textarea
             className="tweet-input modal-reply-input"
@@ -97,13 +97,13 @@ const TweetModalInput = ({ placeholder, currentMember }) => {
   );
 };
 
-const TweetReplyInput = ({ placeholder, currentMember }) => {
+const TweetReplyInput = ({ placeholder, currentMemberInfo }) => {
     const { handleReplyInputChange, replyInputValue } = useGetSelectedTweet();
 
   return (
     <>
       <StyledInputContainer>
-        <StyledAvatar image={currentMember.avatar} />
+        <StyledAvatar image={currentMemberInfo.avatar} />
         <StyledInput>
           <textarea
             className="tweet-input modal-reply-input"

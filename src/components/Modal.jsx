@@ -8,7 +8,6 @@ import { AuthInput, TextAreaInput } from './AuthInput';
 import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { editPersonalInfo, uploadFile } from '../api/setting'
 import { getUserInfo } from '../api/other.users'
 import { useGetUserTweets } from '../context/GetUserTweets';
@@ -223,7 +222,7 @@ const StyledPersonalInfoForm = styled.form`
 `
 
 
-const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
+const TweetModal = ({ placeholder, handleOpenTweetModal, currentMemberInfo }) => {
   const { tweetModalValue, handleClickTweetModal, setTweetModalValue } = useGetTweets();
   return (
     <>
@@ -240,7 +239,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
         <StyledModalBody>
           <TweetModalInput
             placeholder={placeholder}
-            currentMember={currentMember}
+            currentMemberInfo={currentMemberInfo}
           />
         </StyledModalBody>
         <StyledModalFooter>
@@ -259,7 +258,7 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
   );
 };
 
-const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) => {
+const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMemberInfo }) => {
   const {replyInputValue, handleClickReplyInput, setReplyInputValue} = useGetSelectedTweet()
   const navigate = useNavigate()
 
@@ -286,7 +285,7 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
             <div className="tweet-input-wrapper">  
             <TweetReplyInput
             placeholder={'推你的回覆'}
-            currentMember={currentMember}/>
+            currentMemberInfo={currentMemberInfo}/>
             </div>   
         </StyledModalBody>
         <StyledModalFooter>
@@ -303,12 +302,11 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMember }) 
 };
 
 const EditModal = ({ handleOpenEditModal }) => {
-  const { currentMember } = useAuth()
-  const { setCurrentMemberInfo } = useGetUserTweets()
+  const { currentMemberInfo, setCurrentMemberInfo } = useGetUserTweets()
   const coverInputRef = useRef(null)
   const avatarInputRef = useRef(null)
-  const [editNameValue, setEditNameValue] = useState(currentMember.name)
-  const [editIntroValue, setEditIntroValue] = useState(currentMember.introduction)
+  const [editNameValue, setEditNameValue] = useState(currentMemberInfo.name)
+  const [editIntroValue, setEditIntroValue] = useState(currentMemberInfo.introduction)
   const [cover, setCover] = useState('')
   const [avatar, setAvatar] = useState('')
   const [realAvatarUrl, setRealAvatarUrl] = useState('')
@@ -331,7 +329,7 @@ const EditModal = ({ handleOpenEditModal }) => {
     setCover(imageURL)
 
     try {
-        const response = await uploadFile(currentMember.id, formData)
+        const response = await uploadFile(currentMemberInfo.id, formData)
         setRealCoverUrl(response.updatedUser.cover)
     } catch (err) {
         console.error(err);
@@ -347,7 +345,7 @@ const handleAvatarChange = async (e) => {
     setAvatar(imageURL)
 
     try {
-        const response = await uploadFile(currentMember.id, formData)
+        const response = await uploadFile(currentMemberInfo.id, formData)
         setRealAvatarUrl(response.updatedUser.avatar)
     } catch (err) {
         console.error(err);
@@ -380,10 +378,10 @@ const handleNameChange = (value) => {
       cover: realCoverUrl,
     }
     try {
-      await editPersonalInfo(currentMember.id, {
+      await editPersonalInfo(currentMemberInfo.id, {
         userData
       });
-      const newInfo = await getUserInfo(currentMember.id);
+      const newInfo = await getUserInfo(currentMemberInfo.id);
       setCurrentMemberInfo(newInfo);
     } catch (error) {
       console.error(error)
@@ -414,7 +412,7 @@ const handleNameChange = (value) => {
             ref={coverInputRef} onChange={handleCoverChange}/>
           <img
             alt="user-cover"
-            src={cover ? cover : currentMember.cover}/>
+            src={cover ? cover : currentMemberInfo.cover}/>
             <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
             <span className="delete-cover-button"><OutlinedClose/></span>
           </StyledEditCover>
@@ -422,7 +420,7 @@ const handleNameChange = (value) => {
         <StyledModalBody>
           <StyledPersonalInfoForm>
           <AuthInput label='名稱' 
-          value={editNameValue ? editNameValue : currentMember.name} 
+          value={editNameValue ? editNameValue : currentMemberInfo.name} 
           onChange={(e) => {
             handleNameChange(e.target.value)}}/>
           <p className="edit-name-count">{editNameValue ? editNameValue.length : 0}/50</p>
@@ -438,7 +436,7 @@ const handleNameChange = (value) => {
           ref={avatarInputRef} onChange={handleAvatarChange}/>
           <img
             alt="user-avatar"
-            src={avatar ? avatar : currentMember.avatar}/>
+            src={avatar ? avatar : currentMemberInfo.avatar}/>
           <span className="add-avatar-button" onClick={handleUploadAvatar}><OutlinedAddPhoto /></span>
         </StyledEditAvatar>
       </StyledEditModalContainer>

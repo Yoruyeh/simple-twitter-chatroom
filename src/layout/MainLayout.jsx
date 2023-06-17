@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext'
 import { useGetTweets } from '../context/GetTweets'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useGetUserTweets } from '../context/GetUserTweets'
 
 const StyledMainLayoutContainer = styled.div`
   .row {
@@ -78,7 +79,8 @@ const StyledTweetModalContainer = styled.div`
 
 const MainLayout = ({ children }) => {
 
-  const { currentMember, isAuthenticated, logout } = useAuth()
+  const { isAuthenticated, logout } = useAuth()
+  const { currentMemberInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
   const navigate = useNavigate()
 
@@ -108,7 +110,7 @@ const MainLayout = ({ children }) => {
             <TweetModal
               placeholder={'有什麼新鮮事？'}
               handleOpenTweetModal={handleOpenTweetModal}
-              currentMember={currentMember}
+              currentMemberInfo={currentMemberInfo}
             />
           </StyledTweetModalContainer>
         )}

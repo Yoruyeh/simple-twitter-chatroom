@@ -5,7 +5,6 @@ import { checkPermission } from '../../api/checkPermission'
 import { getUserTweet } from '../../api/users'
 import { TabTweetItems } from './TabTweetItems'
 import { ReplyModal } from '../Modal'
-import { useAuth } from '../../context/AuthContext'
 import { useGetTweets } from '../../context/GetTweets'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetUserTweets } from '../../context/GetUserTweets'
@@ -47,7 +46,7 @@ export default function TabTweets() {
   const [tweets, setTweets] = useState([])
   const navigate = useNavigate()
   const pathname = useLocation().pathname
-  const { currentMember } = useAuth()
+  const { currentMemberInfo } = useGetUserTweets()
   const { userTweets } = useGetUserTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType } = useGetTweets()
@@ -108,7 +107,7 @@ export default function TabTweets() {
             placeholder={'推你的回覆'}
             handleOpenReplyModal={handleOpenReplyModal}
             selectedReplyItem={selectedReplyItem}
-            currentMember={currentMember}
+            currentMemberInfo={currentMemberInfo}
           />
         </StyledReplyModalContainer>
       )}
