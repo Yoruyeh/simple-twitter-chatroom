@@ -7,7 +7,7 @@ import {
   FilledUser,
   OutlinedLogout,
 } from '../assets/icons'
-import { NavLink, useMatch } from 'react-router-dom'
+import { NavLink, useMatch, useNavigate } from 'react-router-dom'
 
 const StyledContainer = styled.div`
   position: sticky;
@@ -52,14 +52,32 @@ const StyledLogoutWrapper = styled.div`
     path {
       fill: var(--dark-90);
     }
-    }
   }
   .logout {
     color: var(--dark-90);
   }
+
+  &:hover {
+    .logout-icon {
+      path {
+        fill: var(--main);
+      }
+    }
+    .logout {
+      color: var(--main);
+    }
+  }
 `
 
 export default function AdminNavBar() {
+  const navigate = useNavigate()
+
+  // 拿掉 adminToken
+  function handleRemoveToken() {
+    localStorage.removeItem('adminToken')
+    navigate('/admin/login')
+  }
+
   return (
     <StyledContainer className='d-flex flex-column justify-content-between'>
       <StyledActionsWrapper className='d-flex flex-column'>
@@ -87,7 +105,11 @@ export default function AdminNavBar() {
           </NavLink>
         </li>
       </StyledActionsWrapper>
-      <StyledLogoutWrapper className='d-flex align-items-center'>
+
+      <StyledLogoutWrapper
+        className='d-flex align-items-center'
+        onClick={handleRemoveToken}
+      >
         <OutlinedLogout className='logout-icon' />
         <h5 className='logout'>登出</h5>
       </StyledLogoutWrapper>

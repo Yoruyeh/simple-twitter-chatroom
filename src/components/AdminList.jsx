@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import { adminGetTweets } from '../api/admin'
+import { useNavigate } from 'react-router-dom'
+import { adminGetTweets, adminDeleteTweet } from '../api/admin'
 import AdminTweetsItems from './common/AdminTweetsItems'
 
 const StyledContainer = styled.div``
@@ -13,19 +14,45 @@ const StyledMain = styled.main``
 
 export default function AdminList() {
   const [tweets, setTweets] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken')
 
     async function AsyncadminGetTweets(token) {
-      const data = await adminGetTweets(token)
-      setTweets(data)
+      const { status, data } = await adminGetTweets(token)
+      if (status === 200) {
+        // 將推文按照時間排序 (新 => 舊)
+        let sortedTweets = data.sort((a, b) => {
+          const dateA = new Date(a.createdAt).getTime()
+          const dateB = new Date(b.createdAt).getTime()
+          return dateB - dateA
+        })
+        setTweets(sortedTweets)
+      } else if (status === 401) {
+        navigate('/admin/login')
+      }
     }
 
     if (token) {
       AsyncadminGetTweets(token)
     }
-  }, []) // 空依賴數組確保只在組件掛載時執行
+  }, [navigate])
+
+  async function handleClick(event) {
+    const tweetID = event.target.getAttribute('data-id')
+    const token = localStorage.getItem('adminToken')
+    if (tweetID) {
+      const status = await adminDeleteTweet(token, tweetID)
+
+      if (status === 200) {
+        setTweets(tweets.filter((tweet) => tweet.id.toString() !== tweetID))
+        console.log('刪除成功')
+      } else if (status === 401) {
+        navigate('/admin/login')
+      }
+    }
+  }
 
   return (
     <StyledContainer>
@@ -37,7 +64,12 @@ export default function AdminList() {
           {tweets.map((tweet) => {
             return (
               <li key={tweet.id}>
-                <AdminTweetsItems tweet={tweet} />
+                <AdminTweetsItems
+                  tweet={tweet}
+                  handleClick={(event) => {
+                    handleClick(event)
+                  }}
+                />
               </li>
             )
           })}
