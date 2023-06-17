@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useImmer } from 'use-immer'
 import styled from 'styled-components'
 // input 元件
-import AuthInput from '../components/AuthInput'
+import {AuthInput} from '../components/AuthInput'
 // button
 import { PillButton } from '../components/common/button.styled'
 

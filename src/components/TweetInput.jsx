@@ -13,7 +13,7 @@ const StyledInputContainer = styled.div`
   position: relative;
 `;
 
-const StyledInput = styled.div`
+const StyledInput = styled.form`
   width: 100%;
   height: 100%;
   text-align: start;

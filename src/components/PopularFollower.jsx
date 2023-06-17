@@ -77,7 +77,7 @@ const StyledFollowerInfo = styled.div`
 
 const PopularFollowerItem = () => {
   const [popularFollowers, setPopularFollowers] = useState([]);
-  const { currentMember } = useAuth()
+  const { currentMember, isAuthenticated } = useAuth()
 
   const handleFollowClicked = async (id) => {
     if (currentMember.id === id) {
@@ -107,7 +107,8 @@ const PopularFollowerItem = () => {
   }
 
   useEffect(() => {
-    const getPopularFollowersAsync = async () => {
+    if (isAuthenticated) {
+      const getPopularFollowersAsync = async () => {
       try {
         const popularObject = await getPopularFollowers();
         const populars = popularObject.users
@@ -117,7 +118,8 @@ const PopularFollowerItem = () => {
       }
     };
     getPopularFollowersAsync();
-  }, []);
+    }
+  }, [isAuthenticated]);
 
   return (
     <>

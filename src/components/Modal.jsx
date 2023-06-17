@@ -3,7 +3,7 @@ import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
 import { TweetItemInReply } from './TweetItem';
-import AuthInput from './AuthInput';
+import { AuthInput, TextAreaInput } from './AuthInput';
 import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +47,7 @@ const StyledModalBody = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
   .tweet-item-wrapper{
     height: 50%;
 
@@ -65,20 +66,6 @@ const StyledModalBody = styled.div`
   }
   .tweet-input-wrapper {
     height: 50%;
-  }
-  .edit-name-count {
-    font-size: 12px;
-    color: var(--dark-80);
-    position: absolute;
-    top: 138px;
-    right: 16px;
-  }
-  .edit-intro-count {
-    font-size: 12px;
-    color: var(--dark-80);
-    position: absolute;
-    top: 317px;
-    right: 16px;
   }
 `;
 
@@ -131,6 +118,7 @@ const StyledReplyModalContainer = styled.div`
 `;
 
 const StyledEditModalContainer = styled.div`
+  background-color: var(--dark-0);
   width: 634px;
   height: 610px;
   border-radius: 14px;
@@ -140,6 +128,7 @@ const StyledEditModalContainer = styled.div`
   position: relative;
   z-index: 2;
 `;
+
 const StyledEditCover = styled.div`
   width: 100%;
   height: 100%;
@@ -186,6 +175,21 @@ const StyledEditAvatar = styled.div`
     }
   }
 `;
+
+const StyledPersonalInfoForm = styled.form`
+  margin: 80px 16px 40px 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .edit-name-count, .edit-intro-count {
+    color: var(--dark-80);
+    font-size: 12px;
+    text-align: end;
+    margin: 8px 0;
+  }
+`
+
 
 const TweetModal = ({ placeholder, handleOpenTweetModal, currentMember }) => {
   const { tweetModalValue, handleClickTweetModal, setTweetModalValue } = useGetTweets();
@@ -286,18 +290,12 @@ const EditModal = () => {
           </StyledEditCover>
         </StyledModalBody>
         <StyledModalBody>
-          <AuthInput
-            placeholder={'John Doe'}
-            label={'名稱'}
-            className={'edit-modal-name'}
-          />
+          <StyledPersonalInfoForm>
+          <AuthInput label='名稱'/>
           <p className="edit-name-count">8/50</p>
-          <AuthInput
-            placeholder={'John Doe'}
-            label={'自我介紹'}
-            className={'edit-modal-introduction'}
-          />
+          <TextAreaInput label='自我介紹'/>
           <p className="edit-intro-count">0/160</p>
+          </StyledPersonalInfoForm>
         </StyledModalBody>
         <StyledEditAvatar
           image={
