@@ -142,18 +142,19 @@ export default function Login({ openModal }) {
       isValid = false
     }
 
+    if (isValid) {
+      // 請求開始、禁用input
+      disabledAllInput(true)
+      // 保存返回的 success、authToken 資料
 
-    // 保存返回的 success、authToken 資料
-    const { success, error } = await login({ account, password })
-    // 取得成功，將 authToken 存進用戶的 localStorage，
-    // 跳轉到 homePage
-    if (success) {
-      return
-    } else if (error) {
-      if (error.message.includes('使用者')) {
-        setInput(0, 'danger', '帳號不存在')
-        setInput(1, '')
-        return
+      const { success, error } = await login({ account, password })
+      // 取得成功，將 authToken 存進用戶的 localStorage，
+      // 跳轉到 homePage
+      if (success) {
+        openModal('登入成功', 'success')
+        setTimeout(() => {
+          navigate('/home')
+        }, 1000)
       } else {
         if (error.response.data.message.includes('使用者')) {
           openModal('使用者不存在', 'danger')
@@ -167,6 +168,7 @@ export default function Login({ openModal }) {
           isValid = false
         }
       }
+
       if (isValid) {
         // 請求結束，啟用input
         disabledAllInput()
@@ -175,7 +177,7 @@ export default function Login({ openModal }) {
   }
 
   useEffect(() => {
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       navigate('/home')
     }
   }, [isAuthenticated, navigate])
