@@ -16,7 +16,8 @@ const AuthContext = createContext(defaultAuthContext)
 export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem('token')));
+  const [isAuthLoading, setIsAuthLoading] = useState(false)
   const [payload, setPayload] = useState({
     id: 14,
     name: 'user1',
@@ -29,6 +30,7 @@ export const AuthProvider = ({ children }) => {
   })
 
   useEffect(() => {
+    setIsAuthLoading(true)
     const checkTokenIsValid = async () => {
       const token = localStorage.getItem('token')
       if (!token) {
@@ -51,6 +53,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     checkTokenIsValid()
+    setIsAuthLoading(false)
   }, [])
 
   return (
@@ -58,6 +61,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         currentMember: payload,
+        isAuthLoading,
         // register: async (data) => {
         //   const { success, authToken } = await register({
         //     username: data.username,

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Modal from 'react-modal'
 import Notification from '../components/common/Notifications'
 
+
 const StyledLayout = styled(Layout)`
   padding-top: 64px;
 `
@@ -38,6 +39,7 @@ export default function LoginPage() {
   }
 
   Modal.setAppElement(document.body)
+
 
   return (
     <>

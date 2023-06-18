@@ -1,12 +1,13 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { UserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 import MainLayout from '../layout/MainLayout'
 import { UserHeader } from '../components/Header'
 import { useGetUserTweets } from '../context/GetUserTweets'
 import { EditModal } from '../components/Modal'
-
+import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const StyledContainer = styled.div`
   .user-info {
@@ -34,12 +35,19 @@ const StyledEditModalContainer = styled.div`
 `;
 
 export default function UserPage() {
+  const { isAuthenticated } = useAuth()
   const { currentMemberInfo } = useGetUserTweets()
   const [openEditModal, setOpenEditModal] = useState(false)
+  const navigate = useNavigate()
   const handleOpenEditModal = () => {
     setOpenEditModal(!openEditModal)
   }
 
+   useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login')
+    }
+  })
   
   return (
     <MainLayout>
