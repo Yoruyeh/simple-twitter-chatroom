@@ -14,7 +14,7 @@ const StyledContainer = styled.div`
   }
 `
 export default function OtherUserPage() {
-  const { userInfo } = useGetUserTweets()
+  const { userInfo, setUserInfo } = useGetUserTweets()
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
@@ -23,6 +23,13 @@ export default function OtherUserPage() {
       navigate('/login')
     }
   })
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+    setUserInfo(JSON.parse(storedUserInfo));
+  }
+  }, []);
 
   return (
     <MainLayout>

@@ -189,6 +189,7 @@ useEffect(() => {
           navigate('/login')
           logout()
           localStorage.removeItem('activeNavItem')
+          localStorage.removeItem('userInfo')
           }} >
                 <StyledLogo>
                   <OutlinedLogout />
