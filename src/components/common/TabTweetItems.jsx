@@ -117,13 +117,12 @@ export function TabTweetItems({ tweet, replyid, button }) {
   const { handleReplyIconClickedAtOther } = useGetUserTweets()
   const { userLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
   const pathname = useLocation().pathname
-  const { currentMemberInfo } = useGetUserTweets()
 
 
   return (
     <TweetContainer className='d-flex px-0'>
       <div className='user-img-wrapper'>
-        <img src={currentMemberInfo.avatar} alt='avatar' className='user-avatar'></img>
+        <img src={tweet.User.avatar} alt='avatar' className='user-avatar'></img>
       </div>
 
       <div className='tweet-wrapper'>

@@ -73,7 +73,7 @@ const ReplyHeader = () => {
   <>
     <StyledReplyHeader>
       <OutlinedBack className='header-icon-back' 
-      onClick={() => navigate(-1)}/>
+      onClick={() => navigate('/home')}/>
       <h4>推文</h4>
     </StyledReplyHeader>
   </>
