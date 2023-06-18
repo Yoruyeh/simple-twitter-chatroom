@@ -8,6 +8,7 @@ import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetUserTweets } from '../../context/GetUserTweets'
 import Alert from '../Alert'
 import { useAuth } from '../../context/AuthContext'
+import { getUserTweets } from '../../api/other.users'
 
 const StyledContainer = styled.ul`
   li {
@@ -45,8 +46,8 @@ export default function TabTweets() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const pathname = useLocation().pathname
-  const { currentMemberInfo } = useGetUserTweets()
-  const { userTweets } = useGetUserTweets()
+  const { currentMemberInfo, setUserInfo } = useGetUserTweets()
+  const { userTweets, setUserTweets } = useGetUserTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType, currentMemberTweets } = useGetTweets()
 
@@ -55,6 +56,23 @@ export default function TabTweets() {
       navigate('/login');
     }
   }, [navigate, isAuthenticated]);
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+    setUserInfo(JSON.parse(storedUserInfo));
+    }
+
+    const getUserTweetsAsync = async () => {
+      try {
+        const tweets = await getUserTweets(JSON.parse(storedUserInfo).id);
+        setUserTweets(tweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+      getUserTweetsAsync();
+  },[setUserInfo, setUserTweets]);
  
 
   return (

@@ -10,7 +10,6 @@ import { useAuth } from '../context/AuthContext';
 import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower';
 import { useGetTweets } from '../context/GetTweets'
 import { getPopularFollowers } from '../api/popular.follower'
-import { getUserInfo } from '../api/other.users';
 
 
 const StyledFollowerPageContainer = styled.div`
@@ -24,7 +23,7 @@ const StyledFollowerPageContainer = styled.div`
   }
 `
 const OtherUserFollowerPage = () => {
-  const { currentMember, setCurrentMemberInfo } = useAuth()
+  const { currentMember } = useAuth()
   const { userInfo, userfollowers, userfollowings, setUserFollowers, setUserFollowings } = useGetUserTweets()
   const { setPopularFollowers } = useGetTweets()
   const pathname = useLocation().pathname
@@ -47,8 +46,6 @@ const OtherUserFollowerPage = () => {
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users;
       setPopularFollowers(populars)
-      const newInfo = await getUserInfo(currentMemberInfo.id)
-      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
@@ -66,8 +63,6 @@ const OtherUserFollowerPage = () => {
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users;
       setPopularFollowers(populars)
-      const newInfo = await getUserInfo(currentMemberInfo.id)
-      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }

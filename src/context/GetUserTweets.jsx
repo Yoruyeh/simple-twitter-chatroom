@@ -35,10 +35,12 @@ export const GetUserTweetsProvider = ({ children }) => {
   const [userfollowers, setUserFollowers] = useState([])
   const [userfollowings, setUserFollowings] = useState([])
 
+
   const handleAvatarClick = async (id) => {
     try {
       const info = await getUserInfo(id);
       setUserInfo(info);
+      localStorage.setItem('userInfo', JSON.stringify(info));
       const tweets = await getUserTweets(id);
       setUserTweets(tweets);
       if (currentMember.id === Number(id)) {
@@ -72,6 +74,7 @@ export const GetUserTweetsProvider = ({ children }) => {
       setIsModalLoading(false);
     }
   };
+
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -113,6 +116,8 @@ export const GetUserTweetsProvider = ({ children }) => {
     }
   }, [isAuthenticated, currentMember]);
 
+
+
   return (
     <GetUserTweetsContext.Provider
       value={{
@@ -130,7 +135,8 @@ export const GetUserTweetsProvider = ({ children }) => {
         handleReplyIconClickedAtOther,
         setUserTweets,
         setCurrentMemberInfo,
-        userfollowers, userfollowings, setUserFollowers, setUserFollowings
+        userfollowers, userfollowings, setUserFollowers, setUserFollowings,
+        setUserReplies, setUserLikes
       }}
     >
       {children}

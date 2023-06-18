@@ -5,6 +5,7 @@ import { TabRepliesItems } from './TabRepliesItems'
 import { useGetUserTweets } from '../../context/GetUserTweets'
 import { useAuth } from '../../context/AuthContext'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
+import { getUserReplies } from '../../api/other.users'
 
 const StyledContainer = styled.ul`
   li {
@@ -16,7 +17,7 @@ export default function TabRepliesTweets() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAuth()
   const pathname = useLocation().pathname
-  const { userReplies } = useGetUserTweets()
+  const { userReplies, setUserInfo, setUserReplies } = useGetUserTweets()
   const { currentMemberReplies }= useGetSelectedTweet()
 
     useEffect(() => {
@@ -24,6 +25,24 @@ export default function TabRepliesTweets() {
       navigate('/login');
     }
   }, [navigate, isAuthenticated]);
+
+   useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+    setUserInfo(JSON.parse(storedUserInfo));
+    }
+
+    const getUserRepliesAsync = async () => {
+      try {
+        const replies = await getUserReplies(JSON.parse(storedUserInfo).id);
+        setUserReplies(replies);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+      getUserRepliesAsync();
+  },[setUserInfo, setUserReplies]);
+ 
 
   return (
     <StyledContainer>

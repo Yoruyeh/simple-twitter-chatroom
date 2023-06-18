@@ -10,6 +10,8 @@ import { useGetTweets } from '../context/GetTweets'
 import { useGetSelectedTweet } from '../context/GetSelectedTweet'
 import Alert from '../components/Alert'
 import { useGetUserTweets } from '../context/GetUserTweets';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const StyledHomePageContainer = styled.div`
@@ -79,14 +81,20 @@ const StyledAlertContainer = styled.div`
 `
 
 const HomePage = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAuthLoading } = useAuth();
   const { currentMemberInfo } = useGetUserTweets()
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
+  const navigate = useNavigate()
 
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login')
+    }
+  })
 
   return (
-    isAuthenticated &&
+    !isAuthLoading &&
     <MainLayout>
       <StyledHomePageContainer>
         <div className="header">

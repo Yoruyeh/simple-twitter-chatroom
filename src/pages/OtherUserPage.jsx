@@ -5,7 +5,8 @@ import MainLayout from '../layout/MainLayout'
 import { OtherUserHeader } from '../components/Header'
 import { OtherUserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
-import { getUserInfo } from '../api/other.users'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const StyledContainer = styled.div`
   .user-info {
@@ -14,19 +15,21 @@ const StyledContainer = styled.div`
 `
 export default function OtherUserPage() {
   const { userInfo, setUserInfo } = useGetUserTweets()
-
+  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const getUserInfoAsync = async () => {
-      try {
-        const info = await getUserInfo(userInfo.id);
-        setUserInfo(info);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserInfoAsync()
-  }, [userInfo, setUserInfo]);
+    if (!isAuthenticated) {
+      navigate('/login')
+    }
+  })
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+    setUserInfo(JSON.parse(storedUserInfo));
+  }
+  }, [setUserInfo]);
 
   return (
     <MainLayout>
