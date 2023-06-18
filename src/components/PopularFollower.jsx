@@ -136,7 +136,7 @@ const PopularFollowerItem = () => {
                 </div>
               </StyledFollowerInfo>
               <div className="popular-button-wrapper">
-                {currentMember.id !== popular.id && !popular.isFollowed ? (
+                {currentMember && currentMember.id !== popular.id && !popular.isFollowed ? (
                   <FollowButton
                     className="unfollowed"
                     data-id={popular.id}
@@ -172,8 +172,7 @@ const PopularFollowerItem = () => {
           );
         })}
     </>
-  );
-};
+  )};
 
 const PopularFollower = ({ children }) => {
   return (
