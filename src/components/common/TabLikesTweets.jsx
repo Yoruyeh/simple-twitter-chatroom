@@ -41,7 +41,7 @@ export default function TabLikesTweets() {
       }
     };
       getUserRepliesAsync();
-  },[]);
+  },[setUserInfo, setUserLikes]);
 
   return (
     <StyledContainer>

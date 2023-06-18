@@ -72,7 +72,7 @@ export default function TabTweets() {
       }
     };
       getUserTweetsAsync();
-  },[]);
+  },[setUserInfo, setUserTweets]);
  
 
   return (

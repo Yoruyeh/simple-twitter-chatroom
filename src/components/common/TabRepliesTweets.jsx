@@ -41,7 +41,7 @@ export default function TabRepliesTweets() {
       }
     };
       getUserRepliesAsync();
-  },[]);
+  },[setUserInfo, setUserReplies]);
  
 
   return (
