@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useImmer } from 'use-immer'
 import styled from 'styled-components'
 // input 元件
-import {AuthInput} from '../components/AuthInput'
+import { AuthInput } from './AuthInput'
 // button
 import { PillButton } from '../components/common/button.styled'
 
@@ -154,8 +154,7 @@ export default function Setting() {
             errorText={input.errorText}
             onChange={(event) => {
               handleChange(event)
-            }}
-          />
+            }}/>
         )
       })}
       <div className='buttonWrapper d-flex justify-content-end'>
