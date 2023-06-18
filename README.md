@@ -13,7 +13,7 @@ Github Page: https://liam67726978.github.io/simple-twitter/
 1. 在本地開啟 Terminal 輸入以下指令
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/Liam67726978/simple-twitter.git
 ```
 
 2. 進入 Clone 下來的專案目錄
