@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { FollowButton } from './common/button.styled';
 import { getPopularFollowers } from '../api/popular.follower';
-import { Follow, UnFollow } from '../api/user.follower';
+import { Follow, UnFollow, getUserFollowingsById } from '../api/user.follower';
 import { useAuth } from '../context/AuthContext';
+import { useGetUserTweets } from '../context/GetUserTweets';
+import { getUserInfo } from '../api/other.users';
 
 const StyledFollowerContainer = styled.div`
   width: 273px;
@@ -61,15 +63,24 @@ const StyledFollowerInfo = styled.div`
   .popular-follower-name {
     line-height: 26px;
   }
+
   .popular-follower-account {
     color: var(--dark-70);
     font-weight: 500;
   }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50px;
+  }
+
 `;
 
 const PopularFollowerItem = () => {
   const [popularFollowers, setPopularFollowers] = useState([]);
-  const { currentMember } = useAuth()
+  const { currentMember, isAuthenticated } = useAuth()
+  const { setCurrentMemberFollowings, setCurrentMemberInfo } = useGetUserTweets()
 
   const handleFollowClicked = async (id) => {
     if (currentMember.id === id) {
@@ -82,6 +93,10 @@ const PopularFollowerItem = () => {
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users
       setPopularFollowers(populars)
+      const followings = await getUserFollowingsById(currentMember.id)
+      setCurrentMemberFollowings(followings)
+      const newInfo = await getUserInfo(currentMember.id)
+      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
@@ -93,13 +108,18 @@ const PopularFollowerItem = () => {
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users
       setPopularFollowers(populars)
+      const followings = await getUserFollowingsById(currentMember.id)
+      setCurrentMemberFollowings(followings)
+      const newInfo = await getUserInfo(currentMember.id)
+      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
   }
 
   useEffect(() => {
-    const getPopularFollowersAsync = async () => {
+    if (isAuthenticated) {
+      const getPopularFollowersAsync = async () => {
       try {
         const popularObject = await getPopularFollowers();
         const populars = popularObject.users
@@ -109,7 +129,8 @@ const PopularFollowerItem = () => {
       }
     };
     getPopularFollowersAsync();
-  }, []);
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -119,8 +140,8 @@ const PopularFollowerItem = () => {
         <StyledFollowerInfo>
           <StyledFollowerAvatar image={popular.avatar}/>
           <div className="popular-info-wrapper">
-            <h6 className="popular-follower-name">{popular.name}</h6>
-            <div className="popular-follower-account fontSecondary">
+            <h6 className="popular-follower-name ellipsis">{popular.name}</h6>
+            <div className="popular-follower-account fontSecondary ellipsis">
               @{popular.account}</div>
           </div>
         </StyledFollowerInfo>

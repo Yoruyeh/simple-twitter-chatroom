@@ -9,7 +9,7 @@ import { Logo } from '../assets/icons'
 // button
 import { AuthButton } from './common/button.styled'
 // input 元件
-import AuthInput from './AuthInput'
+import { AuthInput } from './AuthInput'
 
 // Container
 const StyledContainer = styled.div`

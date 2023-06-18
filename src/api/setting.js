@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export const editAccountInfo = async ({ id, payload }) => {
+export const editAccountInfo = async (id, payload) => {
   const { userData } = payload
   try {
     const res = await axiosInstance.put(`${baseUrl}/users/${id}/setting`, {
@@ -28,5 +28,31 @@ export const editAccountInfo = async ({ id, payload }) => {
     return res.data;
   } catch (error) {
     console.error('[Edit Account failed]: ', error);
+  }
+};
+
+export const editPersonalInfo = async (id, payload) => {
+  const { userData } = payload
+  try {
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, {
+      ...userData
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Edit Personal failed]: ', error);
+  }
+};
+
+
+export const uploadFile = async (id, formData) => {
+  try {
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error('[Upload Avatar failed]: ', error);
   }
 };

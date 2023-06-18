@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { useGetTweets } from '../context/GetTweets'
 import { useGetSelectedTweet } from '../context/GetSelectedTweet'
 import Alert from '../components/Alert'
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 
 const StyledHomePageContainer = styled.div`
@@ -55,14 +56,16 @@ const StyledHomePageContainer = styled.div`
 const StyledReplyModalContainer = styled.div`
   position: fixed;
   top: 56px;
-  left: 28%;
+  left: 50vw;
+  transform: translateX(-50%);
   z-index: 1;
 
   &::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
+    top: -56px;
+    left: -50vw;
+    transform: translateX(300px);
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -79,7 +82,8 @@ const StyledAlertContainer = styled.div`
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, currentMember } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { currentMemberInfo } = useGetUserTweets()
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
 
@@ -100,7 +104,7 @@ const HomePage = () => {
           <div className="tweet-input-area">
             <TweetInput
               placeholder={'發生什麼新鮮事？'}
-              currentMember={currentMember}
+              currentMemberInfo={currentMemberInfo}
             />
           </div>
           {tweetInputValue.trim().length > 140 && <p>字數不可超過140字</p>}
@@ -119,7 +123,7 @@ const HomePage = () => {
           <ReplyModal
             placeholder={'推你的回覆'}
             selectedReplyItem={selectedReplyItem}
-            currentMember={currentMember}
+            currentMemberInfo={currentMemberInfo}
             handleOpenReplyModal={handleOpenReplyModal}
           />
         </StyledReplyModalContainer>

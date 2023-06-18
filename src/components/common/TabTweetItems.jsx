@@ -1,12 +1,12 @@
 import { styled } from 'styled-components'
 import { OutlinedReply, OutlinedLike, FilledLike } from '../../assets/icons'
 import { PillButton } from './button.styled'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetLikes } from '../../context/GetLikes'
 import { useGetUserTweets } from '../../context/GetUserTweets'
 
-const TweetContainer = styled(Link)`
+const TweetContainer = styled.div`
   color: var(--dark-100);
   text-decoration: none;
   border-bottom: 1px solid var(--gray1);
@@ -63,6 +63,9 @@ const TweetContainer = styled(Link)`
         font-size: 16px;
         font-weight: 400;
       }
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .tweet-footer {
@@ -86,7 +89,12 @@ const TweetContainer = styled(Link)`
     > path {
       fill: var(--main);
     }
-  }
+    }
+    .tweet-reply-icon, .tweet-like-icon {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 `
 
@@ -113,7 +121,7 @@ function returnButton(button) {
 }
 
 export function TabTweetItems({ tweet, replyid, button }) {
-  const { handleReplyIconClickedAtUser } = useGetSelectedTweet()
+  const { handleReplyIconClickedAtUser, handleTweetContentClick } = useGetSelectedTweet()
   const { handleReplyIconClickedAtOther } = useGetUserTweets()
   const { userLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
   const pathname = useLocation().pathname
@@ -136,13 +144,17 @@ export function TabTweetItems({ tweet, replyid, button }) {
 
         {returnReplyId(replyid)}
 
-        <div className='tweet-main'>
+        <div className='tweet-main' data-id={tweet.id}
+        onClick={(e) => {
+          const clickedTweetId = e.currentTarget.dataset.id;
+          handleTweetContentClick(clickedTweetId);
+        }}>
           <p className='tweet-text'>{tweet.description}</p>
         </div>
         <div className='tweet-footer'>
           <div className='icon-wrapper d-flex align-items-center'>
             <div className='item d-flex'>
-        <OutlinedReply data-id={tweet.id} 
+        <OutlinedReply data-id={tweet.id} className="tweet-reply-icon"
         onClick={(e) => {
         const clickedReplyIconId = e.currentTarget.dataset.id
         if (pathname.includes('others')) {

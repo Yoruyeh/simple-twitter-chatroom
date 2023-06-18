@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import Modal from 'react-modal'
 // input 元件
+import { AuthInput } from './AuthInput'
 import Notification from '../components/common/Notifications'
-import AuthInput from '../components/AuthInput'
 // button
 import { PillButton } from '../components/common/button.styled'
 // 驗證token api

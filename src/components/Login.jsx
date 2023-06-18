@@ -10,7 +10,7 @@ import { AuthButton } from './common/button.styled'
 // container
 import { AuthContainer, AuthInputContainer } from './common/auth.styled'
 // input 元件
-import AuthInput from './AuthInput'
+import { AuthInput } from './AuthInput'
 // api
 // import { login } from '../api/users'
 import { useAuth } from '../context/AuthContext'

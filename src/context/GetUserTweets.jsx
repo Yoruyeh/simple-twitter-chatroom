@@ -26,6 +26,7 @@ export const GetUserTweetsProvider = ({ children }) => {
   const [currentMemberInfo, setCurrentMemberInfo] = useState({});
   const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
   const [currentMemberFollowings, setCurrentMemberFollowings] = useState([]);
+  
   const [userInfo, setUserInfo] = useState({});
   const [userTweets, setUserTweets] = useState([]);
   const [userReplies, setUserReplies] = useState([]);
@@ -120,6 +121,7 @@ export const GetUserTweetsProvider = ({ children }) => {
         setCurrentMemberFollowings,
         handleReplyIconClickedAtOther,
         setUserTweets,
+        setCurrentMemberInfo,
       }}
     >
       {children}

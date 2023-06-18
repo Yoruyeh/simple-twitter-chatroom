@@ -1,15 +1,16 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './AuthContext'
 import { getTweets, createTweet } from '../api/tweets'
-
+import { getUserTweets } from '../api/other.users'
 
 const GetTweetsContext = createContext(() => {});
 
 export const useGetTweets = () => useContext(GetTweetsContext);
 
 export const GetTweetsProvider = ({ children }) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, currentMember } = useAuth()
   const [tweets, setTweets] = useState([])
+  const [currentMemberTweets, setCurrentMemberTweets] = useState([])
   const [tweetInputValue, setTweetInputValue] = useState('')
   const [tweetModalValue, setTweetModalValue] = useState('')
   const [openTweetModal, setOpenTweetModal] = useState(false)
@@ -83,18 +84,24 @@ export const GetTweetsProvider = ({ children }) => {
       try {
         const tweets = await getTweets();
         setTweets(tweets);
+        const userTweets = await getUserTweets(currentMember.id)
+        if (userTweets) {
+          setCurrentMemberTweets(userTweets);
+        } else {
+          return
+        }
       } catch (error) {
         console.error(error);
       }
     }
     getTweetsAsync()
   }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, currentMember]);
 
 
   return (
     <GetTweetsContext.Provider 
-    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue, setTweetInputValue}}>
+    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue, setTweetInputValue, currentMemberTweets, setCurrentMemberTweets}}>
       {children}
     </GetTweetsContext.Provider>
   );

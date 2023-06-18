@@ -10,24 +10,21 @@ const StyledContainer = styled.div`
   height: 54px;
   border-radius: 2px;
 
+  &.textarea {
+    height: 147px;
+  }
+
   span {
     position: absolute;
     bottom: -18px;
     color: var(--danger);
-  &.edit-modal-name {
-    margin: 80px auto 32px;
-    width: 602px;
-  }
-  &.edit-modal-introduction {
-    margin: 0 auto 16px;
-    width: 602px;
-    height: 147px;
   }
 `
 const StyledLabel = styled.label`
   font-size: 14px;
   color: #696974;
   text-align: start;
+  padding: 2px 17px;
 `
 
 const StyledInput = styled.input`
@@ -36,6 +33,42 @@ const StyledInput = styled.input`
   border-bottom: 2px solid #657786;
   height: 100%;
   background-color: #f5f8fa;
+  padding: 2px 17px;
+  font-family: 'Noto Sans TC';
+  font-size: 16px;
+
+  &[disabled] {
+    color: #696974;
+    border-bottom: 2px solid #d5d5dc;
+  }
+  &:hover {
+    border-bottom: 2px solid #50b5ff;
+  }
+  &:focus {
+    border-bottom: 2px solid #50b5ff;
+  }
+  &::placeholder {
+    color: #b5b5be;
+    font-size: 16px;
+  }
+  // danger狀態
+  ${({ status }) =>
+    status === 'danger'
+      ? `border-bottom: 2px solid var(--danger)`
+      : `border-bottom: 2px solid var(--default)`};
+`
+const StyledTextArea = styled.textarea`
+  font-family: 'Noto Sans TC';
+  text-align: start;
+  font-size: 16px;
+  color: var(--dark-100);
+  resize: none;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #657786;
+  height: 100%;
+  background-color: #f5f8fa;
+  padding: 2px 17px;
 
   &[disabled] {
     color: #696974;
@@ -66,6 +99,7 @@ const AuthInput = ({
   status,
   errorText,
   value,
+  name
 }) => {
   return (
     <>
@@ -79,6 +113,7 @@ const AuthInput = ({
           status={status}
           disabled={status === 'disabled'}
           value={value}
+          name={name}
         />
         <span className='fontMinimal'>{errorText}</span>
       </StyledContainer>
@@ -86,4 +121,31 @@ const AuthInput = ({
   )
 }
 
-export default AuthInput
+const TextAreaInput = ({
+  placeholder,
+  label,
+  onChange,
+  status,
+  errorText,
+  value,
+  name
+}) => {
+  return (
+    <>
+      <StyledContainer className="textarea">
+        <StyledLabel>{label}</StyledLabel>
+        <StyledTextArea
+          onChange={(event) => onChange(event)}
+          placeholder={placeholder}
+          status={status}
+          disabled={status === 'disabled'}
+          value={value}
+          name={name}
+        />
+        <span className='fontMinimal'>{errorText}</span>
+      </StyledContainer>
+    </>
+  )
+}
+
+export { AuthInput, TextAreaInput }

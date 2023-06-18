@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import { useGetTweets } from '../context/GetTweets';
-import { useAuth } from '../context/AuthContext';
 import { TweetModal } from '../components/Modal';
+import { useGetUserTweets } from '../context/GetUserTweets';
 
 const StyledSettingLayoutContainer = styled.div`
   .row {
@@ -33,14 +33,16 @@ const StyledSettingLayoutContainer = styled.div`
 const StyledTweetModalContainer = styled.div`
   position: fixed;
   top: 56px;
-  left: 28%;
+  left: 50vw;
+  transform: translateX(-50%);
   z-index: 1;
 
   &::before {
     content: '';
     position: fixed;
-    top: 0;
-    left: 0;
+    top: -56px;
+    left: -50vw;
+    transform: translateX(300px);
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -49,7 +51,7 @@ const StyledTweetModalContainer = styled.div`
 `;
 
 const SettingLayout = ({ children }) => {
-  const { currentMember } = useAuth();
+  const { currentMemberInfo } = useGetUserTweets();
   const { handleOpenTweetModal, openTweetModal } = useGetTweets();
   return (
     <StyledSettingLayoutContainer className="container-fluid px-0">
@@ -65,7 +67,7 @@ const SettingLayout = ({ children }) => {
           <TweetModal
             placeholder={'有什麼新鮮事？'}
             handleOpenTweetModal={handleOpenTweetModal}
-            currentMember={currentMember}
+            currentMemberInfo={currentMemberInfo}
           />
         </StyledTweetModalContainer>
       )}

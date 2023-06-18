@@ -6,6 +6,7 @@ import { useGetTweets } from './GetTweets';
 import { useGetUserTweets } from './GetUserTweets';
 import { getUserTweets } from '../api/other.users';
 import { useGetSelectedTweet } from './GetSelectedTweet';
+import { useLocation } from 'react-router-dom';
 
 const GetLikesContext = createContext(() => {});
 
@@ -14,9 +15,10 @@ export const useGetLikes = () => useContext(GetLikesContext);
 export const GetLikesProvider = ({ children }) => {
   const { isAuthenticated, currentMember } = useAuth()
   const [userLikes, setUserLikes] = useState([])
-  const {setTweets} = useGetTweets()
+  const {setTweets, setCurrentMemberTweets} = useGetTweets()
   const { setSelectedReplyItem } = useGetSelectedTweet()
   const {userInfo, setUserTweets} = useGetUserTweets()
+  const pathname = useLocation().pathname
 
   const handleUnLikeAtHome = async (id) => {
     try {
@@ -66,7 +68,18 @@ export const GetLikesProvider = ({ children }) => {
     }
   }
 
-    const handleUnLikeAtUser = async (id) => {
+  const handleUnLikeAtUser = async (id) => {
+    if (pathname.includes(currentMember.id)) {
+    try {
+      await createUnLike(id)
+      const newArr = await getLikes(currentMember.id)
+      setUserLikes(newArr)
+      const tweets = await getUserTweets(currentMember.id)
+      setCurrentMemberTweets(tweets)
+    } catch (error) {
+      console.error(error)
+    }
+  } else {
     try {
       await createUnLike(id)
       const newArr = await getLikes(currentMember.id)
@@ -77,8 +90,20 @@ export const GetLikesProvider = ({ children }) => {
       console.error(error)
     }
   }
+  }
 
   const handleLikeAtUser = async (id) => {
+    if (pathname.includes(currentMember.id)) {
+    try {
+      await createLike(id)
+      const newArr = await getLikes(currentMember.id)
+      setUserLikes(newArr)
+      const tweets = await getUserTweets(currentMember.id)
+      setCurrentMemberTweets(tweets)
+    } catch (error) {
+      console.error(error)
+    }
+  } else {
     try {
       await createLike(id)
       const newArr = await getLikes(currentMember.id)
@@ -88,6 +113,7 @@ export const GetLikesProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
+  }
   }
 
   
