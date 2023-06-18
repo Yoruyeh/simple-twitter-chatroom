@@ -320,6 +320,11 @@ const EditModal = ({ handleOpenEditModal }) => {
     coverInputRef.current.click(); 
   };
 
+  const handleRemoveCover = () => {
+    setCover(null);
+    setCoverFormData(null)
+  };
+
   const handleUploadAvatar = () => {
     avatarInputRef.current.click(); 
   };
@@ -350,37 +355,36 @@ const EditModal = ({ handleOpenEditModal }) => {
       setEditIntroValue(value)
   }
 
-  const handleRemoveImage = () => {
-    // setCover('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
-    // setRealCoverUrl('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
-  }
-
   const handleSaveClick = async () => {
-    if (!editNameValue.length || editNameValue.trim().length > 50) {
-      return    
-    }
-    if (!editIntroValue.length || editIntroValue.trim().length > 160) {
-      return
-    }
-
-    const userData = {
-      name: editNameValue,
-      introduction: editIntroValue,
-    }
-    handleOpenEditModal()
-    try {
-      await uploadFile(currentMemberInfo.id, coverFormData)
-      await uploadFile(currentMemberInfo.id, avatarFormData)
-      await editPersonalInfo(currentMemberInfo.id, {
-        userData
-      });
-      const newInfo = await getUserInfo(currentMemberInfo.id);
-      setCurrentMemberInfo(newInfo);
-    } catch (error) {
-      console.error(error)
-    }
+  if (!editNameValue.length || editNameValue.trim().length > 50) {
+    return;  
+  }
+  if (!editIntroValue.length || editIntroValue.trim().length > 160) {
+    return;
   }
 
+  const userData = {
+    name: editNameValue,
+    introduction: editIntroValue,
+  }
+
+  handleOpenEditModal()
+  try {
+    if(coverFormData) {
+      await uploadFile(currentMemberInfo.id, coverFormData)
+    } 
+    if(avatarFormData) {
+      await uploadFile(currentMemberInfo.id, avatarFormData)
+    }
+    await editPersonalInfo(currentMemberInfo.id, {
+      userData
+    });
+    const newInfo = await getUserInfo(currentMemberInfo.id);
+    setCurrentMemberInfo(newInfo);
+  } catch (error) {
+    console.error(error)
+  }
+}
 
   return (
     <>
@@ -406,7 +410,7 @@ const EditModal = ({ handleOpenEditModal }) => {
             alt="user-cover"
             src={cover}/>
             <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
-            <span className="delete-cover-button" onClick={handleRemoveImage}><OutlinedClose/></span>
+            <span className="delete-cover-button" onClick={handleRemoveCover}><OutlinedClose/></span>
           </StyledEditCover>
         </StyledModalBody>
         <StyledModalBody>
