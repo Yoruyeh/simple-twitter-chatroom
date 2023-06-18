@@ -12,11 +12,11 @@ export async function login({ account, password }) {
     const { token } = data
 
     if (token) {
-      return { success: true, ...data }
+      return { success: true, ...data, token }
     }
   } catch (error) {
     console.error(`Login Failed: ${error}`)
-    return { success: false, error: error.response.data }
+    return { success: false, error }
   }
 }
 

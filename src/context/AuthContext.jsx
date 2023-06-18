@@ -1,7 +1,7 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-import { login } from '../api/users';
-import { checkPermission } from '../api/checkPermission';
-import jwt_decode from 'jwt-decode';
+import { createContext, useState, useEffect, useContext } from 'react'
+import { login } from '../api/users'
+import { checkPermission } from '../api/checkPermission'
+import jwt_decode from 'jwt-decode'
 
 const defaultAuthContext = {
   isAuthenticated: false,
@@ -9,14 +9,14 @@ const defaultAuthContext = {
   // register: null,
   login: null,
   logout: null,
-};
+}
 
-const AuthContext = createContext(defaultAuthContext);
+const AuthContext = createContext(defaultAuthContext)
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [payload, setPayload] = useState({
     id: 14,
     name: 'user1',
@@ -26,32 +26,32 @@ export const AuthProvider = ({ children }) => {
     avatar: 'https://loremflickr.com/320/240/man/?random=18.718352068923494',
     cover: 'https://loremflickr.com/1440/480/city/?random=67.32648393466276',
     introduction: 'hi',
-  });
+  })
 
   useEffect(() => {
     const checkTokenIsValid = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token')
       if (!token) {
-        setIsAuthenticated(false);
-        setPayload(null);
-        return;
+        setIsAuthenticated(false)
+        setPayload(null)
+        return
       }
       try {
-        const result = await checkPermission(token);
+        const result = await checkPermission(token)
         if (result) {
-          setIsAuthenticated(true);
-          const tempPayload = jwt_decode(token);
-          setPayload(tempPayload);
+          setIsAuthenticated(true)
+          const tempPayload = jwt_decode(token)
+          setPayload(tempPayload)
         } else {
-          setIsAuthenticated(false);
-          setPayload(null);
+          setIsAuthenticated(false)
+          setPayload(null)
         }
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
-    };
-    checkTokenIsValid();
-  }, []);
+    }
+    checkTokenIsValid()
+  }, [])
 
   return (
     <AuthContext.Provider
@@ -76,29 +76,33 @@ export const AuthProvider = ({ children }) => {
         //   return success;
         // },
         login: async (data) => {
-          const { success, token } = await login({
+          const { success, error, token } = await login({
             account: data.account,
             password: data.password,
-          });
-          const tempPayload = jwt_decode(token);
-          if (tempPayload) {
-            setPayload(tempPayload);
-            setIsAuthenticated(true);
-            localStorage.setItem('token', token);
+          })
+          if (success) {
+            const tempPayload = jwt_decode(token)
+            if (tempPayload) {
+              setPayload(tempPayload)
+              setIsAuthenticated(true)
+              localStorage.setItem('token', token)
+            } else {
+              setPayload(null)
+              setIsAuthenticated(false)
+            }
+            return { success }
           } else {
-            setPayload(null);
-            setIsAuthenticated(false);
+            return { success, error }
           }
-          return success;
         },
         logout: () => {
-          localStorage.removeItem('token');
-          setPayload(null);
-          setIsAuthenticated(false);
+          localStorage.removeItem('token')
+          setPayload(null)
+          setIsAuthenticated(false)
         },
       }}
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
