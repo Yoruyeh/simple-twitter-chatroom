@@ -15,7 +15,6 @@ export const useGetLikes = () => useContext(GetLikesContext);
 export const GetLikesProvider = ({ children }) => {
   const { isAuthenticated, currentMember } = useAuth()
   const [currentMemberLikes, setCurrentMemberLikes] = useState([])
-  // const [userLikes, setUserLikes] = useState([])
   const {setTweets, setCurrentMemberTweets} = useGetTweets()
   const { setSelectedReplyItem } = useGetSelectedTweet()
   const {userInfo, setUserTweets} = useGetUserTweets()
@@ -124,7 +123,6 @@ export const GetLikesProvider = ({ children }) => {
       try {
         const likes = await getLikes(currentMember.id);
         if (likes) {
-          // setUserLikes(likes);
           setCurrentMemberLikes(likes)
         } else {
           return

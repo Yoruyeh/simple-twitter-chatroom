@@ -32,6 +32,8 @@ export const GetUserTweetsProvider = ({ children }) => {
   const [userTweets, setUserTweets] = useState([]);
   const [userReplies, setUserReplies] = useState([]);
   const [userLikes, setUserLikes] = useState([]);
+  const [userfollowers, setUserFollowers] = useState([])
+  const [userfollowings, setUserFollowings] = useState([])
 
   const handleAvatarClick = async (id) => {
     try {
@@ -48,6 +50,10 @@ export const GetUserTweetsProvider = ({ children }) => {
       setUserReplies(replies);
       const likes = await getUserLikes(id);
       setUserLikes(likes);
+      const followers = await getUserFollowersById(id)
+      setUserFollowers(followers)
+      const followings = await getUserFollowingsById(id);
+      setUserFollowings(followings);
     } catch (error) {
       console.error(error);
     }
@@ -80,9 +86,9 @@ export const GetUserTweetsProvider = ({ children }) => {
       getUserInfoAsync();
       const getUserFollowersByIdAsync = async () => {
         try {
-          const followers = await getUserFollowersById(currentMember.id);
-          if(followers) {
-            setCurrentMemberFollowers(followers);
+          const userFollowers = await getUserFollowersById(currentMember.id);
+          if(userFollowers) {
+            setCurrentMemberFollowers(userFollowers);
           } else {
             return
           }
@@ -93,9 +99,9 @@ export const GetUserTweetsProvider = ({ children }) => {
       getUserFollowersByIdAsync();
       const getUserFollowingsByIdAsync = async () => {
         try {
-          const followings = await getUserFollowingsById(currentMember.id);
-          if(followings) {
-            setCurrentMemberFollowings(followings);
+          const userFollowings = await getUserFollowingsById(currentMember.id);
+          if(userFollowings) {
+            setCurrentMemberFollowings(userFollowings);
           } else {
             return
           }
@@ -105,7 +111,7 @@ export const GetUserTweetsProvider = ({ children }) => {
       };
       getUserFollowingsByIdAsync();
     }
-  }, [currentMember, isAuthenticated]);
+  }, [isAuthenticated, currentMember]);
 
   return (
     <GetUserTweetsContext.Provider
@@ -123,6 +129,7 @@ export const GetUserTweetsProvider = ({ children }) => {
         handleReplyIconClickedAtOther,
         setUserTweets,
         setCurrentMemberInfo,
+        userfollowers, userfollowings, setUserFollowers, setUserFollowings
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import { getRepliesById, createReply } from '../api/replies';
 import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from './GetTweets';
 import { useAuth } from './AuthContext';
-import { getUserReplies } from '../api/other.users'
+import { getUserReplies, getUserTweets } from '../api/other.users'
 
 const GetSelectedTweetContext = createContext(() => {});
 
@@ -41,7 +41,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   // 回覆的input控制
   const [replyInputValue, setReplyInputValue] = useState('');
   const [openReplyModal, setOpenReplyModal] = useState(false);
-  const { setOpenAlert, setAlertType } = useGetTweets();
+  const { setOpenAlert, setAlertType, setCurrentMemberTweets } = useGetTweets();
   const [currentMemberReplies, setCurrentMemberReplies] = useState([]);
 
   const handleTweetContentClick = async (id) => {
@@ -139,6 +139,8 @@ export const GetSelectedTweetProvider = ({ children }) => {
       navigate(`/tweets/${selectedReplyItem.id}`);
       const userReplies = await getUserReplies(currentMember.id);
       setCurrentMemberReplies(userReplies);
+      const userTweets = await getUserTweets(currentMember.id)
+      setCurrentMemberTweets(userTweets)
     } catch (error) {
       console.error(error);
     }

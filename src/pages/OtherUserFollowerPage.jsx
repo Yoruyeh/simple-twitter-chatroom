@@ -7,7 +7,6 @@ import { Follow, UnFollow } from '../api/user.follower';
 import { useLocation } from 'react-router-dom'
 import { useGetUserTweets } from '../context/GetUserTweets';
 import { useAuth } from '../context/AuthContext';
-import { useEffect, useState } from 'react';
 import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower';
 import { useGetTweets } from '../context/GetTweets'
 import { getPopularFollowers } from '../api/popular.follower'
@@ -25,10 +24,7 @@ const StyledFollowerPageContainer = styled.div`
 `
 const OtherUserFollowerPage = () => {
   const { currentMember } = useAuth()
-  const { userInfo } = useGetUserTweets()
-  const [userfollowers, setUserFollowers] = useState([])
-  const [userfollowings, setUserFollowings] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const { userInfo, userfollowers, userfollowings, setUserFollowers, setUserFollowings } = useGetUserTweets()
   const { setPopularFollowers } = useGetTweets()
   const pathname = useLocation().pathname
    const {currentMemberInfo,  setCurrentMemberFollowings} = useGetUserTweets()
@@ -43,6 +39,10 @@ const OtherUserFollowerPage = () => {
       })
       const followings = await getUserFollowingsById(currentMemberInfo.id)
       setCurrentMemberFollowings(followings)
+      const followers = await getUserFollowersById(userInfo.id)
+      setUserFollowers(followers)
+      const followerings = await getUserFollowingsById(userInfo.id)
+      setUserFollowings(followerings)
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users;
       setPopularFollowers(populars)
@@ -56,6 +56,10 @@ const OtherUserFollowerPage = () => {
       await UnFollow(id)
       const followings = await getUserFollowingsById(currentMemberInfo.id)
       setCurrentMemberFollowings(followings)
+       const followers = await getUserFollowersById(userInfo.id)
+      setUserFollowers(followers)
+      const followerings = await getUserFollowingsById(userInfo.id)
+      setUserFollowings(followerings)
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users;
       setPopularFollowers(populars)
@@ -64,31 +68,8 @@ const OtherUserFollowerPage = () => {
     }
   }
 
-  useEffect(() => {
-    setIsLoading(true)
-    const getUserFollowersByIdAsync = async () => {
-      try {
-        const followers = await getUserFollowersById(userInfo.id);
-        setUserFollowers(followers);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUserFollowersByIdAsync()
-    const getUserFollowingsByIdAsync = async () => {
-      try {
-        const followings = await getUserFollowingsById(userInfo.id);
-        setUserFollowings(followings);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUserFollowingsByIdAsync()
-    setIsLoading(false)
-  }, [userInfo])
 
   return (
-    !isLoading && (
     <MainLayout>
       <StyledFollowerPageContainer>
       <div className="header">
@@ -107,7 +88,6 @@ const OtherUserFollowerPage = () => {
       </StyledFollowerPageContainer>
     </MainLayout>
     )
-  )
 }
 
 export default OtherUserFollowerPage
