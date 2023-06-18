@@ -309,7 +309,7 @@ const EditModal = ({ handleOpenEditModal }) => {
   const coverInputRef = useRef(null)
   const avatarInputRef = useRef(null)
   const [editNameValue, setEditNameValue] = useState(currentMemberInfo.name)
-  const [editIntroValue, setEditIntroValue] = useState(currentMemberInfo.introduction)
+  const [editIntroValue, setEditIntroValue] = useState(currentMemberInfo.introduction || '')
   const [cover, setCover] = useState(currentMemberInfo.cover)
   const [avatar, setAvatar] = useState(currentMemberInfo.avatar)
   const [coverFormData, setCoverFormData] = useState(null);
@@ -356,10 +356,10 @@ const EditModal = ({ handleOpenEditModal }) => {
   }
 
   const handleSaveClick = async () => {
-    if (editNameValue.trim().length > 50 || !editNameValue.length) {
+    if (!editNameValue.length || editNameValue.trim().length > 50) {
       return    
     }
-    if (editIntroValue.trim().length > 160 || !editIntroValue.length) {
+    if (!editIntroValue.length || editIntroValue.trim().length > 160) {
       return
     }
 
@@ -413,7 +413,7 @@ const EditModal = ({ handleOpenEditModal }) => {
           <StyledPersonalInfoForm>
           <AuthInput label='名稱' 
           value={editNameValue} 
-          status={editNameValue.trim().length > 50 || !editNameValue ? 'danger' : 'default'}
+          status={!editNameValue || editNameValue.trim().length > 50 ? 'danger' : 'default'}
           onChange={(e) => {
             handleNameChange(e.target.value)}} 
             />
@@ -422,7 +422,7 @@ const EditModal = ({ handleOpenEditModal }) => {
             {!editNameValue && <span>內容不可空白 </span>}
             {editNameValue ? editNameValue.length : 0}/50</p>
           <TextAreaInput label='自我介紹'
-          status={editIntroValue.trim().length > 50 || !editIntroValue ? 'danger' : 'default'}
+          status={!editIntroValue || editIntroValue.trim().length > 50 ? 'danger' : 'default'}
           onChange={(e) => {
             handleIntroChange(e.target.value)}}
             value={editIntroValue} />
