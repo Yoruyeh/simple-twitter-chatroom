@@ -218,6 +218,9 @@ const StyledPersonalInfoForm = styled.form`
     font-size: 12px;
     text-align: end;
     margin: 8px 0;
+    > span {
+      color: var(--danger);
+    }
   }
 `
 
@@ -307,11 +310,10 @@ const EditModal = ({ handleOpenEditModal }) => {
   const avatarInputRef = useRef(null)
   const [editNameValue, setEditNameValue] = useState(currentMemberInfo.name)
   const [editIntroValue, setEditIntroValue] = useState(currentMemberInfo.introduction)
-  const [cover, setCover] = useState('')
-  const [avatar, setAvatar] = useState('')
-  const [realAvatarUrl, setRealAvatarUrl] = useState('')
-  const [realCoverUrl, setRealCoverUrl] = useState('')
-  const [formData, setFormData] = useState(null);
+  const [cover, setCover] = useState(currentMemberInfo.cover)
+  const [avatar, setAvatar] = useState(currentMemberInfo.avatar)
+  const [coverFormData, setCoverFormData] = useState(null);
+  const [avatarFormData, setAvatarFormData] = useState(null);
 
   // 加入這一行來觸發隱藏的 input 的點擊事件
   const handleUploadCover = () => {
@@ -328,22 +330,16 @@ const EditModal = ({ handleOpenEditModal }) => {
     newFormData.append('cover', file); 
     const imageURL = URL.createObjectURL(file)
     setCover(imageURL)
-    setFormData(newFormData)
+    setCoverFormData(newFormData)
   }
 
   const handleAvatarChange = async (e) => {
       const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append('avatar', file); 
+      const newFormData = new FormData();
+      newFormData.append('avatar', file); 
       const imageURL = URL.createObjectURL(file)
       setAvatar(imageURL)
-
-      try {
-          const response = await uploadFile(currentMemberInfo.id, formData)
-          setRealAvatarUrl(response.updatedUser.avatar)
-      } catch (err) {
-          console.error(err);
-      }
+      setAvatarFormData(newFormData)
   };
 
   const handleNameChange = (value) => {
@@ -355,50 +351,35 @@ const EditModal = ({ handleOpenEditModal }) => {
   }
 
   const handleRemoveImage = () => {
-    setCover('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
-    setRealCoverUrl('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
+    // setCover('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
+    // setRealCoverUrl('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
   }
 
   const handleSaveClick = async () => {
+    if (editNameValue.trim().length > 50 || !editNameValue.length) {
+      return    
+    }
+    if (editIntroValue.trim().length > 160 || !editIntroValue.length) {
+      return
+    }
+
     const userData = {
       name: editNameValue,
       introduction: editIntroValue,
-      avatar: realAvatarUrl,
-      cover: realCoverUrl,
     }
-    console.log('userData: ',userData)
+    handleOpenEditModal()
     try {
-      const response = await uploadFile(currentMemberInfo.id, formData)
-      setRealCoverUrl(response.updatedUser.cover)
+      await uploadFile(currentMemberInfo.id, coverFormData)
+      await uploadFile(currentMemberInfo.id, avatarFormData)
       await editPersonalInfo(currentMemberInfo.id, {
         userData
       });
       const newInfo = await getUserInfo(currentMemberInfo.id);
-      console.log('newInfo: ', newInfo)
       setCurrentMemberInfo(newInfo);
     } catch (error) {
       console.error(error)
     }
   }
-
-  // const handleSaveClick = async () => {
-  //   const userData = {
-  //     name: editNameValue,
-  //     introduction: editIntroValue,
-  //     avatar: realAvatarUrl,
-  //     cover: realCoverUrl,
-  //   }
-  //   console.log(userData)
-  //   try {
-  //     await editPersonalInfo(currentMemberInfo.id, {
-  //       userData
-  //     });
-  //     const newInfo = await getUserInfo(currentMemberInfo.id);
-  //     setCurrentMemberInfo(newInfo);
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
 
 
   return (
@@ -413,7 +394,6 @@ const EditModal = ({ handleOpenEditModal }) => {
           <InputButton className="save-button" 
           onClick={() => {
             handleSaveClick()
-            handleOpenEditModal()
           }}
           >
             儲存</InputButton>
@@ -424,7 +404,7 @@ const EditModal = ({ handleOpenEditModal }) => {
             ref={coverInputRef} onChange={handleCoverChange}/>
           <img
             alt="user-cover"
-            src={cover ? cover : currentMemberInfo.cover}/>
+            src={cover}/>
             <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
             <span className="delete-cover-button" onClick={handleRemoveImage}><OutlinedClose/></span>
           </StyledEditCover>
@@ -432,15 +412,24 @@ const EditModal = ({ handleOpenEditModal }) => {
         <StyledModalBody>
           <StyledPersonalInfoForm>
           <AuthInput label='名稱' 
-          value={editNameValue ? editNameValue : currentMemberInfo.name} 
+          value={editNameValue} 
+          status={editNameValue.trim().length > 50 || !editNameValue ? 'danger' : 'default'}
           onChange={(e) => {
-            handleNameChange(e.target.value)}}/>
-          <p className="edit-name-count">{editNameValue ? editNameValue.length : 0}/50</p>
+            handleNameChange(e.target.value)}} 
+            />
+          <p className="edit-name-count">
+            {editNameValue.trim().length > 50 && <span>字數不可超過50字 </span>}
+            {!editNameValue && <span>內容不可空白 </span>}
+            {editNameValue ? editNameValue.length : 0}/50</p>
           <TextAreaInput label='自我介紹'
+          status={editIntroValue.trim().length > 50 || !editIntroValue ? 'danger' : 'default'}
           onChange={(e) => {
             handleIntroChange(e.target.value)}}
             value={editIntroValue} />
-          <p className="edit-intro-count">{editIntroValue ? editIntroValue.length : 0}/160</p>
+          <p className="edit-intro-count">
+            {editIntroValue.trim().length > 160 && <span>字數不可超過160字 </span>}
+            {!editIntroValue && <span>內容不可空白 </span>}
+            {editIntroValue ? editIntroValue.length : 0}/160</p>
           </StyledPersonalInfoForm>
         </StyledModalBody>
         <StyledEditAvatar>
@@ -448,7 +437,7 @@ const EditModal = ({ handleOpenEditModal }) => {
           ref={avatarInputRef} onChange={handleAvatarChange}/>
           <img
             alt="user-avatar"
-            src={avatar ? avatar : currentMemberInfo.avatar}/>
+            src={avatar}/>
           <span className="add-avatar-button" onClick={handleUploadAvatar}><OutlinedAddPhoto /></span>
         </StyledEditAvatar>
       </StyledEditModalContainer>
