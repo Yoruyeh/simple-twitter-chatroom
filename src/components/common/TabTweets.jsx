@@ -59,13 +59,14 @@ export default function TabTweets() {
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-    setUserInfo(JSON.parse(storedUserInfo));
+    if (!storedUserInfo) {
+      return
     }
-
+    setUserInfo(JSON.parse(storedUserInfo));
     const getUserTweetsAsync = async () => {
       try {
         const tweets = await getUserTweets(JSON.parse(storedUserInfo).id);
+        console.log(tweets)
         setUserTweets(tweets);
       } catch (error) {
         console.error(error);
