@@ -72,6 +72,8 @@ export const GetTweetsProvider = ({ children }) => {
       })
       const tweets = await getTweets();
       setTweets(tweets)
+      const userTweets = await getUserTweets(currentMember.id)
+      setCurrentMemberTweets(userTweets)
       setOpenAlert(false)
     } catch (error) {
       console.error(error)

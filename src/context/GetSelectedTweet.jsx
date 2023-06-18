@@ -1,9 +1,10 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { getTweets, getTweetById } from '../api/tweets';
 import { getRepliesById, createReply } from '../api/replies';
 import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from './GetTweets';
 import { useAuth } from './AuthContext';
+import { getUserReplies } from '../api/other.users'
 
 const GetSelectedTweetContext = createContext(() => {});
 
@@ -11,7 +12,7 @@ export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
 
 export const GetSelectedTweetProvider = ({ children }) => {
   const navigate = useNavigate();
-  const { currentMember } = useAuth();
+  const { currentMember, isAuthenticated } = useAuth();
   const { setTweets } = useGetTweets();
   // 點進內容渲染reply page
   const [selectedReplyItem, setSelectedReplyItem] = useState({
@@ -41,6 +42,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
   const [replyInputValue, setReplyInputValue] = useState('');
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const { setOpenAlert, setAlertType } = useGetTweets();
+  const [currentMemberReplies, setCurrentMemberReplies] = useState([]);
 
   const handleTweetContentClick = async (id) => {
     setIsReplyPageLoading(true);
@@ -135,11 +137,31 @@ export const GetSelectedTweetProvider = ({ children }) => {
       setReplies(replies);
       setOpenAlert(false);
       navigate(`/tweets/${selectedReplyItem.id}`);
+      const userReplies = await getUserReplies(currentMember.id);
+      setCurrentMemberReplies(userReplies);
     } catch (error) {
       console.error(error);
     }
     setReplyInputValue('');
   };
+
+   useEffect(() => {
+    if (isAuthenticated) {
+      const getUserRepliesAsync = async () => {
+        try {
+          const replies = await getUserReplies(currentMember.id);
+          if(replies) {
+            setCurrentMemberReplies(replies);
+          } else {
+            return
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUserRepliesAsync()
+    }
+  }, [currentMember, isAuthenticated]);
 
   return (
     <GetSelectedTweetContext.Provider
@@ -161,6 +183,7 @@ export const GetSelectedTweetProvider = ({ children }) => {
         openReplyModal,
         setReplyInputValue,
         setOpenReplyModal,
+        currentMemberReplies
       }}
     >
       {children}

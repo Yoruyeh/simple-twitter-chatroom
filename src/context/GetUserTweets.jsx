@@ -27,7 +27,6 @@ export const GetUserTweetsProvider = ({ children }) => {
   const [currentMemberInfo, setCurrentMemberInfo] = useState({});
   const [currentMemberFollowers, setCurrentMemberFollowers] = useState([]);
   const [currentMemberFollowings, setCurrentMemberFollowings] = useState([]);
-  const [currentMemberReplies, setCurrentMemberReplies] = useState([]);
 
   const [userInfo, setUserInfo] = useState({});
   const [userTweets, setUserTweets] = useState([]);
@@ -79,19 +78,6 @@ export const GetUserTweetsProvider = ({ children }) => {
         }
       };
       getUserInfoAsync();
-      const getUserRepliesAsync = async () => {
-        try {
-          const replies = await getUserReplies(currentMember.id);
-          if(replies) {
-            setCurrentMemberReplies(replies);
-          } else {
-            return
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getUserRepliesAsync()
       const getUserFollowersByIdAsync = async () => {
         try {
           const followers = await getUserFollowersById(currentMember.id);
@@ -137,8 +123,6 @@ export const GetUserTweetsProvider = ({ children }) => {
         handleReplyIconClickedAtOther,
         setUserTweets,
         setCurrentMemberInfo,
-        currentMemberReplies, 
-        setCurrentMemberReplies
       }}
     >
       {children}

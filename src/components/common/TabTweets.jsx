@@ -60,7 +60,7 @@ export default function TabTweets() {
   return (
     <StyledContainer>
     {userTweets && pathname.includes('others') ? (
-      [...userTweets].slice().reverse().map((tweet) => (
+      [...userTweets].map((tweet) => (
         <li key={tweet.id}>
           <TabTweetItems 
             tweet={tweet} 
@@ -68,7 +68,7 @@ export default function TabTweets() {
         </li>
       ))
     ) : (
-      currentMemberTweets && [...currentMemberTweets].slice().reverse().map((tweet) => (
+      currentMemberTweets && [...currentMemberTweets].map((tweet) => (
         <li key={tweet.id}>
           <TabTweetItems 
             tweet={tweet}

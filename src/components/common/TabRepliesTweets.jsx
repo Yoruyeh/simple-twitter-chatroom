@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { TabRepliesItems } from './TabRepliesItems'
 import { useGetUserTweets } from '../../context/GetUserTweets'
 import { useAuth } from '../../context/AuthContext'
+import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 
 const StyledContainer = styled.ul`
   li {
@@ -15,7 +16,8 @@ export default function TabRepliesTweets() {
   const navigate = useNavigate()
   const { isAuthenticated } = useAuth()
   const pathname = useLocation().pathname
-  const { userReplies, currentMemberReplies } = useGetUserTweets()
+  const { userReplies } = useGetUserTweets()
+  const { currentMemberReplies }= useGetSelectedTweet()
 
     useEffect(() => {
     if (!isAuthenticated) {
