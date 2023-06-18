@@ -29,7 +29,7 @@ export default function OtherUserPage() {
     if (storedUserInfo) {
     setUserInfo(JSON.parse(storedUserInfo));
   }
-  }, []);
+  }, [setUserInfo]);
 
   return (
     <MainLayout>
