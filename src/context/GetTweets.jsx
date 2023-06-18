@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { useAuth } from './AuthContext'
 import { getTweets, createTweet } from '../api/tweets'
 import { getUserTweets } from '../api/other.users'
+import { getPopularFollowers } from '../api/popular.follower'
 
 const GetTweetsContext = createContext(() => {});
 
@@ -16,6 +17,7 @@ export const GetTweetsProvider = ({ children }) => {
   const [openTweetModal, setOpenTweetModal] = useState(false)
   const [openAlert, setOpenAlert] = useState(false)
   const [alertType, setAlertType] = useState(null)
+  const [popularFollowers, setPopularFollowers] = useState([]);
 
   const handleTweetInputChange = (value) => {
     setTweetInputValue(value)
@@ -95,13 +97,23 @@ export const GetTweetsProvider = ({ children }) => {
       }
     }
     getTweetsAsync()
+    const getPopularFollowersAsync = async () => {
+      try {
+        const popularObject = await getPopularFollowers();
+        const populars = popularObject.users;
+        setPopularFollowers(populars);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getPopularFollowersAsync()
   }
   }, [isAuthenticated, currentMember]);
 
 
   return (
     <GetTweetsContext.Provider 
-    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue, setTweetInputValue, currentMemberTweets, setCurrentMemberTweets}}>
+    value={{tweets, setTweets, handleTweetInputChange, handleClickTweetInput, tweetInputValue, handleTweetModalChange, handleClickTweetModal, tweetModalValue, openAlert, setOpenAlert, alertType, setAlertType, handleOpenTweetModal, openTweetModal, setOpenTweetModal, setTweetModalValue, setTweetInputValue, currentMemberTweets, setCurrentMemberTweets, popularFollowers, setPopularFollowers}}>
       {children}
     </GetTweetsContext.Provider>
   );

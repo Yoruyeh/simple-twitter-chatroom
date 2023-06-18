@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
 import { FollowButton } from './common/button.styled';
 import { getPopularFollowers } from '../api/popular.follower';
 import { Follow, UnFollow, getUserFollowingsById } from '../api/user.follower';
 import { useAuth } from '../context/AuthContext';
 import { useGetUserTweets } from '../context/GetUserTweets';
 import { getUserInfo } from '../api/other.users';
+import { useGetTweets } from '../context/GetTweets';
 
 const StyledFollowerContainer = styled.div`
   width: 273px;
@@ -77,8 +77,8 @@ const StyledFollowerInfo = styled.div`
 `;
 
 const PopularFollowerItem = () => {
-  const [popularFollowers, setPopularFollowers] = useState([]);
-  const { currentMember, isAuthenticated } = useAuth();
+  const { popularFollowers, setPopularFollowers } = useGetTweets()
+  const { currentMember } = useAuth();
   const { setCurrentMemberFollowings, setCurrentMemberInfo } =
     useGetUserTweets();
 
@@ -117,20 +117,6 @@ const PopularFollowerItem = () => {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      const getPopularFollowersAsync = async () => {
-        try {
-          const popularObject = await getPopularFollowers();
-          const populars = popularObject.users;
-          setPopularFollowers(populars);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getPopularFollowersAsync();
-    }
-  }, [isAuthenticated]);
 
   return (
     <>

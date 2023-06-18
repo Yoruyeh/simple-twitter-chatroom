@@ -6,6 +6,8 @@ import FollowerCollection from '../components/FollowerCollection';
 import { getUserFollowersById, getUserFollowingsById, Follow, UnFollow } from '../api/user.follower';
 import { useLocation } from 'react-router-dom'
 import { useGetUserTweets } from '../context/GetUserTweets';
+import { useGetTweets } from '../context/GetTweets'
+import { getPopularFollowers } from '../api/popular.follower'
 
 
 const StyledFollowerPageContainer = styled.div`
@@ -20,6 +22,7 @@ const StyledFollowerPageContainer = styled.div`
 `
 const UserFollowerPage = () => {
  const {currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings} = useGetUserTweets()
+const { setPopularFollowers } = useGetTweets()
 const pathname = useLocation().pathname
 
   const handleFollowClicked = async (id) => {
@@ -34,6 +37,9 @@ const pathname = useLocation().pathname
       setCurrentMemberFollowers(followers)
       const followings = await getUserFollowingsById(currentMemberInfo.id)
       setCurrentMemberFollowings(followings)
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users;
+      setPopularFollowers(populars)
     } catch (error) {
       console.error(error)
     }
@@ -46,6 +52,9 @@ const pathname = useLocation().pathname
       setCurrentMemberFollowers(followers)
       const followings = await getUserFollowingsById(currentMemberInfo.id)
       setCurrentMemberFollowings(followings)
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users;
+      setPopularFollowers(populars)
     } catch (error) {
       console.error(error)
     }
