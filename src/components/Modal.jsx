@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useRef } from 'react'
+import { useState, useRef } from 'react';
 import { OutlinedClose, OutlinedAddPhoto } from '../assets/icons';
 import { InputButton } from './common/button.styled';
 import { TweetModalInput, TweetReplyInput } from './TweetInput';
@@ -8,8 +8,8 @@ import { AuthInput, TextAreaInput } from './AuthInput';
 import { useGetTweets } from '../context/GetTweets';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useNavigate } from 'react-router-dom';
-import { editPersonalInfo, uploadFile } from '../api/setting'
-import { getUserInfo } from '../api/other.users'
+import { editPersonalInfo, uploadFile } from '../api/setting';
+import { getUserInfo } from '../api/other.users';
 import { useGetUserTweets } from '../context/GetUserTweets';
 
 const StyledModalHeader = styled.header`
@@ -52,21 +52,21 @@ const StyledModalBody = styled.div`
   flex-direction: column;
   position: relative;
 
-  .tweet-item-wrapper{
+  .tweet-item-wrapper {
     height: 50%;
 
     & p {
-    position: absolute;
-    z-index: 2;
-    top: 45%;
-    font-size: 13px;
-    color: var(--default);
-    margin: 0 30px 0 82px;
+      position: absolute;
+      z-index: 2;
+      top: 45%;
+      font-size: 13px;
+      color: var(--default);
+      margin: 0 30px 0 82px;
 
-    & > span {
-      color: var(--main);
+      & > span {
+        color: var(--main);
+      }
     }
-  }
   }
   .tweet-input-wrapper {
     height: 50%;
@@ -213,7 +213,8 @@ const StyledPersonalInfoForm = styled.form`
   display: flex;
   flex-direction: column;
 
-  .edit-name-count, .edit-intro-count {
+  .edit-name-count,
+  .edit-intro-count {
     color: var(--dark-80);
     font-size: 12px;
     text-align: end;
@@ -222,11 +223,15 @@ const StyledPersonalInfoForm = styled.form`
       color: var(--danger);
     }
   }
-`
+`;
 
-
-const TweetModal = ({ placeholder, handleOpenTweetModal, currentMemberInfo }) => {
-  const { tweetModalValue, handleClickTweetModal, setTweetModalValue } = useGetTweets();
+const TweetModal = ({
+  placeholder,
+  handleOpenTweetModal,
+  currentMemberInfo,
+}) => {
+  const { tweetModalValue, handleClickTweetModal, setTweetModalValue } =
+    useGetTweets();
   return (
     <>
       <StyledTweetModalContainer>
@@ -234,8 +239,8 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMemberInfo }) =>
           <OutlinedClose
             className="close-button"
             onClick={() => {
-            handleOpenTweetModal()
-            setTweetModalValue('')
+              handleOpenTweetModal();
+              setTweetModalValue('');
             }}
           />
         </StyledModalHeader>
@@ -261,9 +266,14 @@ const TweetModal = ({ placeholder, handleOpenTweetModal, currentMemberInfo }) =>
   );
 };
 
-const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMemberInfo }) => {
-  const {replyInputValue, handleClickReplyInput, setReplyInputValue} = useGetSelectedTweet()
-  const navigate = useNavigate()
+const ReplyModal = ({
+  selectedReplyItem,
+  handleOpenReplyModal,
+  currentMemberInfo,
+}) => {
+  const { replyInputValue, handleClickReplyInput, setReplyInputValue } =
+    useGetSelectedTweet();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -272,9 +282,9 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMemberInfo
           <OutlinedClose
             className="close-button"
             onClick={() => {
-              handleOpenReplyModal()
-              navigate(-1)
-              setReplyInputValue('')
+              handleOpenReplyModal();
+              navigate(-1);
+              setReplyInputValue('');
             }}
           />
         </StyledModalHeader>
@@ -285,19 +295,23 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMemberInfo
               回覆給<span>@{selectedReplyItem.User.account}</span>
             </p>
           </div>
-            <div className="tweet-input-wrapper">  
+          <div className="tweet-input-wrapper">
             <TweetReplyInput
-            placeholder={'推你的回覆'}
-            currentMemberInfo={currentMemberInfo}/>
-            </div>   
+              placeholder={'推你的回覆'}
+              currentMemberInfo={currentMemberInfo}
+            />
+          </div>
         </StyledModalBody>
         <StyledModalFooter>
           {replyInputValue.trim().length > 140 && <p>字數不可超過140字</p>}
           {replyInputValue.trim().length === 0 && <p>內容不可空白</p>}
-          <InputButton 
-          onClick={() => {
-            handleClickReplyInput()
-            }}>回覆</InputButton>
+          <InputButton
+            onClick={() => {
+              handleClickReplyInput();
+            }}
+          >
+            回覆
+          </InputButton>
         </StyledModalFooter>
       </StyledReplyModalContainer>
     </>
@@ -305,148 +319,192 @@ const ReplyModal = ({ selectedReplyItem, handleOpenReplyModal, currentMemberInfo
 };
 
 const EditModal = ({ handleOpenEditModal }) => {
-  const { currentMemberInfo, setCurrentMemberInfo } = useGetUserTweets()
-  const coverInputRef = useRef(null)
-  const avatarInputRef = useRef(null)
-  const [editNameValue, setEditNameValue] = useState(currentMemberInfo.name)
-  const [editIntroValue, setEditIntroValue] = useState(currentMemberInfo.introduction || '')
-  const [cover, setCover] = useState(currentMemberInfo.cover)
-  const [avatar, setAvatar] = useState(currentMemberInfo.avatar)
+  const { currentMemberInfo, setCurrentMemberInfo } = useGetUserTweets();
+  const coverInputRef = useRef(null);
+  const avatarInputRef = useRef(null);
+  const [editNameValue, setEditNameValue] = useState(currentMemberInfo.name);
+  const [editIntroValue, setEditIntroValue] = useState(
+    currentMemberInfo.introduction || '',
+  );
+  const [cover, setCover] = useState(
+    currentMemberInfo.cover || 'https://i.imgur.com/BWEPlza.jpeg',
+  );
+  const [avatar, setAvatar] = useState(currentMemberInfo.avatar);
   const [coverFormData, setCoverFormData] = useState(null);
   const [avatarFormData, setAvatarFormData] = useState(null);
 
   // 加入這一行來觸發隱藏的 input 的點擊事件
   const handleUploadCover = () => {
-    coverInputRef.current.click(); 
+    coverInputRef.current.click();
   };
 
   const handleRemoveCover = () => {
-    setCover(null);
-    setCoverFormData(null)
+    setCover('https://i.imgur.com/BWEPlza.jpeg');
+    setCoverFormData(null);
   };
 
   const handleUploadAvatar = () => {
-    avatarInputRef.current.click(); 
+    avatarInputRef.current.click();
   };
 
   const handleCoverChange = async (e) => {
     const file = e.target.files[0];
     const newFormData = new FormData();
-    newFormData.append('cover', file); 
-    const imageURL = URL.createObjectURL(file)
-    setCover(imageURL)
-    setCoverFormData(newFormData)
-  }
+    newFormData.append('cover', file);
+    const imageURL = URL.createObjectURL(file);
+    setCover(imageURL);
+    setCoverFormData(newFormData);
+  };
 
   const handleAvatarChange = async (e) => {
-      const file = e.target.files[0];
-      const newFormData = new FormData();
-      newFormData.append('avatar', file); 
-      const imageURL = URL.createObjectURL(file)
-      setAvatar(imageURL)
-      setAvatarFormData(newFormData)
+    const file = e.target.files[0];
+    const newFormData = new FormData();
+    newFormData.append('avatar', file);
+    const imageURL = URL.createObjectURL(file);
+    setAvatar(imageURL);
+    setAvatarFormData(newFormData);
   };
 
   const handleNameChange = (value) => {
-    setEditNameValue(value)
-  }
+    setEditNameValue(value);
+  };
 
   const handleIntroChange = (value) => {
-      setEditIntroValue(value)
-  }
+    setEditIntroValue(value);
+  };
 
   const handleSaveClick = async () => {
-  if (!editNameValue.length || editNameValue.trim().length > 50) {
-    return;  
-  }
-  if (!editIntroValue.length || editIntroValue.trim().length > 160) {
-    return;
-  }
-
-  const userData = {
-    name: editNameValue,
-    introduction: editIntroValue,
-  }
-
-  handleOpenEditModal()
-  try {
-    if(coverFormData) {
-      await uploadFile(currentMemberInfo.id, coverFormData)
-    } 
-    if(avatarFormData) {
-      await uploadFile(currentMemberInfo.id, avatarFormData)
+    if (!editNameValue.length || editNameValue.trim().length > 50) {
+      return;
     }
-    await editPersonalInfo(currentMemberInfo.id, {
-      userData
-    });
-    const newInfo = await getUserInfo(currentMemberInfo.id);
-    setCurrentMemberInfo(newInfo);
-  } catch (error) {
-    console.error(error)
-  }
-}
+    if (!editIntroValue.length || editIntroValue.trim().length > 160) {
+      return;
+    }
+
+    const userData = {
+      name: editNameValue,
+      introduction: editIntroValue,
+    };
+
+    handleOpenEditModal();
+    try {
+      if (coverFormData) {
+        await uploadFile(currentMemberInfo.id, coverFormData);
+      } else {
+        await editPersonalInfo(currentMemberInfo.id, {
+        ...userData, cover: 'https://i.imgur.com/BWEPlza.jpeg'
+      })
+      }
+      if (avatarFormData) {
+        await uploadFile(currentMemberInfo.id, avatarFormData);
+      }
+      const newInfo = await getUserInfo(currentMemberInfo.id);
+      setCurrentMemberInfo(newInfo);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
       <StyledEditModalContainer>
         <StyledModalHeader>
-          <OutlinedClose className="close-button" 
-          onClick={() => {
-            handleOpenEditModal()
-          }}/>
+          <OutlinedClose
+            className="close-button"
+            onClick={() => {
+              handleOpenEditModal();
+            }}
+          />
           <h5>編輯個人資料</h5>
-          <InputButton className="save-button" 
-          onClick={() => {
-            handleSaveClick()
-          }}
+          <InputButton
+            className="save-button"
+            onClick={() => {
+              handleSaveClick();
+            }}
           >
-            儲存</InputButton>
+            儲存
+          </InputButton>
         </StyledModalHeader>
         <StyledModalBody>
           <StyledEditCover>
-            <input type="file" id="cover-input" accept="image/*" style={{display: "none"}} name="cover"
-            ref={coverInputRef} onChange={handleCoverChange}/>
-          <img
-            alt="user-cover"
-            src={cover}/>
-            <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
-            <span className="delete-cover-button" onClick={handleRemoveCover}><OutlinedClose/></span>
+            <input
+              type="file"
+              id="cover-input"
+              accept="image/*"
+              style={{ display: 'none' }}
+              name="cover"
+              ref={coverInputRef}
+              onChange={handleCoverChange}
+            />
+            <img alt="user-cover" src={cover} />
+            <span className="add-cover-button" onClick={handleUploadCover}>
+              <OutlinedAddPhoto />
+            </span>
+            <span className="delete-cover-button" onClick={handleRemoveCover}>
+              <OutlinedClose />
+            </span>
           </StyledEditCover>
         </StyledModalBody>
         <StyledModalBody>
           <StyledPersonalInfoForm>
-          <AuthInput label='名稱' 
-          value={editNameValue} 
-          status={!editNameValue || editNameValue.trim().length > 50 ? 'danger' : 'default'}
-          onChange={(e) => {
-            handleNameChange(e.target.value)}} 
+            <AuthInput
+              label="名稱"
+              value={editNameValue}
+              status={
+                !editNameValue || editNameValue.trim().length > 50
+                  ? 'danger'
+                  : 'default'
+              }
+              onChange={(e) => {
+                handleNameChange(e.target.value);
+              }}
             />
-          <p className="edit-name-count">
-            {editNameValue.trim().length > 50 && <span>字數不可超過50字 </span>}
-            {!editNameValue && <span>內容不可空白 </span>}
-            {editNameValue ? editNameValue.length : 0}/50</p>
-          <TextAreaInput label='自我介紹'
-          status={!editIntroValue || editIntroValue.trim().length > 50 ? 'danger' : 'default'}
-          onChange={(e) => {
-            handleIntroChange(e.target.value)}}
-            value={editIntroValue} />
-          <p className="edit-intro-count">
-            {editIntroValue.trim().length > 160 && <span>字數不可超過160字 </span>}
-            {!editIntroValue && <span>內容不可空白 </span>}
-            {editIntroValue ? editIntroValue.length : 0}/160</p>
+            <p className="edit-name-count">
+              {editNameValue.trim().length > 50 && (
+                <span>字數不可超過50字 </span>
+              )}
+              {!editNameValue && <span>內容不可空白 </span>}
+              {editNameValue ? editNameValue.length : 0}/50
+            </p>
+            <TextAreaInput
+              label="自我介紹"
+              status={
+                !editIntroValue || editIntroValue.trim().length > 50
+                  ? 'danger'
+                  : 'default'
+              }
+              onChange={(e) => {
+                handleIntroChange(e.target.value);
+              }}
+              value={editIntroValue}
+            />
+            <p className="edit-intro-count">
+              {editIntroValue.trim().length > 160 && (
+                <span>字數不可超過160字 </span>
+              )}
+              {!editIntroValue && <span>內容不可空白 </span>}
+              {editIntroValue ? editIntroValue.length : 0}/160
+            </p>
           </StyledPersonalInfoForm>
         </StyledModalBody>
         <StyledEditAvatar>
-          <input type="file" id="avatar-input" accept="image/*" style={{display: "none"}} name="avatar"
-          ref={avatarInputRef} onChange={handleAvatarChange}/>
-          <img
-            alt="user-avatar"
-            src={avatar}/>
-          <span className="add-avatar-button" onClick={handleUploadAvatar}><OutlinedAddPhoto /></span>
+          <input
+            type="file"
+            id="avatar-input"
+            accept="image/*"
+            style={{ display: 'none' }}
+            name="avatar"
+            ref={avatarInputRef}
+            onChange={handleAvatarChange}
+          />
+          <img alt="user-avatar" src={avatar} />
+          <span className="add-avatar-button" onClick={handleUploadAvatar}>
+            <OutlinedAddPhoto />
+          </span>
         </StyledEditAvatar>
       </StyledEditModalContainer>
     </>
   );
 };
 
-export { TweetModal, ReplyModal, EditModal }
+export { TweetModal, ReplyModal, EditModal };

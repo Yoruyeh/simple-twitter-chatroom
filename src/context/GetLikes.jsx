@@ -14,7 +14,8 @@ export const useGetLikes = () => useContext(GetLikesContext);
 
 export const GetLikesProvider = ({ children }) => {
   const { isAuthenticated, currentMember } = useAuth()
-  const [userLikes, setUserLikes] = useState([])
+  const [currentMemberLikes, setCurrentMemberLikes] = useState([])
+  // const [userLikes, setUserLikes] = useState([])
   const {setTweets, setCurrentMemberTweets} = useGetTweets()
   const { setSelectedReplyItem } = useGetSelectedTweet()
   const {userInfo, setUserTweets} = useGetUserTweets()
@@ -24,7 +25,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createUnLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweets = await getTweets()
       setTweets(tweets)
     } catch (error) {
@@ -36,7 +37,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweets = await getTweets()
       setTweets(tweets)
     } catch (error) {
@@ -48,7 +49,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createUnLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweet = await getTweetById(id)
       setSelectedReplyItem(tweet)
     } catch (error) {
@@ -60,7 +61,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweet = await getTweetById(id)
       setSelectedReplyItem(tweet)
     } catch (error) {
@@ -73,7 +74,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createUnLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweets = await getUserTweets(currentMember.id)
       setCurrentMemberTweets(tweets)
     } catch (error) {
@@ -83,7 +84,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createUnLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweets = await getUserTweets(userInfo.id)
       setUserTweets(tweets)
     } catch (error) {
@@ -97,7 +98,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweets = await getUserTweets(currentMember.id)
       setCurrentMemberTweets(tweets)
     } catch (error) {
@@ -107,7 +108,7 @@ export const GetLikesProvider = ({ children }) => {
     try {
       await createLike(id)
       const newArr = await getLikes(currentMember.id)
-      setUserLikes(newArr)
+      setCurrentMemberLikes(newArr)
       const tweets = await getUserTweets(userInfo.id)
       setUserTweets(tweets)
     } catch (error) {
@@ -123,7 +124,8 @@ export const GetLikesProvider = ({ children }) => {
       try {
         const likes = await getLikes(currentMember.id);
         if (likes) {
-          setUserLikes(likes);
+          // setUserLikes(likes);
+          setCurrentMemberLikes(likes)
         } else {
           return
         }
@@ -138,7 +140,7 @@ export const GetLikesProvider = ({ children }) => {
 
   return (
     <GetLikesContext.Provider 
-    value={{userLikes, handleUnLikeAtHome, handleLikeAtHome, handleUnLikeAtUser, handleLikeAtUser, handleUnLikeAtReply, handleLikeAtReply}}>
+    value={{handleUnLikeAtHome, handleLikeAtHome, handleUnLikeAtUser, handleLikeAtUser, handleUnLikeAtReply, handleLikeAtReply, currentMemberLikes}}>
       {children}
     </GetLikesContext.Provider>
   );
