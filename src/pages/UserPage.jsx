@@ -8,6 +8,7 @@ import { UserHeader } from '../components/Header'
 import { useAuth } from '../context/AuthContext'
 import { useGetUserTweets } from '../context/GetUserTweets'
 import { EditModal } from '../components/Modal'
+import { getUserInfo } from '../api/other.users'
 
 const StyledContainer = styled.div`
   .user-info {
@@ -37,7 +38,7 @@ const StyledEditModalContainer = styled.div`
 export default function UserPage() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
-  const { currentMemberInfo } = useGetUserTweets()
+  const { currentMemberInfo, setCurrentMemberInfo } = useGetUserTweets()
   const [openEditModal, setOpenEditModal] = useState(false)
 
   const handleOpenEditModal = () => {
@@ -48,7 +49,16 @@ export default function UserPage() {
     if (!isAuthenticated) {
       navigate('/login');
     }
-  }, [navigate, isAuthenticated]);
+    const getUserInfoAsync = async () => {
+      try {
+        const info = await getUserInfo(currentMemberInfo.id);
+        setCurrentMemberInfo(info);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserInfoAsync()
+  }, [navigate, isAuthenticated, currentMemberInfo, setCurrentMemberInfo]);
 
   
   return (

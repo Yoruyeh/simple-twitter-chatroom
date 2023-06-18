@@ -7,7 +7,7 @@ import MainLayout from '../layout/MainLayout'
 import { OtherUserHeader } from '../components/Header'
 import { OtherUserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
-
+import { getUserInfo } from '../api/other.users'
 
 const StyledContainer = styled.div`
   .user-info {
@@ -17,14 +17,23 @@ const StyledContainer = styled.div`
 export default function OtherUserPage() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
-  const { userInfo } = useGetUserTweets()
+  const { userInfo, setUserInfo } = useGetUserTweets()
 
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
-  }, [navigate, isAuthenticated]);
+    const getUserInfoAsync = async () => {
+      try {
+        const info = await getUserInfo(userInfo.id);
+        setUserInfo(info);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserInfoAsync()
+  }, [navigate, isAuthenticated, userInfo, setUserInfo]);
 
   return (
     <MainLayout>
