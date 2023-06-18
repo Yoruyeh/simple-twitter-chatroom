@@ -390,14 +390,13 @@ const EditModal = ({ handleOpenEditModal }) => {
     try {
       if (coverFormData) {
         await uploadFile(currentMemberInfo.id, coverFormData);
-      } else {
-        await editPersonalInfo(currentMemberInfo.id, {
-        ...userData, cover: 'https://i.imgur.com/BWEPlza.jpeg'
-      })
-      }
+      } 
       if (avatarFormData) {
         await uploadFile(currentMemberInfo.id, avatarFormData);
       }
+        await editPersonalInfo(currentMemberInfo.id, {
+        userData
+      })
       const newInfo = await getUserInfo(currentMemberInfo.id);
       setCurrentMemberInfo(newInfo);
     } catch (error) {

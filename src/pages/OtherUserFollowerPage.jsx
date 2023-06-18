@@ -9,6 +9,8 @@ import { useGetUserTweets } from '../context/GetUserTweets';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
 import { getUserFollowersById, getUserFollowingsById } from '../api/user.follower';
+import { useGetTweets } from '../context/GetTweets'
+import { getPopularFollowers } from '../api/popular.follower'
 
 
 const StyledFollowerPageContainer = styled.div`
@@ -27,7 +29,9 @@ const OtherUserFollowerPage = () => {
   const [userfollowers, setUserFollowers] = useState([])
   const [userfollowings, setUserFollowings] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const { setPopularFollowers } = useGetTweets()
   const pathname = useLocation().pathname
+   const {currentMemberInfo,  setCurrentMemberFollowings} = useGetUserTweets()
 
   const handleFollowClicked = async (id) => {
     if (currentMember.id === id) {
@@ -37,6 +41,11 @@ const OtherUserFollowerPage = () => {
       await Follow({ 
         id: id 
       })
+      const followings = await getUserFollowingsById(currentMemberInfo.id)
+      setCurrentMemberFollowings(followings)
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users;
+      setPopularFollowers(populars)
     } catch (error) {
       console.error(error)
     }
@@ -45,6 +54,11 @@ const OtherUserFollowerPage = () => {
   const handleUnFollowClicked = async (id) => {
     try {
       await UnFollow(id)
+      const followings = await getUserFollowingsById(currentMemberInfo.id)
+      setCurrentMemberFollowings(followings)
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users;
+      setPopularFollowers(populars)
     } catch (error) {
       console.error(error)
     }
