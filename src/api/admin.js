@@ -24,27 +24,44 @@ export async function adminLogin(account, password) {
 // 所有tweet
 export async function adminGetTweets(token) {
   try {
-    const { data } = await axios.get(`${adminURL}/tweets`, {
+    const { status, data } = await axios.get(`${adminURL}/tweets`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    return data
+    return { status, data }
   } catch (error) {
     console.error(`Admin Get User Failed: ${error}`)
+    return { status: error.response.status }
   }
 }
 
 // 所有使用者
 export async function adminGetUsers(token) {
   try {
-    const { data } = await axios.get(`${adminURL}/users`, {
+    const { status, data } = await axios.get(`${adminURL}/users`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    return data
+    return { status, data }
   } catch (error) {
     console.error(`Admin Get User Failed: ${error}`)
+    return { status: error.response.status }
+  }
+}
+
+// 刪除指定tweet
+export async function adminDeleteTweet(token, tweetID) {
+  try {
+    const { status } = await axios.delete(`${adminURL}/tweets/${tweetID}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return status
+  } catch (error) {
+    console.log(`Delete Admin Tweet Faild: ${error}`)
+    return error.response.status
   }
 }
