@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from './GetTweets';
 import { useAuth } from './AuthContext';
 
+
 const GetSelectedTweetContext = createContext(() => {});
 
 export const useGetSelectedTweet = () => useContext(GetSelectedTweetContext);
