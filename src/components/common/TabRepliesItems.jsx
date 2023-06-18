@@ -1,8 +1,7 @@
 import { styled } from 'styled-components'
 // import { PillButton } from './button.styled'
-import { Link } from 'react-router-dom'
 
-const TweetContainer = styled(Link)`
+const TweetContainer = styled.div`
   color: var(--dark-100);
   text-decoration: none;
   border-bottom: 1px solid var(--gray1);
