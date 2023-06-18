@@ -28,10 +28,10 @@ export default function TabLikesTweets() {
 
     useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-    setUserInfo(JSON.parse(storedUserInfo));
+    if (!storedUserInfo) {
+      return
     }
-
+    setUserInfo(JSON.parse(storedUserInfo));
     const getUserRepliesAsync = async () => {
       try {
         const likes = await getLikes(JSON.parse(storedUserInfo).id);

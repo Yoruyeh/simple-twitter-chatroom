@@ -28,10 +28,10 @@ export default function TabRepliesTweets() {
 
    useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-    setUserInfo(JSON.parse(storedUserInfo));
+    if (!storedUserInfo) {
+      return
     }
-
+    setUserInfo(JSON.parse(storedUserInfo));
     const getUserRepliesAsync = async () => {
       try {
         const replies = await getUserReplies(JSON.parse(storedUserInfo).id);
