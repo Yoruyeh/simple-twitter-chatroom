@@ -102,30 +102,32 @@ export default function Setting() {
 
   // 進入頁面驗證token
   useEffect(() => {
-    async function asyncCheckPermission() {
-      // 拿取token
-      const token = localStorage.getItem('token')
-      if (token) {
-        // token拿取成功
-        const { success } = await checkPermission(token)
-        if (!success) {
-          // token無效
-          navigate('/login')
+    if (currentMember) {
+      async function asyncCheckPermission() {
+        // 拿取token
+        const token = localStorage.getItem('token')
+        if (token) {
+          // token拿取成功
+          const { success } = await checkPermission(token)
+          if (!success) {
+            // token無效
+            navigate('/login')
+          }
         }
       }
-    }
-    asyncCheckPermission()
+      asyncCheckPermission()
 
-    // 設定input的value為使用者資料
-    UpdateInputList((draft) => {
-      draft[0].value = currentMember.account
-    })
-    UpdateInputList((draft) => {
-      draft[1].value = currentMember.name
-    })
-    UpdateInputList((draft) => {
-      draft[2].value = currentMember.email
-    })
+      // 設定input的value為使用者資料
+      UpdateInputList((draft) => {
+        draft[0].value = currentMember.account
+      })
+      UpdateInputList((draft) => {
+        draft[1].value = currentMember.name
+      })
+      UpdateInputList((draft) => {
+        draft[2].value = currentMember.email
+      })
+    }
   }, [navigate, UpdateInputList, currentMember])
 
   // 設置 input狀態 函數

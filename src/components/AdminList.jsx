@@ -36,6 +36,8 @@ export default function AdminList() {
 
     if (token) {
       AsyncadminGetTweets(token)
+    } else {
+      navigate('/admin/login')
     }
   }, [navigate])
 
