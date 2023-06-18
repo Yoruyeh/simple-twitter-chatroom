@@ -56,7 +56,7 @@ const StyledFollowerInfo = styled.div`
   justify-content: space-around;
   width: 50%;
   height: 100%;
-  overflow:hidden;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
@@ -74,104 +74,117 @@ const StyledFollowerInfo = styled.div`
     text-overflow: ellipsis;
     width: 50px;
   }
-
 `;
 
 const PopularFollowerItem = () => {
   const [popularFollowers, setPopularFollowers] = useState([]);
-  const { currentMember, isAuthenticated } = useAuth()
-  const { setCurrentMemberFollowings, setCurrentMemberInfo } = useGetUserTweets()
+  const { currentMember, isAuthenticated } = useAuth();
+  const { setCurrentMemberFollowings, setCurrentMemberInfo } =
+    useGetUserTweets();
 
   const handleFollowClicked = async (id) => {
     if (currentMember.id === id) {
-      return
+      return;
     }
     try {
-      await Follow({ 
-        id: id 
-      })
+      await Follow({
+        id: id,
+      });
       const popularObject = await getPopularFollowers();
-      const populars = popularObject.users
-      setPopularFollowers(populars)
-      const followings = await getUserFollowingsById(currentMember.id)
-      setCurrentMemberFollowings(followings)
-      const newInfo = await getUserInfo(currentMember.id)
-      setCurrentMemberInfo(newInfo)
+      const populars = popularObject.users;
+      setPopularFollowers(populars);
+      const followings = await getUserFollowingsById(currentMember.id);
+      setCurrentMemberFollowings(followings);
+      const newInfo = await getUserInfo(currentMember.id);
+      setCurrentMemberInfo(newInfo);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleUnFollowClicked = async (id) => {
     try {
-      await UnFollow(id)
+      await UnFollow(id);
       const popularObject = await getPopularFollowers();
-      const populars = popularObject.users
-      setPopularFollowers(populars)
-      const followings = await getUserFollowingsById(currentMember.id)
-      setCurrentMemberFollowings(followings)
-      const newInfo = await getUserInfo(currentMember.id)
-      setCurrentMemberInfo(newInfo)
+      const populars = popularObject.users;
+      setPopularFollowers(populars);
+      const followings = await getUserFollowingsById(currentMember.id);
+      setCurrentMemberFollowings(followings);
+      const newInfo = await getUserInfo(currentMember.id);
+      setCurrentMemberInfo(newInfo);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
       const getPopularFollowersAsync = async () => {
-      try {
-        const popularObject = await getPopularFollowers();
-        const populars = popularObject.users
-        setPopularFollowers(populars);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getPopularFollowersAsync();
+        try {
+          const popularObject = await getPopularFollowers();
+          const populars = popularObject.users;
+          setPopularFollowers(populars);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getPopularFollowersAsync();
     }
   }, [isAuthenticated]);
 
   return (
     <>
-    {popularFollowers.map((popular) => {
-      return (
-      <StyledFollowerItem key={popular.id}>
-        <StyledFollowerInfo>
-          <StyledFollowerAvatar image={popular.avatar}/>
-          <div className="popular-info-wrapper">
-            <h6 className="popular-follower-name ellipsis">{popular.name}</h6>
-            <div className="popular-follower-account fontSecondary ellipsis">
-              @{popular.account}</div>
-          </div>
-        </StyledFollowerInfo>
-        <div className="popular-button-wrapper">
-        {currentMember.id !== popular.id && !popular.isFollowed ? (
-          <FollowButton className="unfollowed" data-id={popular.id}
-        onClick={(e) => {
-          const clickedFollowId = e.currentTarget.dataset.id
-          if(popular.isFollowed) {
-            handleUnFollowClicked(clickedFollowId)
-          } else {
-            handleFollowClicked(clickedFollowId)
-          }
-        }}>跟隨</FollowButton>
-        ) : (
-          <FollowButton className="followed" data-id={popular.id}
-        onClick={(e) => {
-          const clickedFollowId = e.currentTarget.dataset.id
-          if(popular.isFollowed === true) {
-            handleUnFollowClicked(clickedFollowId)
-          } else {
-            handleFollowClicked(clickedFollowId)
-          }
-        }}>正在跟隨</FollowButton>
-        )
-        }
-        </div>
-      </StyledFollowerItem>
-      )
-    })}
+      {popularFollowers &&
+        popularFollowers.map((popular) => {
+          return (
+            <StyledFollowerItem key={popular.id}>
+              <StyledFollowerInfo>
+                <StyledFollowerAvatar image={popular.avatar} />
+                <div className="popular-info-wrapper">
+                  <h6 className="popular-follower-name ellipsis">
+                    {popular.name}
+                  </h6>
+                  <div className="popular-follower-account fontSecondary ellipsis">
+                    @{popular.account}
+                  </div>
+                </div>
+              </StyledFollowerInfo>
+              <div className="popular-button-wrapper">
+                {currentMember.id !== popular.id && !popular.isFollowed ? (
+                  <FollowButton
+                    className="unfollowed"
+                    data-id={popular.id}
+                    onClick={(e) => {
+                      const clickedFollowId = e.currentTarget.dataset.id;
+                      if (popular.isFollowed) {
+                        handleUnFollowClicked(clickedFollowId);
+                      } else {
+                        handleFollowClicked(clickedFollowId);
+                      }
+                    }}
+                  >
+                    跟隨
+                  </FollowButton>
+                ) : (
+                  <FollowButton
+                    className="followed"
+                    data-id={popular.id}
+                    onClick={(e) => {
+                      const clickedFollowId = e.currentTarget.dataset.id;
+                      if (popular.isFollowed === true) {
+                        handleUnFollowClicked(clickedFollowId);
+                      } else {
+                        handleFollowClicked(clickedFollowId);
+                      }
+                    }}
+                  >
+                    正在跟隨
+                  </FollowButton>
+                )}
+              </div>
+            </StyledFollowerItem>
+          );
+        })}
     </>
   );
 };

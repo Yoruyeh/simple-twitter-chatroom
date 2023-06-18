@@ -71,7 +71,7 @@ export default function TabTweets() {
       currentMemberTweets && [...currentMemberTweets].slice().reverse().map((tweet) => (
         <li key={tweet.id}>
           <TabTweetItems 
-            tweet={tweet} 
+            tweet={tweet}
           />
         </li>
       ))

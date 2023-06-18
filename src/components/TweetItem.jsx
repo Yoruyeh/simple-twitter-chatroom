@@ -105,7 +105,7 @@ const StyledTweetIconContainer = styled.div`
 
 const TweetItemIcon = ({ tweet }) => {
   const { handleReplyIconClickedAtHome } = useGetSelectedTweet();
-  const { userLikes, handleUnLikeAtHome, handleLikeAtHome } = useGetLikes();
+  const { handleUnLikeAtHome, handleLikeAtHome, currentMemberLikes } = useGetLikes();
 
   return (
     <StyledTweetIconContainer>
@@ -120,7 +120,7 @@ const TweetItemIcon = ({ tweet }) => {
         <span className="tweet-reply-count">{tweet.replyCount}</span>
       </div>
       <div className="tweet-like-icon">
-        {userLikes && userLikes.some((like) => like.TweetId === tweet.id) ? (
+        {currentMemberLikes && currentMemberLikes.some((like) => like.TweetId === tweet.id) ? (
           <FilledLike
             data-id={tweet.id}
             className="tweet-like-icon liked"

@@ -122,20 +122,20 @@ function returnButton(button) {
 
 export function TabTweetItems({ tweet, replyid, button }) {
   const { handleReplyIconClickedAtUser, handleTweetContentClick } = useGetSelectedTweet()
-  const { handleReplyIconClickedAtOther } = useGetUserTweets()
-  const { userLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
+  const { handleReplyIconClickedAtOther, currentMemberInfo } = useGetUserTweets()
+  const { currentMemberLikes, handleUnLikeAtUser, handleLikeAtUser } = useGetLikes()
   const pathname = useLocation().pathname
 
 
   return (
     <TweetContainer className='d-flex px-0'>
       <div className='user-img-wrapper'>
-        <img src={tweet.User.avatar} alt='avatar' className='user-avatar'></img>
+        <img src={pathname.includes('others') ? tweet.User.avatar : currentMemberInfo.avatar} alt='avatar' className='user-avatar'></img>
       </div>
 
       <div className='tweet-wrapper'>
         <div className='tweet-header d-flex'>
-          <h6 className='tweet-name'>{tweet.User.name}</h6>
+          <h6 className='tweet-name'>{pathname.includes('others') ? tweet.User.name : currentMemberInfo.name}</h6>
           <span className='tweet-account'>
             @{`${tweet.User.account}・${tweet.diffCreatedAt}`}
           </span>
@@ -147,6 +147,7 @@ export function TabTweetItems({ tweet, replyid, button }) {
         <div className='tweet-main' data-id={tweet.id}
         onClick={(e) => {
           const clickedTweetId = e.currentTarget.dataset.id;
+          console.log(clickedTweetId)
           handleTweetContentClick(clickedTweetId);
         }}>
           <p className='tweet-text'>{tweet.description}</p>
@@ -166,7 +167,7 @@ export function TabTweetItems({ tweet, replyid, button }) {
               <span className='item-text'>{tweet.replyCount}</span>
             </div>
             <div className='item d-flex'>
-       {userLikes.some(like => like.Tweet.id === tweet.id) ? (
+       {currentMemberLikes.some(like => like.Tweet.id === tweet.id) ? (
           <FilledLike data-id={tweet.id} className="tweet-like-icon liked" onClick={(e) => {
             const clickedLikedIconId = e.currentTarget.dataset.id
             handleUnLikeAtUser(clickedLikedIconId)
