@@ -7,7 +7,7 @@ const FollowerCollection = ({ userFollows, handleUnFollowClicked, handleFollowCl
   } else {
     return (
     <div>
-      {userFollows.map((follow) => {
+      {userFollows && userFollows.map((follow) => {
         return (
           <div className="follow-item-wrapper" key={follow.followerId || follow.followingId}>
             <FollowerItem follow={follow} followed={follow.followed || follow.isfollowed} handleFollowClicked={handleFollowClicked} handleUnFollowClicked={handleUnFollowClicked}/>
