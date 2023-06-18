@@ -56,7 +56,7 @@ const OtherUserFollowerPage = () => {
       await UnFollow(id)
       const followings = await getUserFollowingsById(currentMemberInfo.id)
       setCurrentMemberFollowings(followings)
-       const followers = await getUserFollowersById(userInfo.id)
+      const followers = await getUserFollowersById(userInfo.id)
       setUserFollowers(followers)
       const followerings = await getUserFollowingsById(userInfo.id)
       setUserFollowings(followerings)
