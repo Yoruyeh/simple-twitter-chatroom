@@ -117,6 +117,7 @@ export const GetUserTweetsProvider = ({ children }) => {
     <GetUserTweetsContext.Provider
       value={{
         userInfo,
+        setUserInfo,
         userTweets,
         handleAvatarClick,
         userReplies,

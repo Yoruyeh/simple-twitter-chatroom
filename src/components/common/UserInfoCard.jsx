@@ -7,8 +7,10 @@ import { useGetUserTweets } from '../../context/GetUserTweets';
 import {
   Follow,
   UnFollow,
+  getUserFollowersById,
   getUserFollowingsById,
 } from '../../api/user.follower';
+import { getUserInfo } from '../../api/other.users';
 
 // container
 const Container = styled.div`
@@ -123,6 +125,9 @@ function ReturnActions() {
     currentMemberFollowings,
     setCurrentMemberFollowings,
     userInfo,
+    setCurrentMemberInfo,
+    setUserInfo,
+    setUserFollowers
   } = useGetUserTweets();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -137,6 +142,12 @@ function ReturnActions() {
       });
       const followings = await getUserFollowingsById(currentMemberInfo.id);
       setCurrentMemberFollowings(followings);
+      const info = await getUserInfo(id)
+      setUserInfo(info)
+      const newInfo = await getUserInfo(currentMemberInfo.id)
+      setCurrentMemberInfo(newInfo)
+      const follower = await getUserFollowersById(id)
+      setUserFollowers(follower)
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -149,6 +160,12 @@ function ReturnActions() {
       await UnFollow(id);
       const followings = await getUserFollowingsById(currentMemberInfo.id);
       setCurrentMemberFollowings(followings);
+      const info = await getUserInfo(id)
+      setUserInfo(info)
+      const newInfo = await getUserInfo(currentMemberInfo.id)
+      setCurrentMemberInfo(newInfo)
+      const follower = await getUserFollowersById(id)
+      setUserFollowers(follower)
       setIsLoading(false);
     } catch (error) {
       console.error(error);
