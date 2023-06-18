@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { UserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 import MainLayout from '../layout/MainLayout'
 import { UserHeader } from '../components/Header'
 import { useGetUserTweets } from '../context/GetUserTweets'
 import { EditModal } from '../components/Modal'
-import { getUserInfo } from '../api/other.users'
+
 
 const StyledContainer = styled.div`
   .user-info {
@@ -34,24 +34,11 @@ const StyledEditModalContainer = styled.div`
 `;
 
 export default function UserPage() {
-  const { currentMemberInfo, setCurrentMemberInfo } = useGetUserTweets()
+  const { currentMemberInfo } = useGetUserTweets()
   const [openEditModal, setOpenEditModal] = useState(false)
-
   const handleOpenEditModal = () => {
     setOpenEditModal(!openEditModal)
   }
-
-  useEffect(() => {
-    const getUserInfoAsync = async () => {
-      try {
-        const info = await getUserInfo(currentMemberInfo.id);
-        setCurrentMemberInfo(info);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserInfoAsync()
-  }, [currentMemberInfo, setCurrentMemberInfo]);
 
   
   return (

@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { useGetUserTweets } from '../context/GetUserTweets';
 import { useGetTweets } from '../context/GetTweets'
 import { getPopularFollowers } from '../api/popular.follower'
-
+import { getUserInfo } from '../api/other.users'
 
 const StyledFollowerPageContainer = styled.div`
   width: 100%;
@@ -21,7 +21,7 @@ const StyledFollowerPageContainer = styled.div`
   }
 `
 const UserFollowerPage = () => {
- const {currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers,currentMemberFollowings, setCurrentMemberFollowings} = useGetUserTweets()
+ const {currentMemberInfo, setCurrentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers,currentMemberFollowings, setCurrentMemberFollowings} = useGetUserTweets()
 const { setPopularFollowers } = useGetTweets()
 const pathname = useLocation().pathname
 
@@ -40,6 +40,8 @@ const pathname = useLocation().pathname
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users;
       setPopularFollowers(populars)
+      const newInfo = await getUserInfo(currentMemberInfo.id)
+      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
@@ -55,6 +57,8 @@ const pathname = useLocation().pathname
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users;
       setPopularFollowers(populars)
+      const newInfo = await getUserInfo(currentMemberInfo.id)
+      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
