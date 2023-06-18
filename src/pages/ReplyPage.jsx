@@ -8,8 +8,6 @@ import { useGetSelectedTweet } from '../context/GetSelectedTweet';
 import { useGetTweets } from '../context/GetTweets';
 import Alert from '../components/Alert';
 import { useGetUserTweets } from '../context/GetUserTweets';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const StyledReplyPageContainer = styled.div`
   width: 100%;
@@ -50,16 +48,11 @@ const StyledAlertContainer = styled.div`
 `
 
 const ReplyPage = () => {
-  const { currentMemberInfo, isAuthenticated } = useGetUserTweets()
+  const { currentMemberInfo } = useGetUserTweets()
   const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType } = useGetTweets()
-  const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login')
-    }
-  })
+
 
   return (
   !isReplyPageLoading &&
