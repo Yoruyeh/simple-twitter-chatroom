@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { FollowButton } from './common/button.styled';
 import { getPopularFollowers } from '../api/popular.follower';
-import { Follow, UnFollow } from '../api/user.follower';
+import { Follow, UnFollow, getUserFollowingsById } from '../api/user.follower';
 import { useAuth } from '../context/AuthContext';
+import { useGetUserTweets } from '../context/GetUserTweets';
+import { getUserInfo } from '../api/other.users';
 
 const StyledFollowerContainer = styled.div`
   width: 273px;
@@ -78,6 +80,7 @@ const StyledFollowerInfo = styled.div`
 const PopularFollowerItem = () => {
   const [popularFollowers, setPopularFollowers] = useState([]);
   const { currentMember, isAuthenticated } = useAuth()
+  const { setCurrentMemberFollowings, setCurrentMemberInfo } = useGetUserTweets()
 
   const handleFollowClicked = async (id) => {
     if (currentMember.id === id) {
@@ -90,6 +93,10 @@ const PopularFollowerItem = () => {
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users
       setPopularFollowers(populars)
+      const followings = await getUserFollowingsById(currentMember.id)
+      setCurrentMemberFollowings(followings)
+      const newInfo = await getUserInfo(currentMember.id)
+      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
@@ -101,6 +108,10 @@ const PopularFollowerItem = () => {
       const popularObject = await getPopularFollowers();
       const populars = popularObject.users
       setPopularFollowers(populars)
+      const followings = await getUserFollowingsById(currentMember.id)
+      setCurrentMemberFollowings(followings)
+      const newInfo = await getUserInfo(currentMember.id)
+      setCurrentMemberInfo(newInfo)
     } catch (error) {
       console.error(error)
     }
