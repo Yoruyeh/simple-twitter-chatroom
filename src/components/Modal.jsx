@@ -311,6 +311,7 @@ const EditModal = ({ handleOpenEditModal }) => {
   const [avatar, setAvatar] = useState('')
   const [realAvatarUrl, setRealAvatarUrl] = useState('')
   const [realCoverUrl, setRealCoverUrl] = useState('')
+  const [formData, setFormData] = useState(null);
 
   // 加入這一行來觸發隱藏的 input 的點擊事件
   const handleUploadCover = () => {
@@ -323,70 +324,81 @@ const EditModal = ({ handleOpenEditModal }) => {
 
   const handleCoverChange = async (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('cover', file); 
+    const newFormData = new FormData();
+    newFormData.append('cover', file); 
     const imageURL = URL.createObjectURL(file)
     setCover(imageURL)
-
-    try {
-        const response = await uploadFile(currentMemberInfo.id, formData)
-        setRealCoverUrl(response.updatedUser.cover)
-    } catch (err) {
-        console.error(err);
-    }
+    setFormData(newFormData)
   }
 
+  const handleAvatarChange = async (e) => {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append('avatar', file); 
+      const imageURL = URL.createObjectURL(file)
+      setAvatar(imageURL)
 
-const handleAvatarChange = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('avatar', file); 
-    const imageURL = URL.createObjectURL(file)
-    setAvatar(imageURL)
+      try {
+          const response = await uploadFile(currentMemberInfo.id, formData)
+          setRealAvatarUrl(response.updatedUser.avatar)
+      } catch (err) {
+          console.error(err);
+      }
+  };
 
-    try {
-        const response = await uploadFile(currentMemberInfo.id, formData)
-        setRealAvatarUrl(response.updatedUser.avatar)
-    } catch (err) {
-        console.error(err);
-    }
-};
-
-
-
-const handleNameChange = (value) => {
-  setEditNameValue(value)
-}
+  const handleNameChange = (value) => {
+    setEditNameValue(value)
+  }
 
   const handleIntroChange = (value) => {
-    setEditIntroValue(value)
+      setEditIntroValue(value)
   }
 
-//   const handleRemoveImage = (e) => {
-//     URL.revokeObjectURL(image.url)
-//     setCover(null)
-//     if (inputRef.current) {
-//       inputRef.current.value = ""
-//   }
-// }
+  const handleRemoveImage = () => {
+    setCover('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
+    setRealCoverUrl('https://loremflickr.com/1440/480/city/?random=28.293598402747545')
+  }
 
- const handleSaveClick = async () => {
+  const handleSaveClick = async () => {
     const userData = {
       name: editNameValue,
       introduction: editIntroValue,
       avatar: realAvatarUrl,
       cover: realCoverUrl,
     }
+    console.log('userData: ',userData)
     try {
+      const response = await uploadFile(currentMemberInfo.id, formData)
+      setRealCoverUrl(response.updatedUser.cover)
       await editPersonalInfo(currentMemberInfo.id, {
         userData
       });
       const newInfo = await getUserInfo(currentMemberInfo.id);
+      console.log('newInfo: ', newInfo)
       setCurrentMemberInfo(newInfo);
     } catch (error) {
       console.error(error)
     }
   }
+
+  // const handleSaveClick = async () => {
+  //   const userData = {
+  //     name: editNameValue,
+  //     introduction: editIntroValue,
+  //     avatar: realAvatarUrl,
+  //     cover: realCoverUrl,
+  //   }
+  //   console.log(userData)
+  //   try {
+  //     await editPersonalInfo(currentMemberInfo.id, {
+  //       userData
+  //     });
+  //     const newInfo = await getUserInfo(currentMemberInfo.id);
+  //     setCurrentMemberInfo(newInfo);
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 
 
   return (
@@ -414,7 +426,7 @@ const handleNameChange = (value) => {
             alt="user-cover"
             src={cover ? cover : currentMemberInfo.cover}/>
             <span className="add-cover-button" onClick={handleUploadCover}><OutlinedAddPhoto/></span>
-            <span className="delete-cover-button"><OutlinedClose/></span>
+            <span className="delete-cover-button" onClick={handleRemoveImage}><OutlinedClose/></span>
           </StyledEditCover>
         </StyledModalBody>
         <StyledModalBody>
