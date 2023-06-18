@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useImmer } from 'use-immer'
 import { NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -82,7 +82,7 @@ export default function Login({ openModal }) {
   const [password, setPassword] = useState('') // 密碼 value
   const [inputList, UpdateInputList] = useImmer(inputs)
   const navigate = useNavigate()
-  const { login, isAuthenticated } = useAuth()
+  const { login } = useAuth()
 
   // 設置 input狀態 函數
   function setInput(num, status, errorText) {
@@ -176,11 +176,6 @@ export default function Login({ openModal }) {
     }
   }
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/home')
-    }
-  }, [isAuthenticated, navigate])
 
   return (
     <StyledContainer>

@@ -1,11 +1,9 @@
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { UserInfoCard } from '../components/common/UserInfoCard'
 import Tab from '../components/common/Tab'
 import MainLayout from '../layout/MainLayout'
 import { UserHeader } from '../components/Header'
-import { useAuth } from '../context/AuthContext'
 import { useGetUserTweets } from '../context/GetUserTweets'
 import { EditModal } from '../components/Modal'
 import { getUserInfo } from '../api/other.users'
@@ -36,8 +34,6 @@ const StyledEditModalContainer = styled.div`
 `;
 
 export default function UserPage() {
-  const { isAuthenticated } = useAuth()
-  const navigate = useNavigate()
   const { currentMemberInfo, setCurrentMemberInfo } = useGetUserTweets()
   const [openEditModal, setOpenEditModal] = useState(false)
 
@@ -46,9 +42,6 @@ export default function UserPage() {
   }
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
     const getUserInfoAsync = async () => {
       try {
         const info = await getUserInfo(currentMemberInfo.id);
@@ -58,7 +51,7 @@ export default function UserPage() {
       }
     };
     getUserInfoAsync()
-  }, [navigate, isAuthenticated, currentMemberInfo, setCurrentMemberInfo]);
+  }, [currentMemberInfo, setCurrentMemberInfo]);
 
   
   return (

@@ -5,10 +5,7 @@ import {
   PopularFollowerItem,
 } from '../components/PopularFollower'
 import { TweetModal } from '../components/Modal'
-import { useAuth } from '../context/AuthContext'
 import { useGetTweets } from '../context/GetTweets'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 import { useGetUserTweets } from '../context/GetUserTweets'
 
 const StyledMainLayoutContainer = styled.div`
@@ -78,19 +75,9 @@ const StyledTweetModalContainer = styled.div`
 `
 
 const MainLayout = ({ children }) => {
-
-  const { isAuthenticated, logout } = useAuth()
   const { currentMemberInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
-  const navigate = useNavigate()
 
-    useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      localStorage.removeItem('activeNavItem')
-      logout()
-    }
-  }, [navigate, isAuthenticated, logout]);
 
   return (
       <StyledMainLayoutContainer className='container-fluid px-0'>

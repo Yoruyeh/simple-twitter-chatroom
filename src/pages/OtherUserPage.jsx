@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useGetUserTweets } from '../context/GetUserTweets'
 import MainLayout from '../layout/MainLayout'
@@ -15,15 +13,10 @@ const StyledContainer = styled.div`
   }
 `
 export default function OtherUserPage() {
-  const { isAuthenticated } = useAuth()
-  const navigate = useNavigate()
   const { userInfo, setUserInfo } = useGetUserTweets()
 
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
     const getUserInfoAsync = async () => {
       try {
         const info = await getUserInfo(userInfo.id);
@@ -33,7 +26,7 @@ export default function OtherUserPage() {
       }
     };
     getUserInfoAsync()
-  }, [navigate, isAuthenticated, userInfo, setUserInfo]);
+  }, [userInfo, setUserInfo]);
 
   return (
     <MainLayout>
