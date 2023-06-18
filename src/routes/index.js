@@ -27,15 +27,15 @@ const routes = [
     element: <Navigate to={`/login`} />,
   },
   {
-    path: `/login`,
+    path: `login`,
     element: <LoginPage />,
   },
   {
-    path: '/register',
+    path: 'register',
     element: <RegistPage />,
   },
   {
-    path: '/admin/login',
+    path: 'admin/login',
     element: <AdminLoginPage />,
   },
   {
