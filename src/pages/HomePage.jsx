@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import MainLayout from '../layout/MainLayout';
 import { MainHeader } from '../components/Header';
 import { TweetInput } from '../components/TweetInput';
@@ -81,17 +79,11 @@ const StyledAlertContainer = styled.div`
 `
 
 const HomePage = () => {
-  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { currentMemberInfo } = useGetUserTweets()
   const { tweets, handleClickTweetInput, tweetInputValue, openAlert, alertType } = useGetTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet()
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [navigate, isAuthenticated]);
 
   return (
     isAuthenticated &&

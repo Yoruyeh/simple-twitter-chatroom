@@ -1,13 +1,10 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import MainLayout from '../layout/MainLayout'
 import { ReplyHeader } from '../components/Header';
 import TweetContent from '../components/TweetContent'
 import ReplyCollection from '../components/ReplyCollection'
 import { ReplyModal } from '../components/Modal';
-import { useAuth } from '../context/AuthContext';
 import { useGetSelectedTweet } from '../context/GetSelectedTweet';
-import { useNavigate } from 'react-router-dom';
 import { useGetTweets } from '../context/GetTweets';
 import Alert from '../components/Alert';
 import { useGetUserTweets } from '../context/GetUserTweets';
@@ -52,17 +49,10 @@ const StyledAlertContainer = styled.div`
 `
 
 const ReplyPage = () => {
-  const { isAuthenticated } = useAuth()
   const { currentMemberInfo } = useGetUserTweets()
-  const navigate = useNavigate();
   const { isReplyPageLoading, selectedReplyItem, isModalLoading, replies, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
   const { openAlert, alertType } = useGetTweets()
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [navigate, isAuthenticated]);
 
 
   return (

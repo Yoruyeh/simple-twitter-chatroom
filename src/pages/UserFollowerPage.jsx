@@ -21,7 +21,7 @@ const StyledFollowerPageContainer = styled.div`
   }
 `
 const UserFollowerPage = () => {
- const {currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers, currentMemberFollowings, setCurrentMemberFollowings} = useGetUserTweets()
+ const {currentMemberInfo, currentMemberFollowers, setCurrentMemberFollowers,currentMemberFollowings, setCurrentMemberFollowings} = useGetUserTweets()
 const { setPopularFollowers } = useGetTweets()
 const pathname = useLocation().pathname
 
