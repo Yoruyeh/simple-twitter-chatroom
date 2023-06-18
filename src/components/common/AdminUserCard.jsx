@@ -13,7 +13,8 @@ const StyledImgWrapper = styled.div`
   position: relative;
   .background-img {
     border-radius: 10px 10px 0 0;
-    background-image: url(${(props) => props.cover});
+    background-image: url(${(props) =>
+      props.cover ? props.cover : 'https://i.imgur.com/BWEPlza.jpeg'});
     background-size: cover;
     aspect-ratio: 210 / 140;
   }
