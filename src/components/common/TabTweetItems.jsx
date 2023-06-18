@@ -89,7 +89,12 @@ const TweetContainer = styled.div`
     > path {
       fill: var(--main);
     }
-  }
+    }
+    .tweet-reply-icon, .tweet-like-icon {
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 `
 
@@ -149,7 +154,7 @@ export function TabTweetItems({ tweet, replyid, button }) {
         <div className='tweet-footer'>
           <div className='icon-wrapper d-flex align-items-center'>
             <div className='item d-flex'>
-        <OutlinedReply data-id={tweet.id} 
+        <OutlinedReply data-id={tweet.id} className="tweet-reply-icon"
         onClick={(e) => {
         const clickedReplyIconId = e.currentTarget.dataset.id
         if (pathname.includes('others')) {

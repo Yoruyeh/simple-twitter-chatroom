@@ -1,14 +1,13 @@
 import styled from 'styled-components'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { checkPermission } from '../../api/checkPermission'
-import { getUserTweet } from '../../api/users'
 import { TabTweetItems } from './TabTweetItems'
 import { ReplyModal } from '../Modal'
 import { useGetTweets } from '../../context/GetTweets'
 import { useGetSelectedTweet } from '../../context/GetSelectedTweet'
 import { useGetUserTweets } from '../../context/GetUserTweets'
 import Alert from '../Alert'
+import { useAuth } from '../../context/AuthContext'
 
 const StyledContainer = styled.ul`
   li {
@@ -43,49 +42,25 @@ const StyledAlertContainer = styled.div`
 `
 
 export default function TabTweets() {
-  const [tweets, setTweets] = useState([])
+  const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const pathname = useLocation().pathname
   const { currentMemberInfo } = useGetUserTweets()
   const { userTweets } = useGetUserTweets()
   const { selectedReplyItem, isModalLoading, openReplyModal, handleOpenReplyModal } = useGetSelectedTweet();
-  const { openAlert, alertType } = useGetTweets()
+  const { openAlert, alertType, currentMemberTweets } = useGetTweets()
 
   useEffect(() => {
-    let userId = ''
-    // 檢查 token 是否有效、並取得使用者資料
-    async function checkTokenIsValid() {
-      // 在本地瀏覽器取得 token
-      const token = localStorage.getItem('token')
-      // token 不存在，跳轉到 login
-      if (!token) {
-        navigate('/login')
-        return
-      }
-      // 驗證 token 是否有效
-      // 無效，跳轉到 login
-      const result = await checkPermission(token)
-      if (!result) {
-        navigate('/login')
-        return
-      }
-      // token有效、取得 id
-      userId = result.id
-      // 取得推文函數
-      async function getTweetByidAsync(token, userId) {
-        const GetUserTweets = await getUserTweet(token, userId)
-        setTweets(GetUserTweets)
-      }
-      // 根據 id 取得使用者推文
-      await getTweetByidAsync(token, userId)
+    if (!isAuthenticated) {
+      navigate('/login');
     }
-    checkTokenIsValid()
-  }, [navigate])
+  }, [navigate, isAuthenticated]);
+ 
 
   return (
     <StyledContainer>
     {userTweets && pathname.includes('others') ? (
-      [...userTweets].reverse().map((tweet) => (
+      [...userTweets].slice().reverse().map((tweet) => (
         <li key={tweet.id}>
           <TabTweetItems 
             tweet={tweet} 
@@ -93,7 +68,7 @@ export default function TabTweets() {
         </li>
       ))
     ) : (
-      tweets && [...tweets].reverse().map((tweet) => (
+      currentMemberTweets && [...currentMemberTweets].slice().reverse().map((tweet) => (
         <li key={tweet.id}>
           <TabTweetItems 
             tweet={tweet} 
