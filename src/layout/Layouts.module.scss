@@ -1,22 +1,41 @@
 .notification {
-  outline: 1px solid red;
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-columns: 1fr 2.4fr 1.8fr;
 
   .notificationLeft {
     height: 100%;
-    background-color: bisque;
+    border-right: 1px solid var(--gray1);
   }
 
   .notificationCenter {
     height: 100%;
-    background-color: green;
   }
 
   .notificationRight {
     height: 100%;
-    background-color: rgb(48, 60, 155);
+    border-left: 1px solid var(--gray1);
+  }
+}
+
+.chatroom {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 2.6fr;
+
+  .chatroomLeft {
+    height: 100%;
+    border-right: 1px solid var(--gray1);
+  }
+
+  .chatroomCenter {
+    height: 100%;
+  }
+
+  .chatroomRight {
+    height: 100%;
+    border-left: 1px solid var(--gray1);
   }
 }

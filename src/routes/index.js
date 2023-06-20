@@ -16,6 +16,7 @@ import AdminPage from '../pages/AdminPage'
 import OtherUserPage from '../pages/OtherUserPage'
 import OtherUserFollowerPage from '../pages/OtherUserFollowerPage'
 import NotificationPage from '../pages/NotificationPage'
+import PublicChatRoomPage from '../pages/PublicChatRoomPage'
 
 // 路由表
 const routes = [
@@ -152,6 +153,10 @@ const routes = [
   {
     path: '/noti',
     element: <NotificationPage />,
+  },
+  {
+    path: '/public',
+    element: <PublicChatRoomPage />,
   },
 ]
 

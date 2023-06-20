@@ -19,14 +19,14 @@ const NotificationLayout = (props) => {
 
 const ChatRoomLayout = (props) => {
   return (
-    <div className={styles.ChatRoom}>
-      <div className="ChatRoom-left">
+    <div className={styles.chatroom}>
+      <div className={styles.chatroomLeft}>
         {props.left}
       </div>
-      <div className="ChatRoom-center">
+      <div className={styles.chatroomCenter}>
         {props.center}
       </div>
-      <div className="ChatRoom-right">
+      <div className={styles.chatroomRight}>
         {props.right}
       </div>
     </div>
