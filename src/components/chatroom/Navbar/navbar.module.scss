@@ -1,0 +1,36 @@
+.navContainer {
+  width: 100%;
+  height: 100%;
+  padding: 0 16px 0 52px;
+  font-family: 'Noto Sans TC';
+  position: relative;
+
+  .iconLogo {
+    position: absolute;
+    top: 8px;
+    left: 60px;
+  }
+
+  .navList {
+    width: 100%;
+    height: 100%;
+    padding: 85px 0 0 10px;
+  }
+
+  .navItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+
+    &:last-child {
+      position: absolute;
+      bottom: 0px;
+      margin-bottom: 16px;
+    }
+  }
+  .icon {
+    display: flex;
+    align-items: center;
+    margin-right: 18px;
+  }
+}

@@ -26,7 +26,8 @@ import { ReactComponent as NotiBgSuccess } from "./noti-icon-background-success.
 import { ReactComponent as NotiBgWarning } from "./noti-icon-background-warning.svg"
 import { ReactComponent as NotiBgInfo } from "./noti-icon-background-info.svg"
 import { ReactComponent as NotiBgDanger } from "./noti-icon-background-danger.svg"
+import { ReactComponent as OutlinedNoti2 } from "./outlined-noti-2.svg"
+import { ReactComponent as FilledNoti2 } from "./filled-noti-2.svg"
 
 
-
-export { FilledCog, FilledHome, FilledLike, FilledMessage, FilledNoti, FilledPost, FilledUser, Logo, NotiIconDanger, NotiIconInfo, NotiIconSuccess, NotiIconWarning, OutlinedAddPhoto, OutlinedChat, OutlinedBack, OutlinedClose, OutlinedCog, OutlinedHome, OutlinedLike, OutlinedLogout, OutlinedMessage, OutlinedNoti, OutlinedReply, OutlinedUser, NotiBgSuccess, NotiBgWarning, NotiBgInfo, NotiBgDanger }
+export { FilledCog, FilledHome, FilledLike, FilledMessage, FilledNoti, FilledPost, FilledUser, Logo, NotiIconDanger, NotiIconInfo, NotiIconSuccess, NotiIconWarning, OutlinedAddPhoto, OutlinedChat, OutlinedBack, OutlinedClose, OutlinedCog, OutlinedHome, OutlinedLike, OutlinedLogout, OutlinedMessage, OutlinedNoti, OutlinedReply, OutlinedUser, NotiBgSuccess, NotiBgWarning, NotiBgInfo, NotiBgDanger, OutlinedNoti2, FilledNoti2 }
