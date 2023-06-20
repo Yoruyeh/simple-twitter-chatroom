@@ -1,13 +1,13 @@
 import { ChatRoomLayout } from "../layout/ChatroomLayout";
 import Navbar from '../components/chatroom/Navbar/Navbar'
-import UserMessage from "../components/chatroom/UserMessage/UserMessage";
+// import UserMessage from "../components/chatroom/UserMessage/UserMessage";
 import ChatRoom from "../components/chatroom/ChatRoom/ChatRoom";
 
 const PrivateChatRoomPage = () => {
   return (
     <ChatRoomLayout 
     left={<Navbar />}
-    center={<UserMessage />}
+    // center={<UserMessage />}
     right={<ChatRoom />}
     />
   )

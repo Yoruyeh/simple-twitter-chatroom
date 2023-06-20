@@ -16,6 +16,76 @@ const Followingship = () => {
         </div>
         <div className={styles.button}><FollowButton /></div>
       </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
+      <div className={styles.followItem}>
+        <div className={styles.info}>
+          <img src="" alt="avatar" className={styles.avatar} />
+          <div className="text">
+          <h6 className={styles.name}>Pizza Hut</h6>
+          <p className={styles.account}>@pizzahut</p>
+          </div>
+        </div>
+        <div className={styles.button}><FollowButton /></div>
+      </div>
     </div>
    </div>
   );
