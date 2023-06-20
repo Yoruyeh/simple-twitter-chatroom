@@ -17,6 +17,7 @@ import OtherUserPage from '../pages/OtherUserPage'
 import OtherUserFollowerPage from '../pages/OtherUserFollowerPage'
 import NotificationPage from '../pages/NotificationPage'
 import PublicChatRoomPage from '../pages/PublicChatRoomPage'
+import PrivateChatRoomPage from '../pages/PrivateChatRoom'
 
 // 路由表
 const routes = [
@@ -155,8 +156,12 @@ const routes = [
     element: <NotificationPage />,
   },
   {
-    path: '/public',
+    path: '/chatroom',
     element: <PublicChatRoomPage />,
+  },
+  {
+    path: '/:id/message',
+    element: <PrivateChatRoomPage />,
   },
 ]
 
