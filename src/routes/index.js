@@ -15,6 +15,7 @@ import AdminList from '../components/AdminList'
 import AdminPage from '../pages/AdminPage'
 import OtherUserPage from '../pages/OtherUserPage'
 import OtherUserFollowerPage from '../pages/OtherUserFollowerPage'
+import NotificationPage from '../pages/NotificationPage'
 
 // 路由表
 const routes = [
@@ -147,6 +148,10 @@ const routes = [
         element: <TabTweets />,
       },
     ],
+  },
+  {
+    path: '/noti',
+    element: <NotificationPage />,
   },
 ]
 

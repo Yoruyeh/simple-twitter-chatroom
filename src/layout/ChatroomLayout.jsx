@@ -1,6 +1,23 @@
 import styles from './Layouts.module.scss'
 
-const ChatRoom = (props) => {
+
+const NotificationLayout = (props) => {
+  return (
+    <div className={styles.notification}>
+      <div className={styles.notificationLeft}>
+        {props.left}
+      </div>
+      <div className={styles.notificationCenter}>
+        {props.center}
+      </div>
+      <div className={styles.notificationRight}>
+        {props.right}
+      </div>
+    </div>
+  )
+}
+
+const ChatRoomLayout = (props) => {
   return (
     <div className={styles.ChatRoom}>
       <div className="ChatRoom-left">
@@ -16,21 +33,4 @@ const ChatRoom = (props) => {
   )
 }
 
-
-const Notification = (props) => {
-  return (
-    <div className={styles.Notification}>
-      <div className={styles['Notification-left']}>
-        {props.left}
-      </div>
-      <div className={styles['Notification-center']}>
-        {props.center}
-      </div>
-      <div className={styles['Notification-right']}>
-        {props.right}
-      </div>
-    </div>
-  )
-}
-
-export {Notification, ChatRoom}
+export {NotificationLayout, ChatRoomLayout}
