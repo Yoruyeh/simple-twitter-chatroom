@@ -1,7 +1,7 @@
 {
   "name": "simple-twitter",
   "version": "0.1.0",
-  "homepage": "https://yoruyeh.github.io/simple-twitter",
+  "homepage": "https://yoruyeh.github.io/simple-twitter-chatroom",
   "private": true,
   "dependencies": {
     "@popperjs/core": "^2.11.8",

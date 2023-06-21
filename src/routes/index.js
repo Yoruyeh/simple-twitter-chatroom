@@ -156,7 +156,7 @@ const routes = [
     element: <NotificationPage />,
   },
   {
-    path: '/chatroom',
+    path: '/public',
     element: <PublicChatRoomPage />,
   },
   {
