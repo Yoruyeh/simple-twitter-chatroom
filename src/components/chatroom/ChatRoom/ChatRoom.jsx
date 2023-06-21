@@ -1,7 +1,12 @@
+import styles from './chat.room.module.scss'
 
 const ChatRoom = () => {
   return (
-   <h1>123</h1>
+   <div className={styles.container}>
+      <header><h4>公開聊天室</h4></header>
+      <body></body>
+      <footer></footer>
+    </div>
   );
 }
 

@@ -1,0 +1,27 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans TC';
+  color: var(--dark-100);
+  overflow-y: scroll;
+
+  & header {
+    width: 100%;
+    height: 74px;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    border-bottom: 1px solid var(--gray1);
+
+    & h4 {
+      margin-left: 24px;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 2px;
+    background-color: transparent;
+  }
+}

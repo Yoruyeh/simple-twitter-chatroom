@@ -5,7 +5,6 @@
   flex-direction: column;
   font-family: 'Noto Sans TC';
   color: var(--dark-100);
-  overflow-y: scroll;
 
   & header {
     width: 100%;
@@ -22,6 +21,7 @@
   .notiWrapper{
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
 
     .notiItem{
       width: 100%;
@@ -51,21 +51,10 @@
         word-wrap: break-word;
       }
     }
-  }
 
-  &::-webkit-scrollbar {
-    width: 8px;
+    &::-webkit-scrollbar {
+      width: 2px;
+      background-color: transparent;
+    }
   }
-
-  &::-webkit-scrollbar-track {
-    box-shadow: -1px 0px 0px 0px rgba(240, 240, 240, 1) inset,
-      1px 0px 0px 0px rgba(232, 232, 232, 1) inset;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #c1c1c1;
-    border: 1px solid (--gray1);
-    border-radius: 8px;
-  }
-
 }
