@@ -4,7 +4,10 @@ import { SendIcon } from '../../../assets/icons';
 const ChatRoom = () => {
   return (
    <div className={styles.container}>
-      <header><h4>公開聊天室</h4></header>
+      <header>
+        <h4>Apple</h4>
+        <p>@apple</p>
+      </header>
       <body>
         <div className={styles.notiWrapper}>
           <div className={styles.noti}>Apple上線</div>
