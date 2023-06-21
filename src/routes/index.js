@@ -152,6 +152,10 @@ const routes = [
     ],
   },
   {
+    path: `/simple-twitter-chatroom`,
+    element: <Navigate to={`/public`} />,
+  },
+  {
     path: '/noti',
     element: <NotificationPage />,
   },
