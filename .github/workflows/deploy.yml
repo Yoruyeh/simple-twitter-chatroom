@@ -2,9 +2,9 @@ name: Deploy to GitHub pages
 
 on:
   push:
-    branches: [master]
+    branches: [feature/chatroom]
   pull_request:
-    branches: [master]
+    branches: [feature/chatroom]
 
 jobs:
   build:
