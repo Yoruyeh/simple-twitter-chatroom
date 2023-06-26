@@ -10,6 +10,7 @@ import { GetUserTweetsProvider } from './context/GetUserTweets'
 export default function App() {
   const element = useRoutes(routes)
   return (
+    <div className="App">
     <AuthProvider>
       <GetTweetsProvider>
         <GetSelectedTweetProvider>
@@ -21,5 +22,6 @@ export default function App() {
         </GetSelectedTweetProvider>
       </GetTweetsProvider>
     </AuthProvider>
+    </div>
   )
 }

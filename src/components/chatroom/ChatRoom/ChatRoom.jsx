@@ -8,7 +8,7 @@ const ChatRoom = () => {
         <h4>Apple</h4>
         <p>@apple</p>
       </header>
-      <body>
+      <div className={styles.messageContainer}>
         <div className={styles.notiWrapper}>
           <div className={styles.noti}>Apple上線</div>
         </div>
@@ -33,7 +33,7 @@ const ChatRoom = () => {
             <div className={styles.myTime}>下午4:22</div>
           </div>
         </div>
-      </body>
+      </div>
       <footer>
         <form action="">
           <input className={styles.input} type="text" name="myMessage" placeholder="輸入訊息..."/>

@@ -21,13 +21,21 @@ import PrivateChatRoomPage from '../pages/PrivateChatRoom'
 
 // 路由表
 const routes = [
+  // {
+  //   path: `/`,
+  //   element: <Navigate to={`/login`} />,
+  // },
+  // {
+  //   path: `/simple-twitter`,
+  //   element: <Navigate to={`/login`} />,
+  // },
   {
-    path: `/`,
-    element: <Navigate to={`/login`} />,
+    path: `/simple-twitter-chatroom`,
+    element: <Navigate to={`/public`} />,
   },
   {
-    path: `/simple-twitter`,
-    element: <Navigate to={`/login`} />,
+    path: `/`,
+    element: <Navigate to={`/public`} />,
   },
   {
     path: `login`,
@@ -150,10 +158,6 @@ const routes = [
         element: <TabTweets />,
       },
     ],
-  },
-  {
-    path: `/simple-twitter-chatroom`,
-    element: <Navigate to={`/public`} />,
   },
   {
     path: '/noti',
