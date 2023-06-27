@@ -9,6 +9,7 @@ import { TweetModal } from "../components/Modal";
 import { useSocketContext } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
+import { socket } from '../socket';
 
 
 const StyledTweetModalContainer = styled.div`
@@ -35,13 +36,15 @@ const PublicChatRoomPage = () => {
   const { isAuthenticated } = useAuth()
   const { currentMemberInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
-  const { isConnected, setIsConnected } = useSocketContext()
+  const { isConnected } = useSocketContext()
 
   useEffect(() => {
     if (isAuthenticated) {
-      setIsConnected(true)
-    } 
-  }, [isAuthenticated, setIsConnected])
+      socket.connect();
+    } else {
+      socket.disconnect();
+    }
+  }, [isAuthenticated])
 
   return (
     <>

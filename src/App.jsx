@@ -6,10 +6,6 @@ import { GetTweetsProvider } from './context/GetTweets'
 import { GetSelectedTweetProvider } from './context/GetSelectedTweet'
 import { GetLikesProvider } from './context/GetLikes'
 import { GetUserTweetsProvider } from './context/GetUserTweets'
-import { ConnectionState } from './components/ConnectionState';
-import { ConnectionManager } from './components/ConnectionManager';
-import { MyForm } from './components/MyForm';
-import { Events } from './components/Events'
 import { SocketContextProvider } from './context/SocketContext'
 
 export default function App() {
@@ -26,10 +22,6 @@ export default function App() {
               <GetLikesProvider>
                 <SocketContextProvider>
                  {element}
-                 <ConnectionState  />
-                  <Events  />
-                  <ConnectionManager />
-                  <MyForm />
                  </SocketContextProvider>
                  </GetLikesProvider>
             </GetUserTweetsProvider>
