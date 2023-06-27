@@ -1,5 +1,8 @@
-// import React from 'react';
+import React from 'react';
+import { useSocketContext } from '../context/SocketContext';
 
-// export function ConnectionState({ isConnected }) {
-//   return <p>State: { '' + isConnected }</p>;
-// }
+export function ConnectionState() {
+  const { isConnected } = useSocketContext()
+
+  return <p>State: { '' + isConnected }</p>;
+}

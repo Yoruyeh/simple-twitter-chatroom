@@ -1,13 +1,16 @@
-// import React from 'react';
+import React from 'react';
+import { useSocketContext } from '../context/SocketContext';
 
-// export function Events({ events }) {
-//   return (
-//     <ul>
-//     {
-//       events.map((event, index) =>
-//         <li key={ index }>{ event }</li>
-//       )
-//     }
-//     </ul>
-//   );
-// }
+export function Events() {
+  const { fooEvents } = useSocketContext()
+
+  return (
+    <ul>
+    {fooEvents &&
+      fooEvents.map((event, index) =>
+        <li key={ index }>{ event }</li>
+      )
+    }
+    </ul>
+  );
+}
