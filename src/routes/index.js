@@ -21,22 +21,18 @@ import PrivateChatRoomPage from '../pages/PrivateChatRoom'
 
 // 路由表
 const routes = [
-  // {
-  //   path: `/`,
-  //   element: <Navigate to={`/login`} />,
-  // },
-  // {
-  //   path: `/simple-twitter`,
-  //   element: <Navigate to={`/login`} />,
-  // },
-  {
-    path: `/simple-twitter-chatroom`,
-    element: <Navigate to={`/public`} />,
-  },
   {
     path: `/`,
-    element: <Navigate to={`/public`} />,
+    element: <Navigate to={`/login`} />,
   },
+  // {
+  //   path: `/simple-twitter-chatroom`,
+  //   element: <Navigate to={`/public`} />,
+  // },
+  // {
+  //   path: `/`,
+  //   element: <Navigate to={`/public`} />,
+  // },
   {
     path: `login`,
     element: <LoginPage />,

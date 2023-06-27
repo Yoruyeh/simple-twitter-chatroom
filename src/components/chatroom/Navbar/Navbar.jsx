@@ -1,7 +1,8 @@
 import { OutlinedHome, OutlinedNoti2, OutlinedMessage, OutlinedChat, OutlinedUser, OutlinedCog, OutlinedLogout, Logo } from "../../../assets/icons";
 import styles from './navbar.module.scss'
+import { NavbarButton } from "../../common/button.styled";
 
-const Navbar = () => {
+const Navbar = ({ handleOpenTweetModal }) => {
   return (
    <nav className={styles.navContainer}>
     <div className={styles.iconLogo}><Logo /></div>
@@ -35,6 +36,7 @@ const Navbar = () => {
         <h5 className={styles.text}>登出</h5>
       </li>
     </ul>
+    <NavbarButton className={styles.navTweetButton} onClick={handleOpenTweetModal}>推文</NavbarButton>
    </nav>
   );
 }
