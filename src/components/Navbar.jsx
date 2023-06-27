@@ -5,7 +5,8 @@ import {
   OutlinedHome, FilledHome,
   OutlinedUser, FilledUser,
   OutlinedCog, FilledCog,
-  OutlinedLogout
+  OutlinedLogout, OutlinedNoti2, OutlinedMessage, OutlinedChat,
+  FilledNoti2, FilledMessage
 } from '../assets/icons';
 import { NavbarButton } from "./common/button.styled"
 import { useNavigate } from 'react-router-dom'
@@ -17,7 +18,7 @@ const StyledNavbar = styled.nav`
   position: static;
   .nav-tweet-button {
     position: absolute;
-    top: 264px;
+    top: 460px;
     right: 24px;
   }
 `;
@@ -89,6 +90,36 @@ const Navbar = ({ handleOpenTweetModal }) => {
   },
   {
     id: "2",
+    text: "通知",
+    link: '/noti',
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedNoti2 />,
+      filled: <FilledNoti2 />
+    }
+  },
+  {
+    id: "3",
+    text: "公開聊天室",
+    link: '/public',
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedChat />,
+      filled: <OutlinedChat />
+    }
+  },
+  {
+    id: "4",
+    text: "私人訊息",
+    link: currentMember ? `/${currentMember.id}/message` : '/login',
+    isVisited: false,
+    icons: {
+      outlined: <OutlinedMessage />,
+      filled: <FilledMessage />
+    }
+  },
+  {
+    id: "5",
     text: "個人資料",
     link: currentMember ? `/${currentMember.id}` : '/login',
     isVisited: false,
@@ -98,7 +129,7 @@ const Navbar = ({ handleOpenTweetModal }) => {
     }
   },
   {
-    id: "3",
+    id: "6",
     text: "設定",
     link: "/setting", 
     isVisited: false,
