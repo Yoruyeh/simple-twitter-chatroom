@@ -14,7 +14,6 @@ const ChatRoom = () => {
   const {currentMemberInfo} = useGetUserTweets()
 
   const onSubmit = (event) => {
-    console.log(event)
     event.preventDefault();
     setIsLoading(true)
 
