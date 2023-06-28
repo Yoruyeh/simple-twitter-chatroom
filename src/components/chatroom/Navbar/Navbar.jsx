@@ -2,8 +2,11 @@ import { OutlinedHome, OutlinedNoti2, OutlinedMessage, OutlinedChat, OutlinedUse
 import styles from './navbar.module.scss'
 import { NavbarButton } from "../../common/button.styled";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 const Navbar = ({ handleOpenTweetModal }) => {
+  const {logout} = useAuth()
+  
   return (
    <nav className={styles.navContainer}>
     <div className={styles.iconLogo}><Logo /></div>
@@ -45,7 +48,12 @@ const Navbar = ({ handleOpenTweetModal }) => {
         </NavLink>
       </li>
       <li className={styles.navItem}>
-        <NavLink to='/login' activeclassname="active">
+        <NavLink to='/login' activeclassname="active" 
+        onClick={() => {
+          logout()
+          localStorage.removeItem('activeNavItem')
+          localStorage.removeItem('userInfo')
+          }}>
         <div className={styles.icon}><OutlinedLogout /></div>
         <h5 className={styles.text}>登出</h5>
         </NavLink>

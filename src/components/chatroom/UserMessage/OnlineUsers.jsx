@@ -9,7 +9,7 @@ const OnlineUsers = ({ isConnected }) => {
   <header>
     <h4>上線使用者 (5)</h4>
   </header>
-  {isConnected && (
+  {isConnected && currentMember && (
     <div className={styles.userWrapper}>
       <div className={styles.userItem}>
         <img src={currentMember.avatar} alt="avatar" className={styles.avatar} />

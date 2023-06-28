@@ -1,15 +1,18 @@
 import styles from './chat.room.module.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SendIcon } from '../../../assets/icons';
 import { useLocation } from 'react-router-dom';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
+import { useAuth } from '../../../context/AuthContext';
 
 const ChatRoom = () => {
   const pathname = useLocation().pathname
-  const { messages } = useSocketContext()
+  const { messages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { currentMember, isAuthenticated } = useAuth()
+  const [joined, setJoined] = useState(false)
 
   const onSubmit = (event) => {
     console.log(event)
@@ -22,6 +25,13 @@ const ChatRoom = () => {
     });
   }
 
+  useEffect(() => {
+    if (isAuthenticated && !joined) {
+      const userName = currentMember.name
+      socket.emit('user-joined', userName)
+      setJoined(true)
+    }
+  }, [isAuthenticated, currentMember, joined])
 
   return (
    <div className={styles.container}>
@@ -36,9 +46,20 @@ const ChatRoom = () => {
       </header>
     )}
       <div className={styles.messageContainer}>
-        <div className={styles.notiWrapper}>
-          <div className={styles.noti}>Apple上線</div>
-        </div>
+        {joinedUsers && joinedUsers.map((user, index) => {
+            return (
+              <div className={styles.notiWrapper} key={index}>
+                <div className={styles.noti}>{user}上線</div>
+              </div>
+            )
+          })}
+          {leftUsers && leftUsers.map((user, index) => {
+            return (
+              <div className={styles.notiWrapper} key={index}>
+                <div className={styles.noti}>{user}離線</div>
+              </div>
+            )
+          })}
         {/* <div className={styles.otherMessageWrapper}>
           <img src="" alt="avatar" className={styles.avatar} />
           <div className={styles.otherText}>
@@ -76,6 +97,7 @@ const ChatRoom = () => {
         <form onSubmit={onSubmit}>
           <input className={styles.input} type="text" name="myMessage" 
           value={value}
+          placeholder="輸入訊息..."
           onChange={ e => setValue(e.target.value) }/>
           <button type="submit"  disabled={ isLoading }>
             <SendIcon />

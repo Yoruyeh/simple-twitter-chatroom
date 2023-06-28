@@ -17,6 +17,8 @@ export const SocketContextProvider = ({ children }) => {
   // const { isAuthenticated } = useAuth()
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [messages, setMessages] = useState([]);
+  const [joinedUsers, setJoinedUsers] = useState([])
+  const [leftUsers, setLeftUsers] = useState([])
 
   useEffect(() => {
       function onConnect() {
@@ -33,21 +35,37 @@ export const SocketContextProvider = ({ children }) => {
       setMessages(previous => [...previous, value])
     }
 
+    // function onJoinedEvent(name) {
+    //   setUsers(previous => [...previous, name])
+    // }
+
+    function onJoinedEvent(userList) {
+      setJoinedUsers(userList);
+    }
+
+    function onLeftEvent(userList) {
+      setLeftUsers(userList);
+    }
+
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('create-message', onMessageEvent);
+    socket.on('user-joined', onJoinedEvent);
+    socket.on('user-left', onLeftEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('create-message', onMessageEvent);
+      socket.off('user-joined', onJoinedEvent);
+      socket.off('user-left', onLeftEvent);
     };
   }, []);
 
 
   return (
     <SocketContext.Provider 
-    value={{isConnected, setIsConnected, messages}}>
+    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers}}>
       {children}
     </SocketContext.Provider>
   );
