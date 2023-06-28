@@ -1,18 +1,17 @@
 import styles from './chat.room.module.scss'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SendIcon } from '../../../assets/icons';
 import { useLocation } from 'react-router-dom';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
-import { useAuth } from '../../../context/AuthContext';
+import { useGetUserTweets } from '../../../context/GetUserTweets';
 
 const ChatRoom = () => {
   const pathname = useLocation().pathname
   const { messages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { currentMember, isAuthenticated } = useAuth()
-  const [joined, setJoined] = useState(false)
+  const {currentMemberInfo} = useGetUserTweets()
 
   const onSubmit = (event) => {
     console.log(event)
@@ -25,14 +24,6 @@ const ChatRoom = () => {
     });
   }
 
-  useEffect(() => {
-    if (isAuthenticated && !joined) {
-      const userName = currentMember.name
-      socket.emit('user-joined', userName)
-      setJoined(true)
-    }
-  }, [isAuthenticated, currentMember, joined])
-
   return (
    <div className={styles.container}>
     {pathname.includes('public') ? (
@@ -41,22 +32,22 @@ const ChatRoom = () => {
       </header>
     ) : (
       <header>
-        <h4>Apple</h4>
-        <p>@apple</p>
+        <h4>{currentMemberInfo.name}</h4>
+        <p>@{currentMemberInfo.account}</p>
       </header>
     )}
       <div className={styles.messageContainer}>
-        {joinedUsers && joinedUsers.map((user, index) => {
+        {joinedUsers && joinedUsers.map((user) => {
             return (
-              <div className={styles.notiWrapper} key={index}>
-                <div className={styles.noti}>{user}上線</div>
+              <div className={styles.notiWrapper} key={user.userId}>
+                <div className={styles.noti}>{user.userName}上線</div>
               </div>
             )
           })}
-          {leftUsers && leftUsers.map((user, index) => {
+          {leftUsers && leftUsers.map((user) => {
             return (
-              <div className={styles.notiWrapper} key={index}>
-                <div className={styles.noti}>{user}離線</div>
+              <div className={styles.notiWrapper} key={user.userId}>
+                <div className={styles.noti}>{user.userName}離線</div>
               </div>
             )
           })}

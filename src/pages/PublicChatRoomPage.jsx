@@ -8,7 +8,7 @@ import { useGetUserTweets } from '../context/GetUserTweets';
 import { TweetModal } from "../components/Modal";
 import { useSocketContext } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { socket } from '../socket';
 
 
@@ -37,15 +37,24 @@ const PublicChatRoomPage = () => {
   const { currentMemberInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
   const { isConnected } = useSocketContext()
+  const [joined, setJoined] = useState(false)
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !joined && !socket.connected) {
       socket.connect();
-    } else {
+      const userId = currentMemberInfo.id
+      const userName = currentMemberInfo.name
+      const userAccount = currentMemberInfo.account
+      const userAvatar = currentMemberInfo.avatar
+      socket.emit('user-joined', { userId, userName, userAccount, userAvatar})
+      setJoined(true)
+    } 
+    if(!isAuthenticated && socket.connected) {
       socket.disconnect();
+      setJoined(false)
     }
-  }, [isAuthenticated])
-
+  }, [isAuthenticated, currentMemberInfo, joined])
+ 
   return (
     <>
     <ChatRoomLayout 
