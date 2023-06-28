@@ -11,6 +11,8 @@ import {
   getUserFollowingsById,
 } from '../../api/user.follower';
 import { getUserInfo } from '../../api/other.users';
+import { useGetTweets } from '../../context/GetTweets';
+import { getPopularFollowers } from '../../api/popular.follower'
 
 // container
 const Container = styled.div`
@@ -129,6 +131,7 @@ function ReturnActions() {
     setUserInfo,
     setUserFollowers
   } = useGetUserTweets();
+    const { setPopularFollowers } = useGetTweets()
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFollowClicked = async (id) => {
@@ -148,6 +151,9 @@ function ReturnActions() {
       setCurrentMemberInfo(newInfo)
       const follower = await getUserFollowersById(id)
       setUserFollowers(follower)
+      const popularObject = await getPopularFollowers();
+      const populars = popularObject.users;
+      setPopularFollowers(populars)
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -166,6 +172,9 @@ function ReturnActions() {
       setCurrentMemberInfo(newInfo)
       const follower = await getUserFollowersById(id)
       setUserFollowers(follower)
+       const popularObject = await getPopularFollowers();
+      const populars = popularObject.users;
+      setPopularFollowers(populars)
       setIsLoading(false);
     } catch (error) {
       console.error(error);
