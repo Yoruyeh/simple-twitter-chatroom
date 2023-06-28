@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 // import { useAuth } from './AuthContext'
 import { socket } from '../socket';
+import { useGetUserTweets } from './GetUserTweets';
 // import { getLikes, createLike, createUnLike } from '../api/like'
 // import { getTweets, getTweetById } from '../api/tweets';
 // import { useGetTweets } from './GetTweets';
@@ -14,9 +15,10 @@ const SocketContext = createContext(() => {});
 export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketContextProvider = ({ children }) => {
-  // const { isAuthenticated } = useAuth()
+  const { currentMemberInfo } = useGetUserTweets()
   const [isConnected, setIsConnected] = useState(socket.connected);
-  const [messages, setMessages] = useState([]);
+  const [myMessages, setMyMessages] = useState([]);
+  const [otherMessages, setOtherMessages] = useState([]);
   const [joinedUsers, setJoinedUsers] = useState([])
   const [leftUsers, setLeftUsers] = useState([])
 
@@ -31,13 +33,13 @@ export const SocketContextProvider = ({ children }) => {
       setIsConnected(false);
     }
 
-    function onMessageEvent(value) {
-      setMessages(previous => [...previous, value])
+    function onMessageEvent(messageData) {
+      if (messageData.sender.userId === currentMemberInfo.id) {
+        setMyMessages(previous => [...previous, messageData])
+      } else {
+        setOtherMessages(previous => [...previous, messageData])
+      }
     }
-
-    // function onJoinedEvent(name) {
-    //   setUsers(previous => [...previous, name])
-    // }
 
     function onJoinedEvent(userList) {
       setJoinedUsers(userList);
@@ -60,12 +62,12 @@ export const SocketContextProvider = ({ children }) => {
       socket.off('user-joined', onJoinedEvent);
       socket.off('user-left', onLeftEvent);
     };
-  }, []);
+  }, [currentMemberInfo]);
 
 
   return (
     <SocketContext.Provider 
-    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers}}>
+    value={{isConnected, setIsConnected, myMessages, joinedUsers, leftUsers, otherMessages}}>
       {children}
     </SocketContext.Provider>
   );

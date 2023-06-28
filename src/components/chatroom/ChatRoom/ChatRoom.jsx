@@ -8,7 +8,7 @@ import { useGetUserTweets } from '../../../context/GetUserTweets';
 
 const ChatRoom = () => {
   const pathname = useLocation().pathname
-  const { messages, joinedUsers, leftUsers } = useSocketContext()
+  const { myMessages, otherMessages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const {currentMemberInfo} = useGetUserTweets()
@@ -51,19 +51,22 @@ const ChatRoom = () => {
               </div>
             )
           })}
-        {/* <div className={styles.otherMessageWrapper}>
-          <img src="" alt="avatar" className={styles.avatar} />
-          <div className={styles.otherText}>
-            <div className={styles.otherMessage}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. </div>
+        {otherMessages && otherMessages.map((message, index) => {
+          return (
+            <div className={styles.otherMessageWrapper} key={index}>
+            <img src={message.sender.userAvatar} alt="avatar" className={styles.avatar} />
+            <div className={styles.otherText}>
+            <div className={styles.otherMessage}>{message.message}</div>
             <div className={styles.otherTime}>下午4:20</div>
           </div>
-        </div> */}
-        {messages && messages.map((message, index) => {
+        </div>
+          )
+        })}
+        {myMessages && myMessages.map((message, index) => {
           return (
             <div className={styles.myMessageWrapper} key={index}>
             <div className={styles.myText}>
-            <div className={styles.myMessage}>{message}
-            </div>
+            <div className={styles.myMessage}>{message.message}</div>
             <div className={styles.myTime}>下午4:22</div>
           </div>
         </div>
