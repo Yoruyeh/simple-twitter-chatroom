@@ -3,11 +3,13 @@ import { useState } from 'react';
 import { SendIcon } from '../../../assets/icons';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
+import { useGetUserTweets } from '../../../context/GetUserTweets';
 
-const PublicChatRoom = () => {
+const PrivateChatRoom = () => {
   const { myMessages, otherMessages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const {currentMemberInfo} = useGetUserTweets()
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -22,7 +24,8 @@ const PublicChatRoom = () => {
   return (
    <div className={styles.container}>
       <header>
-        <h4>公開聊天室</h4>
+        <h4>{currentMemberInfo.name}</h4>
+        <p>@{currentMemberInfo.account}</p>
       </header>
       <div className={styles.messageContainer}>
         {joinedUsers && joinedUsers.map((user) => {
@@ -76,4 +79,4 @@ const PublicChatRoom = () => {
   );
 }
 
-export default PublicChatRoom;
+export default PrivateChatRoom;

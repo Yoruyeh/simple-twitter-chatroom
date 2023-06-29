@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ChatRoomLayout } from "../layout/ChatroomLayout";
 import Navbar from '../components/chatroom/Navbar/Navbar'
 import UserMessage from "../components/chatroom/UserMessage/UserMessage";
-// import ChatRoom from "../components/chatroom/ChatRoom/ChatRoom";
+import PrivateChatRoom from "../components/chatroom/ChatRoom/PrivateChatRoom";
 import { useGetTweets } from "../context/GetTweets";
 import { useGetUserTweets } from '../context/GetUserTweets';
 import { TweetModal } from "../components/Modal";
@@ -36,7 +36,7 @@ const PrivateChatRoomPage = () => {
     <ChatRoomLayout 
     left={<Navbar handleOpenTweetModal={handleOpenTweetModal}/>}
     center={<UserMessage />}
-    // right={<ChatRoom />}
+    right={<PrivateChatRoom />}
     />
     {openTweetModal && (
       <StyledTweetModalContainer>
