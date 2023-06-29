@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ChatRoomLayout } from "../layout/ChatroomLayout";
 import Navbar from '../components/chatroom/Navbar/Navbar'
 import OnlineUsers from "../components/chatroom/UserMessage/OnlineUsers";
-import ChatRoom from "../components/chatroom/ChatRoom/ChatRoom";
+import PublicChatRoom from "../components/chatroom/ChatRoom/PublicChatRoom";
 import { useGetTweets } from "../context/GetTweets";
 import { useGetUserTweets } from '../context/GetUserTweets';
 import { TweetModal } from "../components/Modal";
@@ -60,7 +60,7 @@ const PublicChatRoomPage = () => {
     <ChatRoomLayout 
     left={<Navbar handleOpenTweetModal={handleOpenTweetModal}/>}
     center={<OnlineUsers isConnected={isConnected}/>}
-    right={<ChatRoom isConnected={isConnected}/>}
+    right={<PublicChatRoom isConnected={isConnected}/>}
     />
     {openTweetModal && (
       <StyledTweetModalContainer>

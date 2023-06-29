@@ -6,7 +6,7 @@ import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
 import { useGetUserTweets } from '../../../context/GetUserTweets';
 
-const ChatRoom = () => {
+const PublicChatRoom = () => {
   const pathname = useLocation().pathname
   const { myMessages, otherMessages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
@@ -101,4 +101,4 @@ const ChatRoom = () => {
   );
 }
 
-export default ChatRoom;
+export default PublicChatRoom;
