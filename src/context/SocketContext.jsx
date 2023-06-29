@@ -26,6 +26,8 @@ export const SocketContextProvider = ({ children }) => {
     }
 
     function onMessageEvent(messageData) {
+      // 接收到伺服器端的messageData，包含message和sender data
+      // 如果sender的id等於登入用戶的id，存入myMessage，否則存入otherMessage
       if (messageData.sender.id === currentMemberInfo.id) {
         setMyMessages(previous => [...previous, messageData])
       } else {
