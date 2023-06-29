@@ -12,8 +12,8 @@ const PrivateChatRoom = ({ userInfo }) => {
 
   const onSubmit = (event) => {
     event.preventDefault(); // 避免submit預設重刷頁面
-    const receiverId = userInfo.id
-    socket.emit('private-message', { receiverId, value }); // 發出'create-message'事件，傳入input value
+    socket.emit('private-message', { userInfo, value }); // 發出'private-message'事件，傳入input value
+    socket.emit('get-chat-partners')
     setValue('') // 清空input
   }
 

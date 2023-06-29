@@ -13,6 +13,7 @@ export const SocketContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [leftUsers, setLeftUsers] = useState([])
   const [privateMessage, setPrivateMessage] = useState([])
+  const [chatPartners, setChatParners] = useState([])
 
   useEffect(() => {
       function onConnect() {
@@ -41,11 +42,16 @@ export const SocketContextProvider = ({ children }) => {
       setLeftUsers(userList); // 接收到伺服器端的leftUsers的data陣列
     }
 
+    function onGetChatPartnersEvent(userList) {
+      setChatParners(userList); // 接收到伺服器端的ChatParners陣列
+    }
+
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('user-joined', onJoinedEvent);
     socket.on('create-message', onMessageEvent);
     socket.on('private-message', onPrivateMessageEvent);
+    socket.on('get-chat-partners', onGetChatPartnersEvent)
     socket.on('user-left', onLeftEvent);
 
     return () => {
@@ -54,6 +60,7 @@ export const SocketContextProvider = ({ children }) => {
       socket.off('user-joined', onJoinedEvent);
       socket.off('create-message', onMessageEvent);
       socket.off('private-message', onPrivateMessageEvent);
+      socket.off('get-chat-partners', onGetChatPartnersEvent)
       socket.off('user-left', onLeftEvent);
     };
   }, [currentMemberInfo, userInfo]);
@@ -61,7 +68,7 @@ export const SocketContextProvider = ({ children }) => {
 
   return (
     <SocketContext.Provider 
-    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers, privateMessage}}>
+    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers, privateMessage, chatPartners}}>
       {children}
     </SocketContext.Provider>
   );

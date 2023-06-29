@@ -43,7 +43,7 @@ const PrivateChatRoomPage = () => {
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
     setUserInfo(JSON.parse(storedUserInfo));
-  }
+    }
   }, [setUserInfo]);
 
   useEffect(() => {
