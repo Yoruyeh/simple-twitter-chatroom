@@ -10,8 +10,8 @@ export const SocketContextProvider = ({ children }) => {
   const { currentMemberInfo, userInfo } = useGetUserTweets()
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [joinedUsers, setJoinedUsers] = useState([])
-  const [myMessages, setMyMessages] = useState([]);
-  const [otherMessages, setOtherMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
+  // const [otherMessages, setOtherMessages] = useState([]);
   const [leftUsers, setLeftUsers] = useState([])
   const [privateMyMsg, setPrivateMyMsg] = useState([])
   const [privateOtherMsg, setPrivateOtherMsg] = useState([])
@@ -27,12 +27,7 @@ export const SocketContextProvider = ({ children }) => {
 
     function onMessageEvent(messageData) {
       // 接收到伺服器端的messageData，包含message和sender data
-      // 如果sender的id等於登入用戶的id，存入myMessage，否則存入otherMessage
-      if (messageData.sender.id === currentMemberInfo.id) {
-        setMyMessages(previous => [...previous, messageData])
-      } else {
-        setOtherMessages(previous => [...previous, messageData])
-      }
+      setMessages(previous => [...previous, messageData])
     }
 
     function onPrivateMessageEvent(messageData) {
@@ -72,7 +67,7 @@ export const SocketContextProvider = ({ children }) => {
 
   return (
     <SocketContext.Provider 
-    value={{isConnected, setIsConnected, myMessages, joinedUsers, leftUsers, otherMessages, privateMyMsg, privateOtherMsg}}>
+    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers, privateMyMsg, privateOtherMsg}}>
       {children}
     </SocketContext.Provider>
   );
