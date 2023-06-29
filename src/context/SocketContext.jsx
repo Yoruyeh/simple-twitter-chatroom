@@ -11,7 +11,6 @@ export const SocketContextProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [joinedUsers, setJoinedUsers] = useState([])
   const [messages, setMessages] = useState([]);
-  // const [otherMessages, setOtherMessages] = useState([]);
   const [leftUsers, setLeftUsers] = useState([])
   const [privateMyMsg, setPrivateMyMsg] = useState([])
   const [privateOtherMsg, setPrivateOtherMsg] = useState([])

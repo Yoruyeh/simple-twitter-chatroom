@@ -9,6 +9,7 @@ import { TweetModal } from "../components/Modal";
 import { socket } from '../socket';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
+import { useSocketContext } from '../context/SocketContext';
 
 const StyledTweetModalContainer = styled.div`
   position: fixed;
@@ -34,26 +35,36 @@ const PrivateChatRoomPage = () => {
   const { isAuthenticated } = useAuth()
   const { currentMemberInfo, userInfo, setUserInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
+  const { isConnected } = useSocketContext()
   const [joined, setJoined] = useState(false)
 
-  useEffect(() => {
-    if (isAuthenticated && !joined && !socket.connected) {
-      socket.connect();
-      socket.emit('privateUser-joined', { currentMemberInfo, userInfo })
-      setJoined(true)
-    } 
-    if(!isAuthenticated && socket.connected) {
-      socket.disconnect();
-      setJoined(false)
-    }
-  }, [isAuthenticated, currentMemberInfo, joined, userInfo])
-
-  useEffect(() => {
+   useEffect(() => {
+    // 點擊大頭照到用戶個人頁面，會儲存user資料再local Storage
+    // 點擊小信封進入私人訊息頁面後，用它取得訊息receiver的用戶data
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
     setUserInfo(JSON.parse(storedUserInfo));
   }
   }, [setUserInfo]);
+
+  useEffect(() => {
+    // 已登入、未加入私人訊息、未連線的情況
+    if (isAuthenticated && !joined && !isConnected) {
+      socket.connect(); // 建立連線
+      socket.emit('privateUser-joined', currentMemberInfo) // 發出'privateUser-joined'事件，傳入用戶資料
+      setJoined(true) // 已加入
+    } 
+    // 已登入、未加入私人訊息、已連線的情況(曾先到過公開聊天室connect)
+    if(isAuthenticated && !joined && isConnected) {
+      socket.emit('privateUser-joined', currentMemberInfo) // 發出'privateUser-joined'事件，傳入用戶資料
+      setJoined(true) // 已加入
+    }
+    // 未登入、已連線的情況
+    if(!isAuthenticated && isConnected) {
+      socket.disconnect(); // 讓登出用戶斷線
+      setJoined(false) // 改回未加入狀態
+    }
+  }, [isAuthenticated, currentMemberInfo, isConnected, joined])
 
   return (
     <>

@@ -7,17 +7,14 @@ import { useSocketContext } from '../../../context/SocketContext';
 const PrivateChatRoom = ({ userInfo }) => {
   const { privateMyMsg, privateOtherMsg } = useSocketContext()
   const [value, setValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (event) => {
-    event.preventDefault();
-    setIsLoading(true)
+    event.preventDefault(); // 避免submit預設重刷頁面
     const receiverId = userInfo.id
-    socket.timeout(100).emit('privateMessage', { receiverId, value }, () => {
-    setValue('')
-    setIsLoading(false);
-    });
+    socket.emit('private-message', { receiverId, value }); // 發出'create-message'事件，傳入input value
+    setValue('') // 清空input
   }
+
 
   return (
    <div className={styles.container}>
@@ -54,7 +51,7 @@ const PrivateChatRoom = ({ userInfo }) => {
           value={value}
           placeholder="輸入訊息..."
           onChange={ e => setValue(e.target.value) }/>
-          <button type="submit"  disabled={ isLoading }>
+          <button type="submit">
             <SendIcon />
           </button>
         </form>
