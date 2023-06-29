@@ -12,8 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [joinedUsers, setJoinedUsers] = useState([])
   const [messages, setMessages] = useState([]);
   const [leftUsers, setLeftUsers] = useState([])
-  const [privateMyMsg, setPrivateMyMsg] = useState([])
-  const [privateOtherMsg, setPrivateOtherMsg] = useState([])
+  const [privateMessage, setPrivateMessage] = useState([])
 
   useEffect(() => {
       function onConnect() {
@@ -30,12 +29,8 @@ export const SocketContextProvider = ({ children }) => {
     }
 
     function onPrivateMessageEvent(messageData) {
-      if (messageData.sender.id === currentMemberInfo.id) {
-        setPrivateMyMsg(previous => [...previous, messageData])
-      } 
-      if (messageData.sender.id === userInfo.id) {
-        setPrivateOtherMsg(previous => [...previous, messageData])
-      }
+      // 接收到伺服器端的messageData，包含message和sender data
+      setPrivateMessage(previous => [...previous, messageData])
     }
 
     function onJoinedEvent(userList) {
@@ -43,14 +38,14 @@ export const SocketContextProvider = ({ children }) => {
     }
 
     function onLeftEvent(userList) {
-      setLeftUsers(userList);
+      setLeftUsers(userList); // 接收到伺服器端的leftUsers的data陣列
     }
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('user-joined', onJoinedEvent);
     socket.on('create-message', onMessageEvent);
-    socket.on('privateMessage', onPrivateMessageEvent);
+    socket.on('private-message', onPrivateMessageEvent);
     socket.on('user-left', onLeftEvent);
 
     return () => {
@@ -58,7 +53,7 @@ export const SocketContextProvider = ({ children }) => {
       socket.off('disconnect', onDisconnect);
       socket.off('user-joined', onJoinedEvent);
       socket.off('create-message', onMessageEvent);
-      socket.off('privateMessage', onPrivateMessageEvent);
+      socket.off('private-message', onPrivateMessageEvent);
       socket.off('user-left', onLeftEvent);
     };
   }, [currentMemberInfo, userInfo]);
@@ -66,7 +61,7 @@ export const SocketContextProvider = ({ children }) => {
 
   return (
     <SocketContext.Provider 
-    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers, privateMyMsg, privateOtherMsg}}>
+    value={{isConnected, setIsConnected, messages, joinedUsers, leftUsers, privateMessage}}>
       {children}
     </SocketContext.Provider>
   );

@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { SendIcon } from '../../../assets/icons';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
+import { useGetUserTweets } from '../../../context/GetUserTweets';
 
 const PrivateChatRoom = ({ userInfo }) => {
-  const { privateMyMsg, privateOtherMsg } = useSocketContext()
+  const { currentMemberInfo } = useGetUserTweets()
+  const { privateMessage } = useSocketContext()
   const [value, setValue] = useState('');
 
   const onSubmit = (event) => {
@@ -15,7 +17,6 @@ const PrivateChatRoom = ({ userInfo }) => {
     setValue('') // 清空input
   }
 
-
   return (
    <div className={styles.container}>
       <header>
@@ -23,27 +24,28 @@ const PrivateChatRoom = ({ userInfo }) => {
         <p>@{userInfo.account}</p>
       </header>
       <div className={styles.messageContainer}>
-        {privateOtherMsg && privateOtherMsg.map((message, index) => {
-          return (
-            <div className={styles.otherMessageWrapper} key={index}>
-            <img src={message.sender.userAvatar} alt="avatar" className={styles.avatar} />
-            <div className={styles.otherText}>
-            <div className={styles.otherMessage}>{message.message}</div>
-            <div className={styles.otherTime}>下午4:20</div>
-          </div>
-        </div>
-          )
-        })}
-        {privateMyMsg && privateMyMsg.map((message, index) => {
-          return (
-            <div className={styles.myMessageWrapper} key={index}>
-            <div className={styles.myText}>
-            <div className={styles.myMessage}>{message.message}</div>
-            <div className={styles.myTime}>下午4:22</div>
-          </div>
-        </div>
-          )
-        })}
+         {privateMessage && privateMessage.map((message) => {
+            if(message.sender.id === currentMemberInfo.id) {
+              return (
+                <div className={styles.myMessageWrapper} key={message.message}>
+                <div className={styles.myText}>
+                  <div className={styles.myMessage}>{message.message}</div>
+                  <div className={styles.myTime}>下午4:22</div>
+                </div>
+                </div>
+              )
+            } else {
+              return (
+                <div className={styles.otherMessageWrapper} key={message.message}>
+                <img src={message.sender.avatar} alt="avatar" className={styles.avatar} />
+                <div className={styles.otherText}>
+                  <div className={styles.otherMessage}>{message.message}</div>
+                  <div className={styles.otherTime}>下午4:20</div>
+                </div>
+                </div>
+              )
+            }
+          })}
       </div>
       <footer>
         <form onSubmit={onSubmit}>
