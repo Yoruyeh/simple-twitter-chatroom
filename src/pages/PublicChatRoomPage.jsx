@@ -8,7 +8,7 @@ import { useGetUserTweets } from '../context/GetUserTweets';
 import { TweetModal } from "../components/Modal";
 import { useSocketContext } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { socket } from '../socket';
 
 
@@ -37,26 +37,18 @@ const PublicChatRoomPage = () => {
   const { currentMemberInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
   const { isConnected } = useSocketContext()
-  const [joined, setJoined] = useState(false)
 
   useEffect(() => {
-    // 已登入、未加入公開聊天室、未連線的情況
-    if (isAuthenticated && !joined && !isConnected) {
+    // 已登入、未連線的情況
+    if (isAuthenticated && !isConnected) {
       socket.connect(); // 建立連線
       socket.emit('user-joined', currentMemberInfo) // 發出'user-joined'事件，傳入用戶資料
-      setJoined(true) // 已加入
     } 
-    // 已登入、未加入公開聊天室、已連線的情況(曾先到過私人訊息connect)
-    if(isAuthenticated && !joined && isConnected) {
-      socket.emit('user-joined', currentMemberInfo) // 發出'user-joined'事件，傳入用戶資料
-      setJoined(true) // 已加入
-    }
     // 未登入、已連線的情況
     if(!isAuthenticated && isConnected) {
       socket.disconnect(); // 讓登出用戶斷線
-      setJoined(false) // 改回未加入狀態
     }
-  }, [isAuthenticated, currentMemberInfo, joined, isConnected])
+  }, [isAuthenticated, currentMemberInfo, isConnected])
  
   return (
     <>
