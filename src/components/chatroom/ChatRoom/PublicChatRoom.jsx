@@ -4,7 +4,7 @@ import { SendIcon } from '../../../assets/icons';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
 
-const PublicChatRoom = () => {
+const PublicChatRoom = ({ isConnected }) => {
   const { myMessages, otherMessages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
 
@@ -16,6 +16,7 @@ const PublicChatRoom = () => {
   }
 
   return (
+    isConnected &&
    <div className={styles.container}>
       <header>
         <h4>公開聊天室</h4>
