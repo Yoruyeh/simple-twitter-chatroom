@@ -13,10 +13,10 @@ const OnlineUsers = ({ isConnected }) => {
     {isConnected && joinedUsers && (
       joinedUsers.map((user) => {
         return (
-        <div className={styles.userItem} key={user.userId}>
-          <img src={user.userAvatar} alt="avatar" className={styles.avatar} />
-          <h6 className={styles.name}>{user.userName}</h6>
-          <p className={styles.account}>@{user.userAccount}</p>
+        <div className={styles.userItem} key={user.id}>
+          <img src={user.avatar} alt="avatar" className={styles.avatar} />
+          <h6 className={styles.name}>{user.name}</h6>
+          <p className={styles.account}>@{user.account}</p>
         </div>
         )
       })

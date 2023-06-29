@@ -27,22 +27,22 @@ const PublicChatRoom = () => {
       <div className={styles.messageContainer}>
         {joinedUsers && joinedUsers.map((user) => {
             return (
-              <div className={styles.notiWrapper} key={user.userId}>
-                <div className={styles.noti}>{user.userName}上線</div>
+              <div className={styles.notiWrapper} key={user.id}>
+                <div className={styles.noti}>{user.name}上線</div>
               </div>
             )
           })}
           {leftUsers && leftUsers.map((user) => {
             return (
-              <div className={styles.notiWrapper} key={user.userId}>
-                <div className={styles.noti}>{user.userName}離線</div>
+              <div className={styles.notiWrapper} key={user.id}>
+                <div className={styles.noti}>{user.name}離線</div>
               </div>
             )
           })}
         {otherMessages && otherMessages.map((message, index) => {
           return (
             <div className={styles.otherMessageWrapper} key={index}>
-            <img src={message.sender.userAvatar} alt="avatar" className={styles.avatar} />
+            <img src={message.sender.avatar} alt="avatar" className={styles.avatar} />
             <div className={styles.otherText}>
             <div className={styles.otherMessage}>{message.message}</div>
             <div className={styles.otherTime}>下午4:20</div>

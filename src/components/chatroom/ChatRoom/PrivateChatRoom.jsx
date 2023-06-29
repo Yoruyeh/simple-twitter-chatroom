@@ -3,19 +3,17 @@ import { useState } from 'react';
 import { SendIcon } from '../../../assets/icons';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
-import { useGetUserTweets } from '../../../context/GetUserTweets';
 
-const PrivateChatRoom = () => {
-  const { myMessages, otherMessages, joinedUsers, leftUsers } = useSocketContext()
+const PrivateChatRoom = ({ userInfo }) => {
+  const { privateMyMsg, privateOtherMsg } = useSocketContext()
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const {currentMemberInfo} = useGetUserTweets()
 
   const onSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true)
-
-    socket.timeout(100).emit('create-message', value, () => {
+    const receiverId = userInfo.id
+    socket.timeout(100).emit('privateMessage', { receiverId, value }, () => {
     setValue('')
     setIsLoading(false);
     });
@@ -24,25 +22,11 @@ const PrivateChatRoom = () => {
   return (
    <div className={styles.container}>
       <header>
-        <h4>{currentMemberInfo.name}</h4>
-        <p>@{currentMemberInfo.account}</p>
+        <h4>{userInfo.name}</h4>
+        <p>@{userInfo.account}</p>
       </header>
       <div className={styles.messageContainer}>
-        {joinedUsers && joinedUsers.map((user) => {
-            return (
-              <div className={styles.notiWrapper} key={user.userId}>
-                <div className={styles.noti}>{user.userName}上線</div>
-              </div>
-            )
-          })}
-          {leftUsers && leftUsers.map((user) => {
-            return (
-              <div className={styles.notiWrapper} key={user.userId}>
-                <div className={styles.noti}>{user.userName}離線</div>
-              </div>
-            )
-          })}
-        {otherMessages && otherMessages.map((message, index) => {
+        {privateOtherMsg && privateOtherMsg.map((message, index) => {
           return (
             <div className={styles.otherMessageWrapper} key={index}>
             <img src={message.sender.userAvatar} alt="avatar" className={styles.avatar} />
@@ -53,7 +37,7 @@ const PrivateChatRoom = () => {
         </div>
           )
         })}
-        {myMessages && myMessages.map((message, index) => {
+        {privateMyMsg && privateMyMsg.map((message, index) => {
           return (
             <div className={styles.myMessageWrapper} key={index}>
             <div className={styles.myText}>

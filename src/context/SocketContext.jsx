@@ -15,12 +15,14 @@ const SocketContext = createContext(() => {});
 export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketContextProvider = ({ children }) => {
-  const { currentMemberInfo } = useGetUserTweets()
+  const { currentMemberInfo, userInfo } = useGetUserTweets()
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [myMessages, setMyMessages] = useState([]);
   const [otherMessages, setOtherMessages] = useState([]);
   const [joinedUsers, setJoinedUsers] = useState([])
   const [leftUsers, setLeftUsers] = useState([])
+  const [privateMyMsg, setPrivateMyMsg] = useState([])
+  const [privateOtherMsg, setPrivateOtherMsg] = useState([])
 
   useEffect(() => {
       function onConnect() {
@@ -34,10 +36,19 @@ export const SocketContextProvider = ({ children }) => {
     }
 
     function onMessageEvent(messageData) {
-      if (messageData.sender.userId === currentMemberInfo.id) {
+      if (messageData.sender.id === currentMemberInfo.id) {
         setMyMessages(previous => [...previous, messageData])
       } else {
         setOtherMessages(previous => [...previous, messageData])
+      }
+    }
+
+    function onPrivateMessageEvent(messageData) {
+      if (messageData.sender.id === currentMemberInfo.id) {
+        setPrivateMyMsg(previous => [...previous, messageData])
+      } 
+      if (messageData.sender.id === userInfo.id) {
+        setPrivateOtherMsg(previous => [...previous, messageData])
       }
     }
 
@@ -52,6 +63,7 @@ export const SocketContextProvider = ({ children }) => {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('create-message', onMessageEvent);
+    socket.on('privateMessage', onPrivateMessageEvent);
     socket.on('user-joined', onJoinedEvent);
     socket.on('user-left', onLeftEvent);
 
@@ -59,15 +71,16 @@ export const SocketContextProvider = ({ children }) => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('create-message', onMessageEvent);
+      socket.off('privateMessage', onPrivateMessageEvent);
       socket.off('user-joined', onJoinedEvent);
       socket.off('user-left', onLeftEvent);
     };
-  }, [currentMemberInfo]);
+  }, [currentMemberInfo, userInfo]);
 
 
   return (
     <SocketContext.Provider 
-    value={{isConnected, setIsConnected, myMessages, joinedUsers, leftUsers, otherMessages}}>
+    value={{isConnected, setIsConnected, myMessages, joinedUsers, leftUsers, otherMessages, privateMyMsg, privateOtherMsg}}>
       {children}
     </SocketContext.Provider>
   );

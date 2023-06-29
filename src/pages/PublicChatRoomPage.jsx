@@ -42,16 +42,16 @@ const PublicChatRoomPage = () => {
   useEffect(() => {
     if (isAuthenticated && !joined && !socket.connected) {
       socket.connect();
-      const userId = currentMemberInfo.id
-      const userName = currentMemberInfo.name
-      const userAccount = currentMemberInfo.account
-      const userAvatar = currentMemberInfo.avatar
-      socket.emit('user-joined', { userId, userName, userAccount, userAvatar})
+      socket.emit('user-joined', currentMemberInfo)
       setJoined(true)
     } 
     if(!isAuthenticated && socket.connected) {
       socket.disconnect();
       setJoined(false)
+    }
+    if(!joined && socket.connected) {
+      socket.emit('user-joined', currentMemberInfo)
+      setJoined(true)
     }
   }, [isAuthenticated, currentMemberInfo, joined])
  
