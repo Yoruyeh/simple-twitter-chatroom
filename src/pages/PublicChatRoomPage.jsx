@@ -40,20 +40,23 @@ const PublicChatRoomPage = () => {
   const [joined, setJoined] = useState(false)
 
   useEffect(() => {
-    if (isAuthenticated && !joined && !socket.connected) {
-      socket.connect();
-      socket.emit('user-joined', currentMemberInfo)
-      setJoined(true)
+    // 已登入、未加入公開聊天室、未連線的情況
+    if (isAuthenticated && !joined && !isConnected) {
+      socket.connect(); // 建立連線
+      socket.emit('user-joined', currentMemberInfo) // 發出'user-joined'事件，傳入用戶資料
+      setJoined(true) // 已加入
     } 
-    if(!isAuthenticated && socket.connected) {
-      socket.disconnect();
-      setJoined(false)
+    // 已登入、未加入公開聊天室、已連線的情況(曾先到過私人訊息connect)
+    if(isAuthenticated && !joined && isConnected) {
+      socket.emit('user-joined', currentMemberInfo) // 發出'user-joined'事件，傳入用戶資料
+      setJoined(true) // 已加入
     }
-    if(!joined && socket.connected) {
-      socket.emit('user-joined', currentMemberInfo)
-      setJoined(true)
+    // 未登入、已連線的情況
+    if(!isAuthenticated && isConnected) {
+      socket.disconnect(); // 讓登出用戶斷線
+      setJoined(false) // 改回未加入狀態
     }
-  }, [isAuthenticated, currentMemberInfo, joined])
+  }, [isAuthenticated, currentMemberInfo, joined, isConnected])
  
   return (
     <>
