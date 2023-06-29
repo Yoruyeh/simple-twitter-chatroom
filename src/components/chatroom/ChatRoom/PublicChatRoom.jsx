@@ -7,16 +7,12 @@ import { useSocketContext } from '../../../context/SocketContext';
 const PublicChatRoom = () => {
   const { myMessages, otherMessages, joinedUsers, leftUsers } = useSocketContext()
   const [value, setValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
+  // 監聽form的sumbit事件
   const onSubmit = (event) => {
-    event.preventDefault();
-    setIsLoading(true)
-
-    socket.timeout(100).emit('create-message', value, () => {
-    setValue('')
-    setIsLoading(false);
-    });
+    event.preventDefault(); // 避免submit預設重刷頁面
+    socket.emit('create-message', value); // 發出'create-message'事件，傳入input value
+    setValue('') // 清空input
   }
 
   return (
@@ -67,7 +63,7 @@ const PublicChatRoom = () => {
           value={value}
           placeholder="輸入訊息..."
           onChange={ e => setValue(e.target.value) }/>
-          <button type="submit"  disabled={ isLoading }>
+          <button type="submit">
             <SendIcon />
           </button>
         </form>
