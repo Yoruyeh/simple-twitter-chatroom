@@ -38,24 +38,24 @@ export const GetUserTweetsProvider = ({ children }) => {
 
   const handleAvatarClick = async (id) => {
     try {
-      const info = await getUserInfo(id);
-      setUserInfo(info);
-      localStorage.setItem('userInfo', JSON.stringify(info));
-      const tweets = await getUserTweets(id);
-      setUserTweets(tweets);
       if (currentMember.id === Number(id)) {
         navigate(`/${id}`);
       } else {
+        const info = await getUserInfo(id);
+        setUserInfo(info);
+        localStorage.setItem('userInfo', JSON.stringify(info));
+        const tweets = await getUserTweets(id);
+        setUserTweets(tweets);
         navigate(`/others/${id}`);
+        const replies = await getUserReplies(id);
+        setUserReplies(replies);
+        const likes = await getUserLikes(id);
+        setUserLikes(likes);
+        const followers = await getUserFollowersById(id)
+        setUserFollowers(followers)
+        const followings = await getUserFollowingsById(id);
+        setUserFollowings(followings);
       }
-      const replies = await getUserReplies(id);
-      setUserReplies(replies);
-      const likes = await getUserLikes(id);
-      setUserLikes(likes);
-      const followers = await getUserFollowersById(id)
-      setUserFollowers(followers)
-      const followings = await getUserFollowingsById(id);
-      setUserFollowings(followings);
     } catch (error) {
       console.error(error);
     }

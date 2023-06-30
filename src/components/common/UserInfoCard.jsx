@@ -188,7 +188,9 @@ function ReturnActions() {
     return (
       <>
         <IconButton>
-          <OutlinedMessage />
+          <OutlinedMessage onClick={() => {
+          navigate(`/${currentMemberInfo.id}/message`)
+        }}/>
         </IconButton>
         <IconButton
           onClick={(e) => handleClick(e)}
@@ -211,7 +213,9 @@ function ReturnActions() {
   } else {
     return (
       <>
-        <IconButton onClick={() => navigate(`/${currentMemberInfo.id}/message`)}>
+        <IconButton onClick={() => {
+          navigate(`/${currentMemberInfo.id}/message`)
+        }}>
           <OutlinedMessage />
         </IconButton>
         <IconButton
