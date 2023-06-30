@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [joinedUsers, setJoinedUsers] = useState([])
   const [messages, setMessages] = useState([]);
   const [leftUsers, setLeftUsers] = useState([])
-  const [privateMessage, setPrivateMessage] = useState([])
+  const [privateMessage, setPrivateMessage] = useState({})
   const [chatPartners, setChatParners] = useState([])
 
   useEffect(() => {
@@ -31,7 +31,13 @@ export const SocketContextProvider = ({ children }) => {
 
     function onPrivateMessageEvent(messageData) {
       // 接收到伺服器端的messageData，包含message和sender data
-      setPrivateMessage(previous => [...previous, messageData])
+      const { room } = messageData;
+      setPrivateMessage(previous => {
+      return {
+        ...previous,
+        [room]: [...(previous[room] || []), messageData]
+      };
+  });
     }
 
     function onJoinedEvent(userList) {

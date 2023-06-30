@@ -9,6 +9,8 @@ const PrivateChatRoom = ({ userInfo }) => {
   const { currentMemberInfo } = useGetUserTweets()
   const { privateMessage } = useSocketContext()
   const [value, setValue] = useState('');
+  const roomName = `Room-${[currentMemberInfo.id, userInfo.id].sort().join('-')}`;
+  const roomMessages = privateMessage[roomName] || [];
 
   const onSubmit = (event) => {
     event.preventDefault(); // 避免submit預設重刷頁面
@@ -24,7 +26,7 @@ const PrivateChatRoom = ({ userInfo }) => {
         <p>@{userInfo.account}</p>
       </header>
       <div className={styles.messageContainer}>
-         {privateMessage && privateMessage.map((message) => {
+         {roomMessages && roomMessages.map((message) => {
             if(message.sender.id === currentMemberInfo.id) {
               return (
                 <div className={styles.myMessageWrapper} key={message.message}>
