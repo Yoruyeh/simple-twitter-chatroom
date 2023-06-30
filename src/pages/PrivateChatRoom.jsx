@@ -8,8 +8,9 @@ import { useGetUserTweets } from '../context/GetUserTweets';
 import { TweetModal } from "../components/Modal";
 import { socket } from '../socket';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSocketContext } from '../context/SocketContext';
+import { getUserInfo } from '../api/other.users';
 
 const StyledTweetModalContainer = styled.div`
   position: fixed;
@@ -36,6 +37,18 @@ const PrivateChatRoomPage = () => {
   const { currentMemberInfo, userInfo, setUserInfo } = useGetUserTweets()
   const { handleOpenTweetModal, openTweetModal } = useGetTweets()
   const { isConnected } = useSocketContext()
+  const [currentRoom, setCurrentRoom] = useState(null)
+
+  const handleMessageBoxClicked = async (room, id) => {
+    setCurrentRoom(room)
+    try {
+      const newUserInfo = await getUserInfo(id)
+      setUserInfo(newUserInfo)
+      localStorage.setItem('userInfo', JSON.stringify(newUserInfo));
+    } catch(error) {
+      console.error(error)
+    }
+  }
 
    useEffect(() => {
     // 點擊大頭照到用戶個人頁面，會儲存user資料再local Storage
@@ -63,8 +76,8 @@ const PrivateChatRoomPage = () => {
     <>
     <ChatRoomLayout 
     left={<Navbar handleOpenTweetModal={handleOpenTweetModal}/>}
-    center={<UserMessage userInfo={userInfo}/>}
-    right={<PrivateChatRoom userInfo={userInfo}/>}
+    center={<UserMessage handleMessageBoxClicked={handleMessageBoxClicked}/>}
+    right={<PrivateChatRoom userInfo={userInfo} currentRoom={currentRoom}/>}
     />
     {openTweetModal && (
       <StyledTweetModalContainer>

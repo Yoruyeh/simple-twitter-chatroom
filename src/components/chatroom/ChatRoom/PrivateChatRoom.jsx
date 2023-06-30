@@ -5,11 +5,11 @@ import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
 import { useGetUserTweets } from '../../../context/GetUserTweets';
 
-const PrivateChatRoom = ({ userInfo }) => {
+const PrivateChatRoom = ({ userInfo,currentRoom }) => {
   const { currentMemberInfo } = useGetUserTweets()
   const { privateMessage } = useSocketContext()
   const [value, setValue] = useState('');
-  const roomName = `Room-${[currentMemberInfo.id, userInfo.id].sort().join('-')}`;
+  const roomName = currentRoom || `Room-${[currentMemberInfo.id, userInfo.id].sort().join('-')}`;
   const roomMessages = privateMessage[roomName] || [];
 
   const onSubmit = (event) => {
