@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/simple-twitter-chatroom/static/css/main.03bb33fd.css",
-    "main.js": "/simple-twitter-chatroom/static/js/main.c25f53a2.js",
+    "main.css": "/simple-twitter-chatroom/static/css/main.e096ac89.css",
+    "main.js": "/simple-twitter-chatroom/static/js/main.8cd0cf62.js",
     "static/media/outlined-cog.svg": "/simple-twitter-chatroom/static/media/outlined-cog.4a0e4b7006133b5d3b6737cd440323ac.svg",
     "static/media/filled-cog.svg": "/simple-twitter-chatroom/static/media/filled-cog.a2cb53cb0ecee9dc56008d48cbb14747.svg",
     "static/media/noti-icon-danger.svg": "/simple-twitter-chatroom/static/media/noti-icon-danger.b991e7df359d66ea7eca0210dfd0e2dd.svg",
@@ -34,11 +34,11 @@
     "static/media/noti-icon-background-info.svg": "/simple-twitter-chatroom/static/media/noti-icon-background-info.b40cf49386cbf5752ab264217642047d.svg",
     "static/media/noti-icon-background-success.svg": "/simple-twitter-chatroom/static/media/noti-icon-background-success.59d476cbb0618a0dd3fcbc8aa1515dbd.svg",
     "static/media/noti-icon-background-warning.svg": "/simple-twitter-chatroom/static/media/noti-icon-background-warning.efc6bf6be5e886b8522ae6250398408c.svg",
-    "main.03bb33fd.css.map": "/simple-twitter-chatroom/static/css/main.03bb33fd.css.map",
-    "main.c25f53a2.js.map": "/simple-twitter-chatroom/static/js/main.c25f53a2.js.map"
+    "main.e096ac89.css.map": "/simple-twitter-chatroom/static/css/main.e096ac89.css.map",
+    "main.8cd0cf62.js.map": "/simple-twitter-chatroom/static/js/main.8cd0cf62.js.map"
   },
   "entrypoints": [
-    "static/css/main.03bb33fd.css",
-    "static/js/main.c25f53a2.js"
+    "static/css/main.e096ac89.css",
+    "static/js/main.8cd0cf62.js"
   ]
 }
