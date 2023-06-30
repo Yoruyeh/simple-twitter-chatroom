@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { OutlinedNoti, OutlinedMessage, FilledNoti } from '../../assets/icons';
 import { PillButton, FollowButton } from './button.styled';
 import { useGetUserTweets } from '../../context/GetUserTweets';
@@ -122,6 +122,8 @@ function ReturnActions() {
     setNoti(!noti);
   }
 
+  const navigate = useNavigate()
+
   const {
     currentMemberInfo,
     currentMemberFollowings,
@@ -181,6 +183,7 @@ function ReturnActions() {
     }
   };
 
+
   if (currentMemberFollowings.isEmpty) {
     return (
       <>
@@ -208,7 +211,7 @@ function ReturnActions() {
   } else {
     return (
       <>
-        <IconButton>
+        <IconButton onClick={() => navigate(`/${currentMemberInfo.id}/message`)}>
           <OutlinedMessage />
         </IconButton>
         <IconButton
