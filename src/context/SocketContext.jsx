@@ -21,6 +21,7 @@ export const SocketContextProvider = ({ children }) => {
 
     function onDisconnect() {
       setIsConnected(false);
+      setPrivateMessage({})
     }
 
     function onMessageEvent(messageData) {
