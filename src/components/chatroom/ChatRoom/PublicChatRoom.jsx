@@ -15,9 +15,7 @@ const PublicChatRoom = ({ isConnected }) => {
   const onSubmit = (event) => {
     event.preventDefault(); // 避免submit預設重刷頁面
     const now = moment();
-    const period = now.format('A') === 'AM' ? '上午' : '下午';
-    const sendTime =period + ' ' + now.format('hh:mm')
-    socket.emit('create-message', {value, sendTime}); // 發出'create-message'事件，傳入input value
+    socket.emit('create-message', {value, now}); // 發出'create-message'事件，傳入input value
     setValue('') // 清空input
   }
 
@@ -36,12 +34,16 @@ const PublicChatRoom = ({ isConnected }) => {
             )
           })}
           {messages && messages.map((message) => {
+            const changeToTime = moment(message.time)
+            const period = changeToTime.format('A') === 'AM' ? '上午' : '下午';
+            const time = changeToTime.format('h:mm')
+            const messageTime = ' ' + period + time
             if(message.sender.id === currentMemberInfo.id) {
               return (
                 <div className={styles.myMessageWrapper} key={message.message}>
                 <div className={styles.myText}>
                   <div className={styles.myMessage}>{message.message}</div>
-                  <div className={styles.myTime}>{message.time}</div>
+                  <div className={styles.myTime}>{messageTime}</div>
                 </div>
                 </div>
               )
@@ -51,7 +53,7 @@ const PublicChatRoom = ({ isConnected }) => {
                 <img src={message.sender.avatar} alt="avatar" className={styles.avatar} />
                 <div className={styles.otherText}>
                   <div className={styles.otherMessage}>{message.message}</div>
-                  <div className={styles.otherTime}>{message.time}</div>
+                  <div className={styles.otherTime}>{messageTime}</div>
                 </div>
                 </div>
               )

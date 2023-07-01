@@ -4,6 +4,7 @@ import { SendIcon } from '../../../assets/icons';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
 import { useGetUserTweets } from '../../../context/GetUserTweets';
+import moment from 'moment'
 
 const PrivateChatRoom = ({ userInfo,currentRoom }) => {
   const { currentMemberInfo } = useGetUserTweets()
@@ -14,7 +15,8 @@ const PrivateChatRoom = ({ userInfo,currentRoom }) => {
 
   const onSubmit = (event) => {
     event.preventDefault(); // 避免submit預設重刷頁面
-    socket.emit('private-message', { userInfo, value }); // 發出'private-message'事件，傳入input value
+    const now = moment();
+    socket.emit('private-message', { userInfo, value, now }); // 發出'private-message'事件，傳入input value
     setValue('') // 清空input
   }
 
@@ -27,11 +29,24 @@ const PrivateChatRoom = ({ userInfo,currentRoom }) => {
       <div className={styles.messageContainer}>
          {roomMessages && roomMessages.map((message) => {
             if(message.sender.id === currentMemberInfo.id) {
+              const now = moment()
+              const messageTime = moment(message.time)
+              const diffInMinutes = now.diff(messageTime, 'minutes')
+              const diffInDays = now.diff(messageTime, 'days')
+              const diffInYears = now.diff(messageTime, 'years')
+              const period = messageTime.format('A') === 'AM' ? '上午' : '下午';
+              const time = messageTime.format('h:mm')
+              const date = messageTime.format('M月D日')
+              const year = messageTime.format('YYYY年')
               return (
                 <div className={styles.myMessageWrapper} key={message.message}>
                 <div className={styles.myText}>
                   <div className={styles.myMessage}>{message.message}</div>
-                  <div className={styles.myTime}>下午4:22</div>
+                  <div className={styles.myTime}>
+                    {diffInYears === 0 ? '' : year}
+                    {diffInDays === 0 ? '' : date}
+                    {diffInMinutes === 0 ? '剛剛' : ' ' + period + time}
+                  </div>
                 </div>
                 </div>
               )
