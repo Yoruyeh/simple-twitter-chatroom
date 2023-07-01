@@ -28,16 +28,16 @@ const PrivateChatRoom = ({ userInfo,currentRoom }) => {
       </header>
       <div className={styles.messageContainer}>
          {roomMessages && roomMessages.map((message) => {
+            const now = moment()
+            const messageTime = moment(message.time)
+            const diffInMinutes = now.diff(messageTime, 'minutes')
+            const diffInDays = now.diff(messageTime, 'days')
+            const diffInYears = now.diff(messageTime, 'years')
+            const period = messageTime.format('A') === 'AM' ? '上午' : '下午';
+            const time = messageTime.format('h:mm')
+            const date = messageTime.format('M月D日')
+            const year = messageTime.format('YYYY年')
             if(message.sender.id === currentMemberInfo.id) {
-              const now = moment()
-              const messageTime = moment(message.time)
-              const diffInMinutes = now.diff(messageTime, 'minutes')
-              const diffInDays = now.diff(messageTime, 'days')
-              const diffInYears = now.diff(messageTime, 'years')
-              const period = messageTime.format('A') === 'AM' ? '上午' : '下午';
-              const time = messageTime.format('h:mm')
-              const date = messageTime.format('M月D日')
-              const year = messageTime.format('YYYY年')
               return (
                 <div className={styles.myMessageWrapper} key={message.message}>
                 <div className={styles.myText}>
@@ -56,7 +56,11 @@ const PrivateChatRoom = ({ userInfo,currentRoom }) => {
                 <img src={message.sender.avatar} alt="avatar" className={styles.avatar} />
                 <div className={styles.otherText}>
                   <div className={styles.otherMessage}>{message.message}</div>
-                  <div className={styles.otherTime}>下午4:20</div>
+                  <div className={styles.otherTime}>
+                    {diffInYears === 0 ? '' : year}
+                    {diffInDays === 0 ? '' : date}
+                    {diffInMinutes === 0 ? '剛剛' : ' ' + period + time}
+                  </div>
                 </div>
                 </div>
               )

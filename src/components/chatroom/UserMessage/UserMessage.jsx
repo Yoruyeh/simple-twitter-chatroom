@@ -1,6 +1,7 @@
 import { useGetUserTweets } from '../../../context/GetUserTweets';
 import { useSocketContext } from '../../../context/SocketContext';
 import styles from './user.message.module.scss'
+import moment from 'moment'
 
 const UserMessage = ({ handleMessageBoxClicked }) => {
   const { currentMemberInfo } = useGetUserTweets()
@@ -14,7 +15,30 @@ const UserMessage = ({ handleMessageBoxClicked }) => {
         const roomMessages = privateMessage[room] || [];
         if (roomMessages.length > 0) {
           const receiverData = roomMessages.find(msg => msg.receiver.id !== currentMemberInfo.id)
-          const lastMessage = roomMessages[roomMessages.length - 1];
+            const lastMessage = roomMessages[roomMessages.length - 1];
+            const now = moment()
+            const messageTime = moment(lastMessage.time)
+            const diffInSeconds = now.diff(messageTime, 'seconds');
+            const diffInMinutes = now.diff(messageTime, 'minutes')
+            const diffInHours = now.diff(messageTime, 'hours')
+            const diffInDays = now.diff(messageTime, 'days')
+            const diffInYears = now.diff(messageTime, 'years')
+            const date = messageTime.format('M月D日')
+            const year = messageTime.format('YYYY年')
+
+            let displayTime;
+            if (diffInYears >= 1) {
+              displayTime = year + date
+            } else if (diffInDays >= 1) {
+              displayTime = date;
+            } else if (diffInHours >= 1) {
+              displayTime = `${diffInHours} 小時`;
+            } else if (diffInMinutes >= 1) {
+              displayTime = `${diffInMinutes} 分鐘`;
+            } else {
+              displayTime = `${diffInSeconds} 秒`;
+            }
+
           if (lastMessage) {
               return (
                 <div className={styles.messageWrapper} key={room} data-id={receiverData.receiver.id}
@@ -32,7 +56,7 @@ const UserMessage = ({ handleMessageBoxClicked }) => {
                         <p className={styles.message}>{lastMessage.message}</p>
                       </div> 
                     </div>
-                    <div className={styles.time}>6月31日</div>
+                    <div className={styles.time}>{displayTime}</div>
                   </div>
                 </div>
               )
