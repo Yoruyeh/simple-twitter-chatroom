@@ -4,6 +4,7 @@ import { SendIcon } from '../../../assets/icons';
 import { socket } from '../../../socket'
 import { useSocketContext } from '../../../context/SocketContext';
 import { useGetUserTweets } from '../../../context/GetUserTweets';
+import moment from 'moment';
 
 const PublicChatRoom = ({ isConnected }) => {
   const { currentMemberInfo } = useGetUserTweets()
@@ -13,7 +14,10 @@ const PublicChatRoom = ({ isConnected }) => {
   // 監聽form的sumbit事件
   const onSubmit = (event) => {
     event.preventDefault(); // 避免submit預設重刷頁面
-    socket.emit('create-message', value); // 發出'create-message'事件，傳入input value
+    const now = moment();
+    const period = now.format('A') === 'AM' ? '上午' : '下午';
+    const sendTime =period + ' ' + now.format('hh:mm')
+    socket.emit('create-message', {value, sendTime}); // 發出'create-message'事件，傳入input value
     setValue('') // 清空input
   }
 
@@ -37,7 +41,7 @@ const PublicChatRoom = ({ isConnected }) => {
                 <div className={styles.myMessageWrapper} key={message.message}>
                 <div className={styles.myText}>
                   <div className={styles.myMessage}>{message.message}</div>
-                  <div className={styles.myTime}>下午4:22</div>
+                  <div className={styles.myTime}>{message.time}</div>
                 </div>
                 </div>
               )
@@ -47,7 +51,7 @@ const PublicChatRoom = ({ isConnected }) => {
                 <img src={message.sender.avatar} alt="avatar" className={styles.avatar} />
                 <div className={styles.otherText}>
                   <div className={styles.otherMessage}>{message.message}</div>
-                  <div className={styles.otherTime}>下午4:20</div>
+                  <div className={styles.otherTime}>{message.time}</div>
                 </div>
                 </div>
               )
